@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.TankDrive;
 
 /**
@@ -19,6 +20,9 @@ public class RobotContainer {
   // Robot subsystems here:
   private TankDrive m_drive = new TankDrive(Constants.drive_constants);
 
+  // Controllers here:
+  private XboxController m_driverController = new XboxController(Constants.kControllerPort);
+
   // Robot commands go here:
   // This command runs on autonomous
   private Command m_autoCommand = null;
@@ -26,6 +30,15 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_drive.setDefaultCommand(
+      new RunCommand(
+        () -> m_drive.arcadeDrive(
+          m_driverController.getY(GenericHID.Hand.kLeft),
+          m_driverController.getX(GenericHID.Hand.kRight)
+          ), m_drive
+        )
+      );
+
     // Configure the button bindings
     configureButtonBindings();
   }

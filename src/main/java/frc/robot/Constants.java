@@ -25,5 +25,7 @@ public final class Constants {
         drive_constants.id_fr = 3;
         drive_constants.id_br = 4;
     }
+    
+	public static int kControllerPort = 0;
 
 }
