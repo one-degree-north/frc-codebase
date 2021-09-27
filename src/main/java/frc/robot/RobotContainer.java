@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.TankDrive;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -16,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // Robot subsystems here:
-
+  private TankDrive m_drive = new TankDrive(Constants.drive_constants);
 
   // Robot commands go here:
   // This command runs on autonomous
