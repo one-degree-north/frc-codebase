@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -15,7 +16,10 @@ public class TankDrive extends SubsystemBase {
     public int id_fl;
 	  public int id_bl;
 	  public int id_fr;
-	  public int id_br;
+    public int id_br;
+    public int id_gyro;
+    public double leftEncoderFactor;
+    public double rightEncoderFactor;
   }
 
   private WPI_TalonSRX frontLeft;
@@ -28,8 +32,13 @@ public class TankDrive extends SubsystemBase {
 
   private DifferentialDrive drive;
 
+  private Constants m_constants;
+
+  private PigeonIMU gyro;
+
   /** Creates a new TankDrive. */
   public TankDrive(Constants constants) {
+    this.m_constants = constants;
     frontLeft = new WPI_TalonSRX(constants.id_fl);
     frontRight = new WPI_TalonSRX(constants.id_fr);
     backLeft = new WPI_TalonSRX(constants.id_bl);
@@ -37,6 +46,21 @@ public class TankDrive extends SubsystemBase {
     left = new SpeedControllerGroup(frontLeft, backLeft);
     right = new SpeedControllerGroup(frontRight, backRight);
     drive = new DifferentialDrive(left, right);
+    gyro = new PigeonIMU(constants.id_gyro);
+  }
+
+  public double getYaw() {
+    double[] arr = new double[3];
+    gyro.getYawPitchRoll(arr);
+    return arr[0];
+  }
+
+  public double leftEncoderPosition() {
+    return frontLeft.getSelectedSensorPosition(0) * m_constants.leftEncoderFactor;
+  }
+
+  public double rightEncoderPosition() {
+    return frontRight.getSelectedSensorPosition(0) * m_constants.rightEncoderFactor;
   }
 
   public void arcadeDrive(double forward, double rotation) {
