@@ -9,6 +9,13 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TankDrive extends SubsystemBase {
@@ -20,6 +27,12 @@ public class TankDrive extends SubsystemBase {
     public int id_gyro;
     public double leftEncoderFactor;
     public double rightEncoderFactor;
+
+    public double ksVolts;
+    public double kvVoltSecondsPerMeter;
+    public double kaVoltSecondsSquaredPerMeter;
+    public DifferentialDriveKinematics kDriveKinematics;
+	  public double kPDriveVel;
   }
 
   private WPI_TalonSRX frontLeft;
@@ -32,9 +45,11 @@ public class TankDrive extends SubsystemBase {
 
   private DifferentialDrive drive;
 
-  private Constants m_constants;
+  public Constants m_constants;
 
   private PigeonIMU gyro;
+
+  private DifferentialDriveOdometry m_odometry;
 
   /** Creates a new TankDrive. */
   public TankDrive(Constants constants) {
@@ -47,6 +62,13 @@ public class TankDrive extends SubsystemBase {
     right = new SpeedControllerGroup(frontRight, backRight);
     drive = new DifferentialDrive(left, right);
     gyro = new PigeonIMU(constants.id_gyro);
+    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getYaw()));
+  }
+
+  @Override
+  public void periodic() {
+    m_odometry.update(Rotation2d.fromDegrees(getYaw()), leftEncoderPosition(),
+                      rightEncoderPosition());
   }
 
   public double getYaw() {
@@ -69,5 +91,40 @@ public class TankDrive extends SubsystemBase {
 
   public void tankDrive(double left, double right) {
     drive.tankDrive(left, right);
+  }
+
+
+
+
+  public double leftEncoderVelocity() {
+    return frontLeft.getSelectedSensorVelocity(0) * m_constants.leftEncoderFactor;
+  }
+
+  public double rightEncoderVelocity() {
+    return frontRight.getSelectedSensorVelocity(0) * m_constants.rightEncoderFactor;
+  }
+  
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+
+  public void resetOdometry(Pose2d pose) {
+    resetEncoders();
+    m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getYaw()));
+  }
+
+  public void resetEncoders() {
+    frontLeft.setSelectedSensorPosition(0);
+    frontRight.setSelectedSensorPosition(0);
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(leftEncoderVelocity(), rightEncoderVelocity());
+  }
+  
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    left.setVoltage(leftVolts);
+    right.setVoltage(-rightVolts);
+    drive.feed();
   }
 }

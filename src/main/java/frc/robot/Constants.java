@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import frc.robot.subsystems.*;
 
 /**
@@ -25,8 +26,21 @@ public final class Constants {
         drive_constants.id_fr = 3;
         drive_constants.id_br = 4;
         drive_constants.id_gyro = 5;
+
+        drive_constants.ksVolts = 1;
+        drive_constants.kvVoltSecondsPerMeter = 1;
+        drive_constants.kaVoltSecondsSquaredPerMeter = 1;
+        drive_constants.kDriveKinematics = new DifferentialDriveKinematics(0.1); //meters
+        drive_constants.kPDriveVel = 1;
     }
     
-	public static int kControllerPort = 0;
+    public static int kControllerPort = 0;
+    
+    public static final class AutoConstants {
+        public static double kMaxSpeedMetersPerSecond = 2;
+        public static double kMaxAccelerationMetersPerSecondSquared = 2;
+        public static double kRamseteB = 1;
+        public static double kRamseteZeta = 1;
+    }
 
 }
