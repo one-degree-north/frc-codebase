@@ -27,11 +27,12 @@ public final class Constants {
         drive_constants.id_br = 4;
         drive_constants.id_gyro = 5;
 
+        // These numbers must be correctly calculated
         drive_constants.ksVolts = 1;
-        drive_constants.kvVoltSecondsPerMeter = 1;
-        drive_constants.kaVoltSecondsSquaredPerMeter = 1;
-        drive_constants.kDriveKinematics = new DifferentialDriveKinematics(0.1); //meters
-        drive_constants.kPDriveVel = 1;
+        drive_constants.kvVoltSecondsPerMeter = 0;
+        drive_constants.kaVoltSecondsSquaredPerMeter = 0;
+
+        drive_constants.kDriveKinematics = new DifferentialDriveKinematics(0.1);
     }
     
     public static int kControllerPort = 0;
@@ -39,6 +40,8 @@ public final class Constants {
     public static final class AutoConstants {
         public static double kMaxSpeedMetersPerSecond = 2;
         public static double kMaxAccelerationMetersPerSecondSquared = 2;
+        
+        // These numbers must be correctly calculated
         public static double kRamseteB = 1;
         public static double kRamseteZeta = 1;
     }
