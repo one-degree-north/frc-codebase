@@ -57,14 +57,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // Run path following command, then stop at the end.
-    // return new TrajectoryCommand(m_drive, 
-    //   new Pose2d(0, 0, new Rotation2d(0)), 
-    //   List.of(
-    //         new Translation2d(1, 1),
-    //         new Translation2d(2, -1)
-    //     ), 
-    //   new Pose2d(3, 0, new Rotation2d(0)));
     return m_autoCommand;
   }
 }
