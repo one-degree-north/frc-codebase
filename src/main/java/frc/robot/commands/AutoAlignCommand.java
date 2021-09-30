@@ -31,6 +31,7 @@ public class AutoAlignCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // Attenuation function returns turning speed from limelight horizontal angle offset
     m_drive.arcadeDrive(0, m_attenuationFunction.apply(m_limelight.getOffsetHorizontal()));
   }
 
@@ -43,6 +44,6 @@ public class AutoAlignCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_limelight.getOffsetHorizontal()<EPSILON;
+    return Math.abs(m_limelight.getOffsetHorizontal())<EPSILON;
   }
 }

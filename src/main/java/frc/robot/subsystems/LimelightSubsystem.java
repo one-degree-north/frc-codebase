@@ -34,7 +34,7 @@ public class LimelightSubsystem extends SubsystemBase {
     return (x)->{return -x/max_angle * b - Math.signum(x) * x/max_angle * x/max_angle * a;};
   }
 
-  NetworkTable m_table;
+  private NetworkTable m_table;
 
   public LimelightSubsystem() {
     m_table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -57,15 +57,14 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public boolean foundTarget() {
-    return m_table.getEntry("tv").getBoolean(false);
+    return m_table.getEntry("tv").getDouble(0)!=0;
+  }
+
+  public void setLED(boolean on) {
+    m_table.getEntry("ledMode").setDouble(on?3:1);
   }
 
   public void setPipeline(int pipeNum) {
-    m_table.getEntry("pipeline").setNumber(pipeNum);
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+    m_table.getEntry("pipeline").setDouble(pipeNum);
   }
 }
