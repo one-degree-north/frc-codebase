@@ -56,6 +56,14 @@ public class LimelightSubsystem extends SubsystemBase {
     return m_table.getEntry("ts").getDouble(0);
   }
 
+  public boolean foundTarget() {
+    return m_table.getEntry("tv").getBoolean(false);
+  }
+
+  public void setPipeline(int pipeNum) {
+    m_table.getEntry("pipeline").setNumber(pipeNum);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
