@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class TankDrive extends SubsystemBase {
+public class TankDriveSubsystem extends SubsystemBase {
   public static class Constants {
     //CAN IDs for various CAN devices
     //CAN IDs for motors
@@ -65,7 +65,7 @@ public class TankDrive extends SubsystemBase {
    * Constructor for the TankDrive subsystem.
    * @param constants Object containing all the constants for this drivebase
    */
-  public TankDrive(Constants constants) {
+  public TankDriveSubsystem(Constants constants) {
     this.m_constants = constants;
     frontLeft = new WPI_TalonSRX(constants.id_fl);
     frontRight = new WPI_TalonSRX(constants.id_fr);

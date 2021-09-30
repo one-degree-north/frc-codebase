@@ -19,7 +19,7 @@ import frc.robot.subsystems.*;
  */
 public final class Constants {
 
-    public static TankDrive.Constants drive_constants = new TankDrive.Constants();
+    public static TankDriveSubsystem.Constants drive_constants = new TankDriveSubsystem.Constants();
     static {
         drive_constants.id_fl = 1;
         drive_constants.id_bl = 2;

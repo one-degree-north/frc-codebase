@@ -18,12 +18,12 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.subsystems.TankDrive;
+import frc.robot.subsystems.TankDriveSubsystem;
 
 public class TrajectoryCommand extends CommandBase {
   /** Creates a new TrajectoryCommand. */
 
-  private TankDrive m_drive;
+  private TankDriveSubsystem m_drive;
   private Trajectory m_trajectory;
   private RamseteCommand m_command;
 
@@ -34,7 +34,7 @@ public class TrajectoryCommand extends CommandBase {
    * @param waypoints The points for the robot to reach before the end position
    * @param endPose The ending pose (relate to the starting pose)
    */
-  public TrajectoryCommand(TankDrive drive, Pose2d startPose, List<Translation2d> waypoints, Pose2d endPose) {
+  public TrajectoryCommand(TankDriveSubsystem drive, Pose2d startPose, List<Translation2d> waypoints, Pose2d endPose) {
     this.m_drive = drive;
 
     // Feedforward to ensure correct voltage is sent to motors

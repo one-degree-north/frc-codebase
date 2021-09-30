@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.subsystems.TankDrive;
+import frc.robot.subsystems.TankDriveSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -18,7 +18,7 @@ import frc.robot.subsystems.TankDrive;
  */
 public class RobotContainer {
   // Robot subsystems here:
-  private TankDrive m_drive = new TankDrive(Constants.drive_constants);
+  private TankDriveSubsystem m_drive = new TankDriveSubsystem(Constants.drive_constants);
 
   // Controllers here:
   private XboxController m_driverController = new XboxController(Constants.kControllerPort);
