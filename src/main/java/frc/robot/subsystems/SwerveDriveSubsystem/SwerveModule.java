@@ -28,15 +28,17 @@ public class SwerveModule {
    * @param driveMotorChannel ID for the drive motor.
    * @param turningMotorChannel ID for the turning motor.
    */
-  public SwerveModule(int driveCAN,int turningCAN, int encoderCAN, double angleOff, SwerveDriveSubsystem.Constants constants) {
+  public SwerveModule(MotorController driveMotor, MotorController turningMotor, Encoder driveEncoder, Encoder turningEncoder, double angleOff, SwerveDriveSubsystem.Constants constants) {
 
-    m_driveMotor = new ODN_SparkMax(driveCAN, MotorType.brushless);
-    m_turningMotor = new ODN_SparkMax(turningCAN, MotorType.brushless);
+    m_driveMotor = driveMotor;
+    m_turningMotor = turningMotor;
 
-    this.m_turningEncoder = new ODN_CANCoder(encoderCAN);
-    this.m_driveEncoder= m_driveMotor.getEncoder();
+    this.m_turningEncoder = turningEncoder;
+    this.m_driveEncoder= driveEncoder;
     m_driveEncoder.setPositionConversionFactor(Math.PI*constants.wheelDiameterMeters);
     m_driveEncoder.setVelocityConversionFactor(Math.PI/360*constants.wheelDiameterMeters);
+    m_turningEncoder.setPositionConversionFactor(Math.PI/180);
+    m_turningEncoder.setVelocityConversionFactor(Math.PI/180);
     resetEncoders(angleOff);
 
     this.m_constants = constants;
@@ -52,7 +54,7 @@ public class SwerveModule {
   }
   double getAng;
   public double getAngle(){
-    getAng=(m_turningEncoder.getPosition()/180*Math.PI);
+    getAng=m_turningEncoder.getPosition();
     if(getAng>Math.PI){
       getAng-=2*Math.PI;
     }

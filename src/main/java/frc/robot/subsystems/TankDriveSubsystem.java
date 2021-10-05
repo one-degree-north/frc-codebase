@@ -20,12 +20,16 @@ import frc.lib.motorcontroller.ODN_TalonSRX;
 
 public class TankDriveSubsystem extends SubsystemBase {
   public static class Constants {
-    //CAN IDs for various CAN devices
-    //CAN IDs for motors
-    public int id_fl;
-    public int id_bl;
-    public int id_fr;
-    public int id_br;
+    // MotorControllers
+    public MotorController frontLeft;
+    public MotorController backLeft;
+    public MotorController frontRight;
+    public MotorController backRight;
+
+    // Encoders
+    public Encoder leftEncoder;
+    public Encoder rightEncoder;
+
     //CAN ID for gyro
     public int id_gyro;
 
@@ -72,10 +76,10 @@ public class TankDriveSubsystem extends SubsystemBase {
    */
   public TankDriveSubsystem(Constants constants) {
     this.m_constants = constants;
-    frontLeft = new ODN_TalonSRX(constants.id_fl);
-    frontRight = new ODN_TalonSRX(constants.id_fr);
-    backLeft = new ODN_TalonSRX(constants.id_bl);
-    backRight = new ODN_TalonSRX(constants.id_br);
+    frontLeft = constants.frontLeft;
+    frontRight = constants.frontRight;
+    backLeft = constants.backLeft;
+    backRight = constants.backRight;
     left = new SpeedControllerGroup(frontLeft.getBackend(), backLeft.getBackend());
     right = new SpeedControllerGroup(frontRight.getBackend(), backRight.getBackend());
     //right side inverted b/c facing opposite direction
@@ -84,8 +88,8 @@ public class TankDriveSubsystem extends SubsystemBase {
     gyro = new PigeonIMU(constants.id_gyro);
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getYaw()));
 
-    leftEncoder = frontLeft.getEncoder();
-    rightEncoder = frontRight.getEncoder();
+    leftEncoder = constants.leftEncoder;
+    rightEncoder = constants.rightEncoder;
 
     leftEncoder.setPositionConversionFactor(constants.leftEncoderFactor);
     rightEncoder.setPositionConversionFactor(constants.rightEncoderFactor);

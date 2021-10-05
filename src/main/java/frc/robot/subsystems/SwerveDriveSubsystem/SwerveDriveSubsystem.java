@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.encoder.Encoder;
+import frc.lib.motorcontroller.MotorController;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
 	public static class Constants {
@@ -28,20 +30,25 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
 		// CAN IDs for various CAN devices
 		// CAN IDs for drive motors
-		public int id_md_fl;
-		public int id_md_bl;
-		public int id_md_fr;
-		public int id_md_br;
+		public MotorController id_md_fl;
+		public MotorController id_md_bl;
+		public MotorController id_md_fr;
+		public MotorController id_md_br;
 		// CAN IDs for turning motors
-		public int id_mt_fl;
-		public int id_mt_bl;
-		public int id_mt_fr;
-		public int id_mt_br;
+		public MotorController id_mt_fl;
+		public MotorController id_mt_bl;
+		public MotorController id_mt_fr;
+		public MotorController id_mt_br;
 		// CAN IDs for encoders
-		public int id_e_fl;
-		public int id_e_bl;
-		public int id_e_fr;
-		public int id_e_br;
+		public Encoder id_et_fl;
+		public Encoder id_et_bl;
+		public Encoder id_et_fr;
+		public Encoder id_et_br;
+		// CAN IDs for encoders
+		public Encoder id_ed_fl;
+		public Encoder id_ed_bl;
+		public Encoder id_ed_fr;
+		public Encoder id_ed_br;
 		// CAN ID for gyro
 		public int id_gyro;
 
@@ -52,6 +59,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 		public double offset_bl;
 		public double offset_fr;
 		public double offset_br;
+
+    	// Distance between front and back wheels on robot
+		public double wheelBase;
+		// Distance between centers of right and left wheels on robot
+		public double trackWidth;
 	}
 
 	// Robot swerve modules
@@ -72,13 +84,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 		this.m_constants = constants;
 
 		this.m_frontLeft = new SwerveModule(m_constants.id_md_fl, m_constants.id_mt_fl, 
-				m_constants.id_e_fl, m_constants.offset_fl, m_constants);
+				m_constants.id_ed_fl, m_constants.id_et_fl, m_constants.offset_fl, m_constants);
 		this.m_rearLeft = new SwerveModule(m_constants.id_md_bl, m_constants.id_mt_bl, 
-				m_constants.id_e_bl, m_constants.offset_bl, m_constants);
+				m_constants.id_ed_bl, m_constants.id_et_bl, m_constants.offset_bl, m_constants);
 		this.m_frontRight = new SwerveModule(m_constants.id_md_fr, m_constants.id_mt_fr, 
-				m_constants.id_e_fr, m_constants.offset_fr, m_constants);
+				m_constants.id_ed_fr,m_constants.id_et_fr,  m_constants.offset_fr, m_constants);
 		this.m_rearRight = new SwerveModule(m_constants.id_md_br, m_constants.id_mt_br, 
-				m_constants.id_e_br, m_constants.offset_br, m_constants);
+				m_constants.id_ed_br, m_constants.id_et_br, m_constants.offset_br, m_constants);
 
 		this.m_gyro = new PigeonIMU(m_constants.id_gyro);
 		this.m_odometry = new SwerveDriveOdometry(m_constants.driveKinematics, getRotation2d());
@@ -103,7 +115,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 	}
 
 	public Translation2d getTranslations() {
-		return m_odometry.getPoseMeters().getTranslation().times(2.54 / 100);
+		return m_odometry.getPoseMeters().getTranslation();
 	}
 
 	@Override

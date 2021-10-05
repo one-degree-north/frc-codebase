@@ -9,10 +9,7 @@ import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.encoder.Encoder;
-import frc.lib.encoder.ODN_CANCoder;
 import frc.lib.motorcontroller.MotorController;
-import frc.lib.motorcontroller.ODN_SparkMax;
-import frc.lib.motorcontroller.ODN_SparkMax.MotorType;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
@@ -20,11 +17,11 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public static class Constants {
     //CAN IDs for spark and encoder
-    public int id_spark;
-    public int id_enc;
+    public MotorController motor;
+    public Encoder encoder;
 
     // Convert encoder output to meters
-    public int encoderFactor;
+    public double encoderFactor;
 
     // Maximum v and a for motion profiling
     public double maxVelocity;
@@ -37,8 +34,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     public double ks, kg, kv;
   }
 
-  private MotorController m_spark;
-  private Encoder m_enc;
+  private MotorController m_motor;
+  private Encoder m_encoder;
 
   private double m_pos;
 
@@ -50,8 +47,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public ElevatorSubsystem(Constants constants) {
     this.m_constants = constants;
-    m_spark = new ODN_SparkMax(constants.id_spark, MotorType.brushless);
-    m_enc = new ODN_CANCoder(constants.id_enc);
+    m_motor = constants.motor;
+    m_encoder = constants.encoder;
+    m_encoder.setPositionConversionFactor(constants.encoderFactor);
+    m_encoder.setVelocityConversionFactor(constants.encoderFactor);
     
     m_controller = new ProfiledPIDController(m_constants.kp, m_constants.ki, m_constants.kd, 
         new TrapezoidProfile.Constraints(m_constants.maxVelocity, m_constants.maxAcceleration));
@@ -71,19 +70,19 @@ public class ElevatorSubsystem extends SubsystemBase {
    * @return true if elevator has reached goal location
    */
   public boolean atGoalLocation() {
-    return Math.abs(m_pos-m_enc.getPosition()*m_constants.encoderFactor) < EPSILON;
+    return Math.abs(m_pos-m_encoder.getPosition()) < EPSILON;
   }
 
   public void resetPosition() {
-    m_enc.setPosition(0);
+    m_encoder.setPosition(0);
   }
 
   @Override
   public void periodic() {
     // Calculate speed with PID and motion profiling
-    double speed = m_controller.calculate(m_enc.getPosition()*m_constants.encoderFactor, m_pos);
+    double speed = m_controller.calculate(m_encoder.getPosition(), m_pos);
 
     // Add feedforward compensation to speed
-    m_spark.setVoltage(speed + m_feedforward.calculate(m_enc.getVelocity()));
+    m_motor.setVoltage(speed + m_feedforward.calculate(m_encoder.getVelocity()));
   }
 }
