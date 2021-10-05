@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.subsystems.*;
 
 /**
@@ -41,9 +43,18 @@ public final class Constants {
         public static double kMaxSpeedMetersPerSecond = 2;
         public static double kMaxAccelerationMetersPerSecondSquared = 2;
         
+        public static final double kMaxAngularSpeedRadiansPerSecond = 16*Math.PI;
+        public static final double kMaxAngularSpeedRadiansPerSecondSquared = 256*Math.PI*Math.PI;
+        
         // These numbers must be correctly calculated
         public static double kRamseteB = 1;
         public static double kRamseteZeta = 1;
+		public static double kPYController = 1;
+		public static double kPXController = 1;
+		public static Constraints kThetaControllerConstraints =
+        new TrapezoidProfile.Constraints(
+            kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+		public static double kPThetaController = 1;
     }
 
 }

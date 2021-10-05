@@ -19,21 +19,21 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public static class Constants {
     //CAN IDs for spark and encoder
-    int id_spark;
-    int id_enc;
+    public int id_spark;
+    public int id_enc;
 
     // Convert encoder output to meters
-    int encoderFactor;
+    public int encoderFactor;
 
     // Maximum v and a for motion profiling
-    double maxVelocity;
-    double maxAcceleration;
+    public double maxVelocity;
+    public double maxAcceleration;
 
     // PID values
-    double kp, ki, kd;
+    public double kp, ki, kd;
 
     // Feedforward values
-    double ks, kg, kv;
+    public double ks, kg, kv;
   }
 
   private CANSparkMax m_spark;
@@ -83,6 +83,6 @@ public class ElevatorSubsystem extends SubsystemBase {
     double speed = m_controller.calculate(m_enc.getPosition()*m_constants.encoderFactor, m_pos);
 
     // Add feedforward compensation to speed
-    m_spark.set(speed + m_feedforward.calculate(m_enc.getVelocity()));
+    m_spark.setVoltage(speed + m_feedforward.calculate(m_enc.getVelocity()));
   }
 }

@@ -19,39 +19,39 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class SwerveDriveSubsystem extends SubsystemBase {
 	public static class Constants {
 		// diameter of the wheels
-		double wheelDiameterMeters;
+		public double wheelDiameterMeters;
 		// maximum speed robot can drive at
-		double maxSpeedMetersPerSecond;
+		public double maxSpeedMetersPerSecond;
 
 		// is the gyro backwards?
-		boolean gyroReversed;
+		public boolean gyroReversed;
 
 		// CAN IDs for various CAN devices
 		// CAN IDs for drive motors
-		int id_md_fl;
-		int id_md_bl;
-		int id_md_fr;
-		int id_md_br;
+		public int id_md_fl;
+		public int id_md_bl;
+		public int id_md_fr;
+		public int id_md_br;
 		// CAN IDs for turning motors
-		int id_mt_fl;
-		int id_mt_bl;
-		int id_mt_fr;
-		int id_mt_br;
+		public int id_mt_fl;
+		public int id_mt_bl;
+		public int id_mt_fr;
+		public int id_mt_br;
 		// CAN IDs for encoders
-		int id_e_fl;
-		int id_e_bl;
-		int id_e_fr;
-		int id_e_br;
+		public int id_e_fl;
+		public int id_e_bl;
+		public int id_e_fr;
+		public int id_e_br;
 		// CAN ID for gyro
-		int id_gyro;
+		public int id_gyro;
 
-		SwerveDriveKinematics driveKinematics;
+		public SwerveDriveKinematics driveKinematics;
 
 		// Offset for absolute encoders
-		double offset_fl;
-		double offset_bl;
-		double offset_fr;
-		double offset_br;
+		public double offset_fl;
+		public double offset_bl;
+		public double offset_fr;
+		public double offset_br;
 	}
 
 	// Robot swerve modules
@@ -66,7 +66,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 	// Odometry class for tracking robot pose
 	private final SwerveDriveOdometry m_odometry;
 
-	private final Constants m_constants;
+	public final Constants m_constants;
 
 	public SwerveDriveSubsystem(Constants constants) {
 		this.m_constants = constants;
