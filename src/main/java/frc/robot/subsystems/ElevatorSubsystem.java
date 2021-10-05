@@ -8,6 +8,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.controller.ElevatorFeedforward;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,15 +25,15 @@ public class ElevatorSubsystem extends SubsystemBase {
     // Convert encoder output to meters
     int encoderFactor;
 
-    // Motor speed required to counter gravity force
-    double gravityCompensation;
-
     // Maximum v and a for motion profiling
     double maxVelocity;
     double maxAcceleration;
 
     // PID values
-    double p, i, d;
+    double kp, ki, kd;
+
+    // Feedforward values
+    double ks, kg, kv;
   }
 
   private CANSparkMax m_spark;
@@ -44,13 +45,16 @@ public class ElevatorSubsystem extends SubsystemBase {
   
   private ProfiledPIDController m_controller;
 
+  private ElevatorFeedforward m_feedforward;
+
   public ElevatorSubsystem(Constants constants) {
     this.m_constants = constants;
     m_spark = new CANSparkMax(constants.id_spark, MotorType.kBrushless);
     m_enc = new CANCoder(constants.id_enc);
     
-    m_controller = new ProfiledPIDController(m_constants.p, m_constants.i, m_constants.d, 
+    m_controller = new ProfiledPIDController(m_constants.kp, m_constants.ki, m_constants.kd, 
         new TrapezoidProfile.Constraints(m_constants.maxVelocity, m_constants.maxAcceleration));
+    m_feedforward = new ElevatorFeedforward(m_constants.ks, m_constants.kg, m_constants.kv);
   }
 
   /**
@@ -78,7 +82,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     // Calculate speed with PID and motion profiling
     double speed = m_controller.calculate(m_enc.getPosition()*m_constants.encoderFactor, m_pos);
 
-    // Add gravity compensation to speed
-    m_spark.set(speed + m_constants.gravityCompensation);
+    // Add feedforward compensation to speed
+    m_spark.set(speed + m_feedforward.calculate(m_enc.getVelocity()));
   }
 }
