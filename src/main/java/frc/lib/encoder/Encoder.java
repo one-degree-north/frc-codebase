@@ -2,7 +2,8 @@ package frc.lib.encoder;
 
 public interface Encoder {
     /**
-     * Gets the position of the encoder measured in degrees
+     * Gets the position of the encoder. By default it is measured in degrees,
+     * but units can be changed using {@link Encoder#setPositionConversionFactor(double)}
      * @return The position of the encoder
      */
     public double getPosition();
@@ -21,8 +22,21 @@ public interface Encoder {
     public void setPosition(double newPosition);
 
     /**
-     * Gets the velocity of the encoder measured in degrees per second
+     * Gets the velocity of the encoder. By default it is measured in degrees per second,
+     * but units can be changed using {@link Encoder#setVelocityConversionFactor(double)}
      * @return The velocity of the encoder
      */
     public double getVelocity();
+
+    /**
+     * Sets a factor with which to scale all position values from this encoder
+     * @param factor The factor by which to scale position values
+     */
+    public void setPositionConversionFactor(double factor);
+    
+    /**
+     * Sets a factor with which to scale all velocity values from this encoder
+     * @param factor The factor by which to scale velocity values
+     */
+	public void setVelocityConversionFactor(double factor);
 }

@@ -4,14 +4,15 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.CANCoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.controller.ElevatorFeedforward;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.encoder.Encoder;
+import frc.lib.encoder.ODN_CANCoder;
+import frc.lib.motorcontroller.MotorController;
+import frc.lib.motorcontroller.ODN_SparkMax;
+import frc.lib.motorcontroller.ODN_SparkMax.MotorType;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
@@ -36,8 +37,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     public double ks, kg, kv;
   }
 
-  private CANSparkMax m_spark;
-  private CANCoder m_enc;
+  private MotorController m_spark;
+  private Encoder m_enc;
 
   private double m_pos;
 
@@ -49,8 +50,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public ElevatorSubsystem(Constants constants) {
     this.m_constants = constants;
-    m_spark = new CANSparkMax(constants.id_spark, MotorType.kBrushless);
-    m_enc = new CANCoder(constants.id_enc);
+    m_spark = new ODN_SparkMax(constants.id_spark, MotorType.brushless);
+    m_enc = new ODN_CANCoder(constants.id_enc);
     
     m_controller = new ProfiledPIDController(m_constants.kp, m_constants.ki, m_constants.kd, 
         new TrapezoidProfile.Constraints(m_constants.maxVelocity, m_constants.maxAcceleration));

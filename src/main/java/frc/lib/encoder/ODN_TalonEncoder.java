@@ -9,6 +9,9 @@ public class ODN_TalonEncoder implements Encoder {
     private WPI_TalonSRX m_backend;
     private int m_sensorID;
 
+    private double m_positionFactor = 1;
+    private double m_velocityFactor = 1;
+
     public ODN_TalonEncoder(ODN_TalonSRX talon, int sensorID) {
         m_backend = talon.getBackend();
         m_sensorID = sensorID;
@@ -16,7 +19,7 @@ public class ODN_TalonEncoder implements Encoder {
 
     @Override
     public double getPosition() {
-        return m_backend.getSelectedSensorPosition(m_sensorID);
+        return m_backend.getSelectedSensorPosition(m_sensorID) * m_positionFactor;
     }
 
     @Override
@@ -28,12 +31,22 @@ public class ODN_TalonEncoder implements Encoder {
 
     @Override
     public void setPosition(double newPosition) {
-        m_backend.setSelectedSensorPosition(newPosition, m_sensorID, 0);
+        m_backend.setSelectedSensorPosition(newPosition / m_positionFactor, m_sensorID, 0);
     }
 
     @Override
     public double getVelocity() {
-        return m_backend.getSelectedSensorVelocity(m_sensorID);
+        return m_backend.getSelectedSensorVelocity(m_sensorID) * m_velocityFactor;
+    }
+
+    @Override
+    public void setPositionConversionFactor(double factor) {
+        this.m_positionFactor = factor;
+    }
+
+    @Override
+    public void setVelocityConversionFactor(double factor) {
+        this.m_velocityFactor = factor;
     }
 
     public WPI_TalonSRX getBackend() {

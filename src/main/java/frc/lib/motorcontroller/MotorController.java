@@ -1,5 +1,8 @@
 package frc.lib.motorcontroller;
 
+import edu.wpi.first.wpilibj.SpeedController;
+import frc.lib.encoder.Encoder;
+
 public interface MotorController {
     /**
      * Set the speed of a motor as a percentage of the maximum speed
@@ -23,4 +26,16 @@ public interface MotorController {
      * @param isInverted True is inverted
      */
     public void setInverted(boolean isInverted);
+
+    /**
+     * Gets encoder connected to this motor controller
+     * @return Encoder object from encoder connected to this motor controller
+     */
+    public Encoder getEncoder();
+
+    /**
+     * Gets the SpeedController object which is used in this motor controller
+     * @return SpeedController object which this motor controller uses
+     */
+    public SpeedController getBackend();
 }

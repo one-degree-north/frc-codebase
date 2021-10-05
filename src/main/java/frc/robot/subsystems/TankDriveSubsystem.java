@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -15,6 +14,9 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.encoder.Encoder;
+import frc.lib.motorcontroller.MotorController;
+import frc.lib.motorcontroller.ODN_TalonSRX;
 
 public class TankDriveSubsystem extends SubsystemBase {
   public static class Constants {
@@ -45,10 +47,13 @@ public class TankDriveSubsystem extends SubsystemBase {
     public double kPDriveVel = 1;
   }
 
-  private WPI_TalonSRX frontLeft;
-  private WPI_TalonSRX frontRight;
-  private WPI_TalonSRX backLeft;
-  private WPI_TalonSRX backRight;
+  private MotorController frontLeft;
+  private MotorController frontRight;
+  private MotorController backLeft;
+  private MotorController backRight;
+
+  private Encoder leftEncoder;
+  private Encoder rightEncoder;
 
   private SpeedControllerGroup left;
   private SpeedControllerGroup right;
@@ -67,17 +72,25 @@ public class TankDriveSubsystem extends SubsystemBase {
    */
   public TankDriveSubsystem(Constants constants) {
     this.m_constants = constants;
-    frontLeft = new WPI_TalonSRX(constants.id_fl);
-    frontRight = new WPI_TalonSRX(constants.id_fr);
-    backLeft = new WPI_TalonSRX(constants.id_bl);
-    backRight = new WPI_TalonSRX(constants.id_br);
-    left = new SpeedControllerGroup(frontLeft, backLeft);
-    right = new SpeedControllerGroup(frontRight, backRight);
+    frontLeft = new ODN_TalonSRX(constants.id_fl);
+    frontRight = new ODN_TalonSRX(constants.id_fr);
+    backLeft = new ODN_TalonSRX(constants.id_bl);
+    backRight = new ODN_TalonSRX(constants.id_br);
+    left = new SpeedControllerGroup(frontLeft.getBackend(), backLeft.getBackend());
+    right = new SpeedControllerGroup(frontRight.getBackend(), backRight.getBackend());
     //right side inverted b/c facing opposite direction
     right.setInverted(true);
     drive = new DifferentialDrive(left, right);
     gyro = new PigeonIMU(constants.id_gyro);
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getYaw()));
+
+    leftEncoder = frontLeft.getEncoder();
+    rightEncoder = frontRight.getEncoder();
+
+    leftEncoder.setPositionConversionFactor(constants.leftEncoderFactor);
+    rightEncoder.setPositionConversionFactor(constants.rightEncoderFactor);
+    leftEncoder.setVelocityConversionFactor(constants.leftEncoderFactor);
+    rightEncoder.setVelocityConversionFactor(constants.rightEncoderFactor);
   }
 
   /**
@@ -106,7 +119,7 @@ public class TankDriveSubsystem extends SubsystemBase {
    * @return The distance travelled by the left side of the robot
    */
   public double leftEncoderPosition() {
-    return frontLeft.getSelectedSensorPosition(0) * m_constants.leftEncoderFactor;
+    return leftEncoder.getPosition();
   }
 
   /**
@@ -114,7 +127,7 @@ public class TankDriveSubsystem extends SubsystemBase {
    * @return The distance travelled by the right side of the robot
    */
   public double rightEncoderPosition() {
-    return frontRight.getSelectedSensorPosition(0) * m_constants.rightEncoderFactor;
+    return rightEncoder.getPosition();
   }
 
   /**
@@ -122,7 +135,7 @@ public class TankDriveSubsystem extends SubsystemBase {
    * @return The velocity of the left side of the robot
    */
   public double leftEncoderVelocity() {
-    return frontLeft.getSelectedSensorVelocity(0) * m_constants.leftEncoderFactor;
+    return leftEncoder.getVelocity();
   }
 
   /**
@@ -130,7 +143,7 @@ public class TankDriveSubsystem extends SubsystemBase {
    * @return The velocity of the right side of the robot
    */
   public double rightEncoderVelocity() {
-    return frontRight.getSelectedSensorVelocity(0) * m_constants.rightEncoderFactor;
+    return rightEncoder.getVelocity();
   }
 
   /**
@@ -172,8 +185,8 @@ public class TankDriveSubsystem extends SubsystemBase {
    * Resets the left and right encoder positions to zero
    */
   public void resetEncoders() {
-    frontLeft.setSelectedSensorPosition(0);
-    frontRight.setSelectedSensorPosition(0);
+    leftEncoder.setPosition(0);
+    rightEncoder.setPosition(0);
   }
 
   /**

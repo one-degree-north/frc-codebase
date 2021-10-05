@@ -2,6 +2,9 @@ package frc.lib.motorcontroller;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import frc.lib.encoder.Encoder;
+import frc.lib.encoder.ODN_TalonEncoder;
+
 public class ODN_TalonSRX implements MotorController {
 
     private WPI_TalonSRX m_backend;
@@ -25,6 +28,12 @@ public class ODN_TalonSRX implements MotorController {
         m_backend.setInverted(isInverted);
     }
 
+    @Override
+    public Encoder getEncoder() {
+        return new ODN_TalonEncoder(this, 0);
+    }
+
+    @Override
     public WPI_TalonSRX getBackend() {
         return m_backend;
     }

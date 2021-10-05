@@ -4,21 +4,21 @@
 
 package frc.robot.subsystems.SwerveDriveSubsystem;
 
-import com.ctre.phoenix.sensors.CANCoder;
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import frc.lib.encoder.Encoder;
+import frc.lib.encoder.ODN_CANCoder;
+import frc.lib.motorcontroller.MotorController;
+import frc.lib.motorcontroller.ODN_SparkMax;
+import frc.lib.motorcontroller.ODN_SparkMax.MotorType;
 
 public class SwerveModule {
-  private final CANSparkMax m_driveMotor;
-  private final CANSparkMax m_turningMotor;
+  private final MotorController m_driveMotor;
+  private final MotorController m_turningMotor;
 
-  private final CANCoder m_turningEncoder;
+  private final Encoder m_turningEncoder;
 
-  private final CANEncoder m_driveEncoder;
+  private final Encoder m_driveEncoder;
 
   private final SwerveDriveSubsystem.Constants m_constants;
 
@@ -30,10 +30,10 @@ public class SwerveModule {
    */
   public SwerveModule(int driveCAN,int turningCAN, int encoderCAN, double angleOff, SwerveDriveSubsystem.Constants constants) {
 
-    m_driveMotor = new CANSparkMax(driveCAN, MotorType.kBrushless);
-    m_turningMotor = new CANSparkMax(turningCAN, MotorType.kBrushless);
+    m_driveMotor = new ODN_SparkMax(driveCAN, MotorType.brushless);
+    m_turningMotor = new ODN_SparkMax(turningCAN, MotorType.brushless);
 
-    this.m_turningEncoder = new CANCoder(encoderCAN);
+    this.m_turningEncoder = new ODN_CANCoder(encoderCAN);
     this.m_driveEncoder= m_driveMotor.getEncoder();
     m_driveEncoder.setPositionConversionFactor(Math.PI*constants.wheelDiameterMeters);
     m_driveEncoder.setVelocityConversionFactor(Math.PI/360*constants.wheelDiameterMeters);
