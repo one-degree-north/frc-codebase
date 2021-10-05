@@ -33,7 +33,8 @@ public class SwerveTrajectoryCommand extends CommandBase {
    * @param waypoints The points for the robot to reach before the end position
    * @param endPose The ending pose (relate to the starting pose)
    */
-  public SwerveTrajectoryCommand(SwerveDriveSubsystem m_robotDrive, List<Translation2d> waypoint, Pose2d end) {
+  public SwerveTrajectoryCommand(SwerveDriveSubsystem m_robotDrive, Pose2d startPose, List<Translation2d> waypoints, Pose2d endPose) {
+    // Create config for trajectory
     TrajectoryConfig config =
         new TrajectoryConfig(
                 AutoConstants.kMaxSpeedMetersPerSecond,
@@ -43,16 +44,17 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
     m_drive=m_robotDrive;
     
-    // An example trajectory to follow.  All units in meters.
-    m_trajectory =
-        TrajectoryGenerator.generateTrajectory(
-            // Start at the origin facing the +X direction
-            new Pose2d(0, 0, new Rotation2d(0)),
-            // Pass through these two interior waypoints, making an 's' curve path
-            waypoint,
-            // End 3 meters straight ahead of where we started, facing forward
-            end,
-            config);
+    // The trajectory to follow.  All units in meters.
+    m_trajectory = TrajectoryGenerator.generateTrajectory(
+        // Starting pose
+        startPose,
+        // List of waypoints to pass through
+        waypoints,
+        // Ending pose
+        endPose,
+        // Pass config to generate Trajectory properly for this drivebase
+        config
+    );
 
 
     var thetaController =
@@ -60,18 +62,23 @@ public class SwerveTrajectoryCommand extends CommandBase {
             AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    m_command =
-        new SwerveControllerCommand(
-            m_trajectory,
-            m_robotDrive::getPose, // Functional interface to feed supplier
-            m_drive.m_constants.driveKinematics,
-
-            // Position controllers
-            new PIDController(AutoConstants.kPXController, 0, 0),
-            new PIDController(AutoConstants.kPYController, 0, 0),
-            thetaController,
-            m_robotDrive::setModuleStates,
-            m_robotDrive);
+    m_command = new SwerveControllerCommand(
+        // Trajectory to travel
+        m_trajectory,
+        // SwerveControllerCommand needs to be able to 
+        // access the pose of the robot at any time
+        m_robotDrive::getPose,
+        // Kinematics to calculate correct wheel speeds
+        m_drive.m_constants.driveKinematics,
+        // Position controllers
+        new PIDController(AutoConstants.kPXController, 0, 0),
+        new PIDController(AutoConstants.kPYController, 0, 0),
+        // Rotation controller
+        thetaController,
+        // SwerveControllerCommand passes desired module states to the callback
+        m_robotDrive::setModuleStates,
+        m_robotDrive
+        );
 
     addRequirements(m_drive);
   }

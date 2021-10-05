@@ -73,7 +73,8 @@ public class TrajectoryCommand extends CommandBase {
     m_command = new RamseteCommand(
         // Trajectory to travel
         m_trajectory,
-        // RamseteCommand needs t be able to access the pose of the robot at any time
+        // RamseteCommand needs to be able to 
+        // access the pose of the robot at any time
         m_drive::getPose,
         new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
         // Feedforward to ensure correct voltage is sent to motors
