@@ -39,7 +39,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private double m_pos;
 
-  private Constants m_constants;
+  public Constants m_constants;
   
   private ProfiledPIDController m_controller;
 

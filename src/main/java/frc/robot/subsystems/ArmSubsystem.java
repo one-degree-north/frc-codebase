@@ -32,6 +32,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     // Feedforward values
     public double ks, kcos, kv;
+
+    // Length of the arm
+    public double length;
   }
 
   private MotorController m_motor;
@@ -39,7 +42,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private double m_pos;
 
-  private Constants m_constants;
+  public Constants m_constants;
   
   private ProfiledPIDController m_controller;
 
