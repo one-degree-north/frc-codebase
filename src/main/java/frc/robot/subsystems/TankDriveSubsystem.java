@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.encoder.Encoder;
 import frc.lib.motorcontroller.MotorController;
-import frc.lib.motorcontroller.ODN_TalonSRX;
 
 public class TankDriveSubsystem extends SubsystemBase {
   public static class Constants {

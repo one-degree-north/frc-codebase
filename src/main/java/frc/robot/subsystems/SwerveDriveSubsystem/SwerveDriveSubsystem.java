@@ -39,12 +39,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 		public MotorController id_mt_bl;
 		public MotorController id_mt_fr;
 		public MotorController id_mt_br;
-		// CAN IDs for encoders
+		// CAN IDs for turning encoders
 		public Encoder id_et_fl;
 		public Encoder id_et_bl;
 		public Encoder id_et_fr;
 		public Encoder id_et_br;
-		// CAN IDs for encoders
+		// CAN IDs for drive encoders
 		public Encoder id_ed_fl;
 		public Encoder id_ed_bl;
 		public Encoder id_ed_fr;

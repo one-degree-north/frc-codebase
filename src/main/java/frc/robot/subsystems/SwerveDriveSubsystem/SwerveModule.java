@@ -7,10 +7,7 @@ package frc.robot.subsystems.SwerveDriveSubsystem;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import frc.lib.encoder.Encoder;
-import frc.lib.encoder.ODN_CANCoder;
 import frc.lib.motorcontroller.MotorController;
-import frc.lib.motorcontroller.ODN_SparkMax;
-import frc.lib.motorcontroller.ODN_SparkMax.MotorType;
 
 public class SwerveModule {
   private final MotorController m_driveMotor;
