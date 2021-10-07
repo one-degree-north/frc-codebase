@@ -4,21 +4,31 @@
 
 package frc.robot.subsystems.SwerveDriveSubsystem;
 
+import java.util.List;
+
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
-
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.lib.ODN_Drivebase;
 import frc.lib.encoder.Encoder;
 import frc.lib.motorcontroller.MotorController;
+import frc.robot.Constants.AutoConstants;
 
-public class SwerveDriveSubsystem extends SubsystemBase {
+public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
 	public static class Constants {
 		// diameter of the wheels
 		public double wheelDiameterMeters;
@@ -60,7 +70,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 		public double offset_fr;
 		public double offset_br;
 
-    	// Distance between front and back wheels on robot
+		// Distance between front and back wheels on robot
 		public double wheelBase;
 		// Distance between centers of right and left wheels on robot
 		public double trackWidth;
@@ -83,14 +93,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 	public SwerveDriveSubsystem(Constants constants) {
 		this.m_constants = constants;
 
-		this.m_frontLeft = new SwerveModule(m_constants.id_md_fl, m_constants.id_mt_fl, 
-				m_constants.id_ed_fl, m_constants.id_et_fl, m_constants.offset_fl, m_constants);
-		this.m_rearLeft = new SwerveModule(m_constants.id_md_bl, m_constants.id_mt_bl, 
-				m_constants.id_ed_bl, m_constants.id_et_bl, m_constants.offset_bl, m_constants);
-		this.m_frontRight = new SwerveModule(m_constants.id_md_fr, m_constants.id_mt_fr, 
-				m_constants.id_ed_fr,m_constants.id_et_fr,  m_constants.offset_fr, m_constants);
-		this.m_rearRight = new SwerveModule(m_constants.id_md_br, m_constants.id_mt_br, 
-				m_constants.id_ed_br, m_constants.id_et_br, m_constants.offset_br, m_constants);
+		this.m_frontLeft = new SwerveModule(m_constants.id_md_fl, m_constants.id_mt_fl, m_constants.id_ed_fl,
+				m_constants.id_et_fl, m_constants.offset_fl, m_constants);
+		this.m_rearLeft = new SwerveModule(m_constants.id_md_bl, m_constants.id_mt_bl, m_constants.id_ed_bl,
+				m_constants.id_et_bl, m_constants.offset_bl, m_constants);
+		this.m_frontRight = new SwerveModule(m_constants.id_md_fr, m_constants.id_mt_fr, m_constants.id_ed_fr,
+				m_constants.id_et_fr, m_constants.offset_fr, m_constants);
+		this.m_rearRight = new SwerveModule(m_constants.id_md_br, m_constants.id_mt_br, m_constants.id_ed_br,
+				m_constants.id_et_br, m_constants.offset_br, m_constants);
 
 		this.m_gyro = new PigeonIMU(m_constants.id_gyro);
 		this.m_odometry = new SwerveDriveOdometry(m_constants.driveKinematics, getRotation2d());
@@ -134,11 +144,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 		return m_odometry.getPoseMeters();
 	}
 
-	/**
-	 * Resets the odometry to the specified pose.
-	 *
-	 * @param pose The pose to which to set the odometry.
-	 */
+	@Override
 	public void resetOdometry(Pose2d pose) {
 		m_odometry.resetPosition(pose, getRotation2d());
 	}
@@ -198,5 +204,62 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 	 */
 	public double getTurnRate() {
 		return getYaw() * (m_constants.gyroReversed ? -1.0 : 1.0);
+	}
+
+	@Override
+	public void rotate(double speed) {
+		drive(0, 0, speed, false);
+	}
+
+	@Override
+	public void stop() {
+		drive(0, 0, 0, false);
+	}
+
+	@Override
+	public Command generateTrajectoryCommand(Pose2d startPose, List<Translation2d> waypoints, Pose2d endPose) {
+		// Create config for trajectory
+		TrajectoryConfig config =
+        new TrajectoryConfig(
+                AutoConstants.kMaxSpeedMetersPerSecond,
+                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+            // Add kinematics to ensure max speed is actually obeyed
+            .setKinematics(m_constants.driveKinematics);
+    
+    // The trajectory to follow.  All units in meters.
+    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+        // Starting pose
+        startPose,
+        // List of waypoints to pass through
+        waypoints,
+        // Ending pose
+        endPose,
+        // Pass config to generate Trajectory properly for this drivebase
+        config
+    );
+
+
+    var thetaController =
+        new ProfiledPIDController(
+            AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+    return new SwerveControllerCommand(
+        // Trajectory to travel
+        trajectory,
+        // SwerveControllerCommand needs to be able to 
+        // access the pose of the robot at any time
+        this::getPose,
+        // Kinematics to calculate correct wheel speeds
+        m_constants.driveKinematics,
+        // Position controllers
+        new PIDController(AutoConstants.kPXController, 0, 0),
+        new PIDController(AutoConstants.kPYController, 0, 0),
+        // Rotation controller
+        thetaController,
+        // SwerveControllerCommand passes desired module states to the callback
+        this::setModuleStates,
+        this
+		);
 	}
 }

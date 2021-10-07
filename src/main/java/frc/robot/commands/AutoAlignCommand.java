@@ -7,17 +7,17 @@ package frc.robot.commands;
 import java.util.function.Function;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.lib.ODN_Drivebase;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.TankDriveSubsystem;
 
 public class AutoAlignCommand extends CommandBase {
   public static final double EPSILON = 0.5; // in degrees
 
-  private TankDriveSubsystem m_drive;
+  private ODN_Drivebase m_drive;
   private LimelightSubsystem m_limelight;
   private Function<Double, Double> m_attenuationFunction;
 
-  public AutoAlignCommand(TankDriveSubsystem drive, LimelightSubsystem limelight, Function<Double, Double> attenuationFunction) {
+  public AutoAlignCommand(ODN_Drivebase drive, LimelightSubsystem limelight, Function<Double, Double> attenuationFunction) {
     this.m_drive = drive;
     this.m_limelight = limelight;
     this.m_attenuationFunction = attenuationFunction;
@@ -32,13 +32,13 @@ public class AutoAlignCommand extends CommandBase {
   @Override
   public void execute() {
     // Attenuation function returns turning speed from limelight horizontal angle offset
-    m_drive.arcadeDrive(0, m_attenuationFunction.apply(m_limelight.getOffsetHorizontal()));
+    m_drive.rotate(m_attenuationFunction.apply(m_limelight.getOffsetHorizontal()));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drive.arcadeDrive(0, 0);
+    m_drive.stop();
   }
 
   // Returns true when the command should end.
