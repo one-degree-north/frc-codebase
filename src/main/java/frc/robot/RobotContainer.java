@@ -18,10 +18,8 @@ import frc.robot.subsystems.TankDriveSubsystem;
  */
 public class RobotContainer {
   // Robot subsystems here:
-  private TankDriveSubsystem m_drive = new TankDriveSubsystem(Constants.drive_constants);
 
   // Controllers here:
-  private XboxController m_driverController = new XboxController(Constants.kControllerPort);
 
   // Robot commands go here:
   // This command runs on autonomous
@@ -30,15 +28,6 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_drive.setDefaultCommand(
-      new RunCommand(
-        () -> m_drive.arcadeDrive(
-          m_driverController.getY(GenericHID.Hand.kLeft),
-          m_driverController.getX(GenericHID.Hand.kRight)
-          ), m_drive
-        )
-      );
-
     // Configure the button bindings
     configureButtonBindings();
   }

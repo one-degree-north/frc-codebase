@@ -8,10 +8,11 @@ import edu.wpi.first.wpilibj.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.ODN_State;
 import frc.lib.encoder.Encoder;
 import frc.lib.motorcontroller.MotorController;
 
-public class ArmSubsystem extends SubsystemBase {
+public class ArmSubsystem extends SubsystemBase implements ODN_State {
 
   public static final double EPSILON = 0.01;
 
@@ -60,22 +61,17 @@ public class ArmSubsystem extends SubsystemBase {
     m_feedforward = new ArmFeedforward(m_constants.ks, m_constants.kcos, m_constants.kv);
   }
 
-  /**
-   * Sets a new goal position for the arm
-   * @param pos New goal position in meters
-   */
+  @Override
   public void setGoalLocation(double pos) {
     this.m_pos = pos;
   }
 
-  /**
-   * Checks whether the arm has reached the goal location
-   * @return true if arm has reached goal location
-   */
+  @Override
   public boolean atGoalLocation() {
     return Math.abs(m_pos-m_encoder.getPosition()) < EPSILON;
   }
 
+  @Override
   public void resetPosition() {
     m_encoder.setPosition(0);
   }

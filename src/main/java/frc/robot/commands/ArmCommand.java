@@ -6,8 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
+import frc.lib.ODN_State;
 
 /**
  * ArmCommand command is used for moving an arm-elevator combination
@@ -17,14 +16,15 @@ import frc.robot.subsystems.ElevatorSubsystem;
  * as it moves horizontally
  */
 public class ArmCommand extends CommandBase {
-  private ArmSubsystem m_arm;
-  private ElevatorSubsystem m_ele;
+  private ODN_State m_arm;
+  private ODN_State m_ele;
   private TrapezoidProfile trapezoidProfile;
   
   private double startHeight;
+  private double armLength;
 
   /** Creates a new ArmCommand. */
-  public ArmCommand(ArmSubsystem arm, ElevatorSubsystem ele, double start_position, double end_position, double startHeight) {
+  public ArmCommand(ODN_State arm, ODN_State ele, double start_position, double end_position, double startHeight, double armLength) {
     this.m_arm = arm;
     this.m_ele = ele;
     trapezoidProfile =  new TrapezoidProfile(
@@ -34,6 +34,7 @@ public class ArmCommand extends CommandBase {
     );
 
     this.startHeight = startHeight;
+    this.armLength = armLength;
     
     addRequirements(m_arm, m_ele);
   }
@@ -50,8 +51,8 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() {
     double x = trapezoidProfile.calculate(System.currentTimeMillis()/1000.0-startTime).position;
-    double theta = -Math.acos(x/m_arm.m_constants.length);
-    double h = Math.sin(theta) * m_arm.m_constants.length;
+    double theta = -Math.acos(x/armLength);
+    double h = Math.sin(theta) * armLength;
     m_ele.setGoalLocation(h+startHeight);
     m_arm.setGoalLocation(theta);
   }

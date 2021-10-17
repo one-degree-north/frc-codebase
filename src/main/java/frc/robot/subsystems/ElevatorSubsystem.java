@@ -8,10 +8,11 @@ import edu.wpi.first.wpilibj.controller.ElevatorFeedforward;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.ODN_State;
 import frc.lib.encoder.Encoder;
 import frc.lib.motorcontroller.MotorController;
 
-public class ElevatorSubsystem extends SubsystemBase {
+public class ElevatorSubsystem extends SubsystemBase implements ODN_State {
 
   public static final double EPSILON = 0.01;
 
@@ -57,22 +58,17 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_feedforward = new ElevatorFeedforward(m_constants.ks, m_constants.kg, m_constants.kv);
   }
 
-  /**
-   * Sets a new goal position for the elevator
-   * @param pos New goal position in meters
-   */
+  @Override
   public void setGoalLocation(double pos) {
     this.m_pos = pos;
   }
 
-  /**
-   * Checks whether the elevator has reached the goal location
-   * @return true if elevator has reached goal location
-   */
+  @Override
   public boolean atGoalLocation() {
     return Math.abs(m_pos-m_encoder.getPosition()) < EPSILON;
   }
 
+  @Override
   public void resetPosition() {
     m_encoder.setPosition(0);
   }
