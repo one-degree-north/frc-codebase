@@ -84,7 +84,7 @@ public class SwerveModule {
   /** Zeros all the SwerveModule encoders. */
   public void resetEncoders(double angOff) {
     m_driveEncoder.setPosition(0);
-    m_turningEncoder.setPosition(m_turningEncoder.getAbsolutePosition()%360-angOff);
+    m_turningEncoder.setPosition((m_turningEncoder.getAbsolutePosition()%360-angOff)/180 * Math.PI);
   }
  
 }
