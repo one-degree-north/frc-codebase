@@ -28,16 +28,14 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ODN_Drivebase;
 import frc.lib.encoder.Encoder;
-import frc.lib.motorcontroller.MotorController;
+import frc.lib.motorcontroller.MotorControllerGroup;
 import frc.robot.Constants.AutoConstants;
 
 public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
   public static class Constants {
     // MotorControllers
-    public MotorController frontLeft;
-    public MotorController backLeft;
-    public MotorController frontRight;
-    public MotorController backRight;
+    public MotorControllerGroup left;
+    public MotorControllerGroup right;
 
     // Encoders
     public Encoder leftEncoder;
@@ -65,16 +63,11 @@ public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
     public double kPDriveVel = 1;
   }
 
-  private MotorController frontLeft;
-  private MotorController frontRight;
-  private MotorController backLeft;
-  private MotorController backRight;
-
   private Encoder leftEncoder;
   private Encoder rightEncoder;
 
-  private SpeedControllerGroup left;
-  private SpeedControllerGroup right;
+  private MotorControllerGroup left;
+  private MotorControllerGroup right;
 
   private DifferentialDrive drive;
 
@@ -91,15 +84,11 @@ public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
    */
   public TankDriveSubsystem(Constants constants) {
     this.m_constants = constants;
-    frontLeft = constants.frontLeft;
-    frontRight = constants.frontRight;
-    backLeft = constants.backLeft;
-    backRight = constants.backRight;
-    left = new SpeedControllerGroup(frontLeft.getBackend(), backLeft.getBackend());
-    right = new SpeedControllerGroup(frontRight.getBackend(), backRight.getBackend());
+    left = constants.left;
+    right = constants.right;
     // right side inverted b/c facing opposite direction
     right.setInverted(true);
-    drive = new DifferentialDrive(left, right);
+    drive = new DifferentialDrive(left.getBackend(), right.getBackend());
     gyro = new PigeonIMU(constants.id_gyro);
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getYaw()));
 
