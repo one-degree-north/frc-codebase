@@ -85,8 +85,6 @@ public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
     this.m_constants = constants;
     left = constants.left;
     right = constants.right;
-    // right side inverted b/c facing opposite direction
-    right.setInverted(true);
     drive = new DifferentialDrive(left.getBackend(), right.getBackend());
     gyro = new PigeonIMU(constants.id_gyro);
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getYaw()));
