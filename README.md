@@ -16,12 +16,12 @@ This is a repo containing the current, most up-to-date code for FRC Team 4817.
   -  Constants
   -  Robot class
   -  `subsystems`
-    -  Swerve Drive
-    -  Mecanum Drive
-    -  Tank Drive
-    -  Elevator
-    -  Arm
-    -  Limelight
-    -  ParallelState
-    -  Falcon Music
+     -  Swerve Drive
+     -  Mecanum Drive
+     -  Tank Drive
+     -  Elevator
+     -  Arm
+     -  Limelight
+     -  ParallelState
+     -  Falcon Music
   -  Various commands
