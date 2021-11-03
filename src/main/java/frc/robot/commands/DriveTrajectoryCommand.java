@@ -8,7 +8,6 @@ import java.util.List;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.ODN_Drivebase;
@@ -17,8 +16,8 @@ public class DriveTrajectoryCommand extends CommandBase {
   /** Creates a new TrajectoryCommand. */
 
   private ODN_Drivebase m_drive;
-  private Trajectory m_trajectory;
   private Command m_command;
+  private Pose2d m_startPose;
 
   /**
    * Constructs a TrajectoryCommand object
@@ -29,6 +28,7 @@ public class DriveTrajectoryCommand extends CommandBase {
    */
   public DriveTrajectoryCommand(ODN_Drivebase drive, Pose2d startPose, List<Translation2d> waypoints, Pose2d endPose) {
     this.m_drive = drive;
+    this.m_startPose = startPose;
 
     m_command = drive.generateTrajectoryCommand(startPose, waypoints, endPose);
 
@@ -39,7 +39,7 @@ public class DriveTrajectoryCommand extends CommandBase {
   @Override
   public void initialize() {
     // Reset odometry to the starting pose of the trajectory.
-    m_drive.resetOdometry(m_trajectory.getInitialPose());
+    m_drive.resetOdometry(m_startPose);
 
     m_command.initialize();
   }
