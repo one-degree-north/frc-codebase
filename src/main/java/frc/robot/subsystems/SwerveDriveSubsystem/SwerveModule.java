@@ -32,7 +32,7 @@ public class SwerveModule {
 
     this.m_turningEncoder = turningEncoder;
     this.m_driveEncoder= driveEncoder;
-    m_driveEncoder.setPositionConversionFactor(Math.PI*constants.wheelDiameterMeters);
+    m_driveEncoder.setPositionConversionFactor(Math.PI/360*constants.wheelDiameterMeters);
     m_driveEncoder.setVelocityConversionFactor(Math.PI/360*constants.wheelDiameterMeters);
     m_turningEncoder.setPositionConversionFactor(Math.PI/180);
     m_turningEncoder.setVelocityConversionFactor(Math.PI/180);
