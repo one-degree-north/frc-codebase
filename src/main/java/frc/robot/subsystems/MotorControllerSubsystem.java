@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.motorcontroller.MotorController;
 
 public class MotorControllerSubsystem extends SubsystemBase {
-  public static class Constants{
+  public static class Constants {
     public MotorController group;
   }
   private MotorController m_controller;
@@ -20,10 +20,5 @@ public class MotorControllerSubsystem extends SubsystemBase {
 
   public void setSpeed(double speed){
     m_controller.set(speed);
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 }
