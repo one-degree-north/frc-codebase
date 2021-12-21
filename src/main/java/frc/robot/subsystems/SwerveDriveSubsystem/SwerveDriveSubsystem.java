@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -59,8 +60,6 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Drivebase
 		public Encoder id_ed_bl;
 		public Encoder id_ed_fr;
 		public Encoder id_ed_br;
-		// CAN ID for gyro
-		public int id_gyro;
 
 		public SwerveDriveKinematics driveKinematics;
 
@@ -83,7 +82,7 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Drivebase
 	private final SwerveModule m_rearRight;
 
 	// The gyro sensor
-	private final PigeonIMU m_gyro;
+	private final AHRS m_gyro;
 
 	// Odometry class for tracking robot pose
 	private final SwerveDriveOdometry m_odometry;
@@ -102,14 +101,12 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Drivebase
 		this.m_rearRight = new SwerveModule(m_constants.id_md_br, m_constants.id_mt_br, m_constants.id_ed_br,
 				m_constants.id_et_br, m_constants.offset_br, m_constants);
 
-		this.m_gyro = new PigeonIMU(m_constants.id_gyro);
+		this.m_gyro = new AHRS();
 		this.m_odometry = new SwerveDriveOdometry(m_constants.driveKinematics, getRotation2d());
 	}
 
 	public double getYaw() {
-		double[] pidge = new double[3];
-		m_gyro.getYawPitchRoll(pidge);
-		return pidge[0];
+		return m_gyro.getYaw();
 	}
 
 	public Rotation2d getRotation2d() {
@@ -133,6 +130,7 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Drivebase
 		// Update the odometry in the periodic block
 		m_odometry.update(getRotation2d(), m_frontLeft.getState(), m_rearLeft.getState(), m_frontRight.getState(),
 				m_rearRight.getState());
+		System.out.println("chungus: "+getYaw());
 	}
 
 	/**
@@ -185,7 +183,7 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Drivebase
 
 	/** Zeroes the heading of the robot. */
 	public void zeroHeading() {
-		m_gyro.setYaw(0);
+		m_gyro.reset();
 	}
 
 	/**
