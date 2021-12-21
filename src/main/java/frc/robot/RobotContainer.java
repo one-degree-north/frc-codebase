@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.DriveTrajectoryCommand;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem.SwerveDriveSubsystem;
 
 /**
@@ -29,10 +30,9 @@ import frc.robot.subsystems.SwerveDriveSubsystem.SwerveDriveSubsystem;
  */
 public class RobotContainer {
   // Robot subsystems here:
-  // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveDriveSubsystemConstants);
-  // private LimelightSubsystem m_limelight = new LimelightSubsystem();
-  // private IntakeSubsystem m_intake = new IntakeSubsystem(Constants.intakeSubsystemConstants);
-  // private IntakeSubsystem m_gearIntake = new IntakeSubsystem(Constants.gearIntakeSybsystemConstants);
+  private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveDriveSubsystemConstants);
+  private LimelightSubsystem m_limelight = new LimelightSubsystem();
+
   private Compressor m_compressor = new Compressor(17);
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
@@ -51,11 +51,11 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // m_drive.setDefaultCommand(new RunCommand(() -> 
-    //   m_drive.drive(-m_controller.getY(Hand.kLeft), 
-    //   -m_controller.getX(Hand.kLeft),
-    //   -m_controller.getX(Hand.kRight),false, isReversed, isLocked), 
-    //   m_drive));
+    m_drive.setDefaultCommand(new RunCommand(() -> 
+      m_drive.drive(-m_controller.getY(Hand.kLeft), 
+      -m_controller.getX(Hand.kLeft),
+      -m_controller.getX(Hand.kRight), isReversed), 
+      m_drive));
     
     m_compressor.setClosedLoopControl(true);
   }
@@ -67,50 +67,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //JoystickButton button = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    //button.toggleWhenPressed(new AutoAlignCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27)));
-
-    // JoystickButton button = new JoystickButton(m_controller, XboxController.Button.kB.value);
-    // button.whenPressed(new SwerveTrajectoryCommand(m_drive, List.of(new Translation2d(-1.5,0)), 
-    // new Pose2d(-2.75, 0, Rotation2d.fromDegrees(0))));
-
-    JoystickButton intakeBtn = new JoystickButton(m_controller, XboxController.Button.kBumperLeft.value);
-    // intakeBtn.whenPressed(() ->
-    //   m_intake.setSpeed(0.5));
-    // intakeBtn.whenReleased(() ->
-    //   m_intake.setSpeed(0));
-
-    //   JoystickButton gearIntakeBtn = new JoystickButton(m_controller, XboxController.Button.kBumperRight.value);
-    // gearIntakeBtn.whenPressed(() ->
-    //   m_gearIntake.setSpeed(0.25));
-    // gearIntakeBtn.whenReleased(() ->
-    //   m_gearIntake.setSpeed(0));
-
-      JoystickButton reverseBtn = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    reverseBtn.whenPressed(() -> 
-      isReversed = !isReversed);
-
-      JoystickButton lockBtn1 = new JoystickButton(m_controller, XboxController.Button.kStart.value);
-      JoystickButton lockBtn2 = new JoystickButton(m_controller, XboxController.Button.kBumperLeft.value);
-      JoystickButton lockAlt = new JoystickButton(m_controller, XboxController.Button.kY.value);
-
-      // lockBtn1.and(lockBtn2).whenActive(()->
-      //   isLocked = !isLocked);
-      lockAlt.whenPressed(() ->
-        isLocked = !isLocked);
-      
-      
-      
-      JoystickButton compressorBtn = new JoystickButton(m_controller, XboxController.Button.kX.value);
-
-      compressorBtn.whenPressed(() -> {
-        m_compressor.start();
-        System.out.println(m_compressor.enabled());
-      });
-      compressorBtn.whenReleased(() -> {
-        m_compressor.stop();
-        System.out.println(m_compressor.enabled());
-      });
+    
   }
   
   
@@ -120,7 +77,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // m_drive.resetAllEncoders();
+    m_drive.resetAllEncoders();
 
   //   SwerveTrajectoryCommand traj1 = new SwerveTrajectoryCommand(m_drive,
   //   List.of(
