@@ -4,12 +4,14 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
-import com.kauailabs.navx.frc.AHRS;
+import java.util.List;
+
 import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -26,14 +28,10 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.lib.gyro.ODN_AHRS;
 import frc.lib.ODN_Drivebase;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-
-import static frc.robot.Constants.*;
-
-import java.util.List;
+import frc.lib.gyro.ODN_Gyro;
+import frc.robot.Constants.AutoConstants;
 
 public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
 
@@ -72,7 +70,6 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Drivebase
 
     public static final double MAX_VOLTAGE = 12.0;
 
-    private Constants m_constants;
     // FIXME Measure the drivetrain's maximum velocity or calculate the theoretical.
     // The formula for calculating the theoretical maximum velocity is:
     // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
@@ -111,7 +108,7 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Drivebase
     // cause the angle reading to increase until it wraps back over to zero.
     // FIXME Remove if you are using a Pigeon
     // FIXME Uncomment if you are using a NavX
-    private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
+    private final ODN_Gyro m_gyro = new ODN_AHRS();
 
     // These are our modules. We initialize them in the constructor.
     private final SwerveModule m_frontLeftModule;
@@ -122,10 +119,6 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Drivebase
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
     public SwerveDriveSubsystem(Constants constants) {
-
-        
-
-        m_constants = constants;
 
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
@@ -217,22 +210,11 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Drivebase
      * robot is currently facing to the 'forwards' direction.
      */
     public void zeroGyroscope() {
-        // FIXME Remove if you are using a Pigeon
-        // FIXME Uncomment if you are using a NavX
-        m_navx.zeroYaw();
+        m_gyro.resetYaw();
     }
 
     public Rotation2d getGyroscopeRotation() {
-        // FIXME Remove if you are using a Pigeon
-        // FIXME Uncomment if you are using a NavX
-        if (m_navx.isMagnetometerCalibrated()) {
-            // We will only get valid fused headings if the magnetometer is calibrated
-            return Rotation2d.fromDegrees(180 - m_navx.getFusedHeading());
-        }
-        //
-        // We have to invert the angle of the NavX so that rotating the robot
-        // counter-clockwise makes the angle increase.
-        return Rotation2d.fromDegrees(m_navx.getYaw());
+        return m_gyro.getYaw();
     }
 
     public void drive(double xSpeed, double ySpeed, double rotate) {
