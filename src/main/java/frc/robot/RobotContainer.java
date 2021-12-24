@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.DriveTrajectoryCommand;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.SwerveDriveSubsystem.SwerveDriveSubsystem;
+import frc.robot.subsystems.SwerveDriveSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,20 +30,15 @@ import frc.robot.subsystems.SwerveDriveSubsystem.SwerveDriveSubsystem;
  */
 public class RobotContainer {
   // Robot subsystems here:
-  private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveDriveSubsystemConstants);
+  private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
 
-  private Compressor m_compressor = new Compressor(17);
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
 
   // Robot commands go here:
   // This command runs on autonomous
   private Command m_autoCommand = null;
-
-  //chungus
-  public static boolean isReversed = false;
-  public static boolean isLocked = false;
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -52,12 +47,11 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drive.setDefaultCommand(new RunCommand(() -> 
-      m_drive.drive(-m_controller.getY(Hand.kLeft), 
-      -m_controller.getX(Hand.kLeft),
-      -m_controller.getX(Hand.kRight), isReversed), 
+      m_drive.drive(-modifyAxis(m_controller.getY(Hand.kLeft)), 
+      -modifyAxis(m_controller.getX(Hand.kLeft)),
+      modifyAxis(m_controller.getX(Hand.kRight))), 
       m_drive));
     
-    m_compressor.setClosedLoopControl(true);
   }
 
   /**
@@ -77,7 +71,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    m_drive.resetAllEncoders();
+    // m_drive.resetAllEncoders();
 
   //   SwerveTrajectoryCommand traj1 = new SwerveTrajectoryCommand(m_drive,
   //   List.of(
@@ -120,5 +114,27 @@ public class RobotContainer {
 
     return null;
 
+  }
+
+  private static double deadband(double value, double deadband) {
+    if (Math.abs(value) > deadband) {
+      if (value > 0.0) {
+        return (value - deadband) / (1.0 - deadband);
+      } else {
+        return (value + deadband) / (1.0 - deadband);
+      }
+    } else {
+      return 0.0;
+    }
+  }
+
+  private static double modifyAxis(double value) {
+    // Deadband
+    value = deadband(value, 0.05);
+
+    // Square the axis
+    value = Math.copySign(value * value, value);
+
+    return value;
   }
 }
