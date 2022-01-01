@@ -21,6 +21,7 @@ public class AutoAlignCommand extends CommandBase {
   private LimelightSubsystem m_limelight;
   private Function<Double, Double> m_attenuationFunction;
   private XboxController m_joystick;
+  private double distance; 
 
   public AutoAlignCommand(ODN_HolonomicDrivebase drive, LimelightSubsystem limelight, Function<Double, Double> attenuationFunction, XboxController joystick) {
     this.m_drive = drive;
@@ -32,14 +33,16 @@ public class AutoAlignCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    distance = m_limelight.getOffsetVertical()/27;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     // Attenuation function returns turning speed from limelight horizontal angle offset
     double sidespeed = -m_joystick.getX(Hand.kLeft);
-    m_drive.cartesianDriveRelative(0, sidespeed, m_attenuationFunction.apply(m_limelight.getOffsetHorizontal()));
+    m_drive.cartesianDriveRelative((m_limelight.getOffsetVertical()/27-distance)/10, sidespeed, m_attenuationFunction.apply(m_limelight.getOffsetHorizontal()));
     //m_drive.polarDrive(sidespeed, 90-m_drive.getYaw()-m_limelight.getOffsetHorizontal(), m_attenuationFunction.apply(m_limelight.getOffsetHorizontal()));
   }
 
