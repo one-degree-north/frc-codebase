@@ -221,7 +221,7 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Holonomic
 	}
 
 	@Override
-	public void cartesianDrive(double xSpeed, double ySpeed, double rotate) {
+	public void cartesianDriveAbsolute(double xSpeed, double ySpeed, double rotate) {
 
 		m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed * MAX_VELOCITY_METERS_PER_SECOND,
 				ySpeed * MAX_VELOCITY_METERS_PER_SECOND, rotate * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
@@ -231,8 +231,17 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Holonomic
 	}
 
 	@Override
+	public void cartesianDriveRelative(double xSpeed, double ySpeed, double rotate) {
+
+		m_chassisSpeeds = new ChassisSpeeds(xSpeed * MAX_VELOCITY_METERS_PER_SECOND,
+				ySpeed * MAX_VELOCITY_METERS_PER_SECOND, rotate * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+		SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+		setModuleStates(states);
+	}
+
+	@Override
 	public void polarDrive(double speed, double direction, double rotate) {
-		cartesianDrive(speed * Math.sin(-Math.toRadians(direction)), speed * Math.cos(-Math.toRadians(direction)),
+		cartesianDriveAbsolute(speed * Math.sin(-Math.toRadians(direction)), speed * Math.cos(-Math.toRadians(direction)),
 				rotate);
 	}
 

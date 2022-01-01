@@ -39,7 +39,7 @@ public class AutoAlignCommand extends CommandBase {
   public void execute() {
     // Attenuation function returns turning speed from limelight horizontal angle offset
     double sidespeed = -m_joystick.getX(Hand.kLeft);
-    m_drive.polarDrive(sidespeed, m_drive.getYaw(), m_attenuationFunction.apply(m_limelight.getOffsetHorizontal()));
+    m_drive.cartesianDriveRelative(0, sidespeed, m_attenuationFunction.apply(m_limelight.getOffsetHorizontal()));
     //m_drive.polarDrive(sidespeed, 90-m_drive.getYaw()-m_limelight.getOffsetHorizontal(), m_attenuationFunction.apply(m_limelight.getOffsetHorizontal()));
   }
 
