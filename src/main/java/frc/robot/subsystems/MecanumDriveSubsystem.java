@@ -26,12 +26,12 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.ODN_Drivebase;
+import frc.lib.ODN_HolonomicDrivebase;
 import frc.lib.encoder.Encoder;
 import frc.lib.motorcontroller.MotorControllerGroup;
 import frc.robot.Constants.AutoConstants;
 
-public class MecanumDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
+public class MecanumDriveSubsystem extends SubsystemBase implements ODN_HolonomicDrivebase {
   public static class Constants {
     // MotorControllers
     public MotorControllerGroup frontLeft;
@@ -216,16 +216,6 @@ public class MecanumDriveSubsystem extends SubsystemBase implements ODN_Drivebas
     frontRight.setVoltage(volts.frontRightVoltage);
     rearRight.setVoltage(volts.rearRightVoltage);
     drive.feed();
-  }
-
-  @Override
-  public void rotate(double speed) {
-    cartesianDrive(0, 0, speed);
-  }
-
-  @Override
-  public void stop() {
-    cartesianDrive(0, 0, 0);
   }
 
   @Override

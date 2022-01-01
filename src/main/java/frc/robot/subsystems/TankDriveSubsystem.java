@@ -287,4 +287,9 @@ public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
         this
     );
   }
+
+  @Override
+  public void driveForward(double forward, double rotate) {
+    arcadeDrive(forward, rotate);
+  }
 }

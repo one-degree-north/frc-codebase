@@ -24,7 +24,11 @@ public interface ODN_Drivebase extends Subsystem {
 	 *
 	 * @param pose The pose to which to set the odometry.
 	 */
-	public void resetOdometry(Pose2d initialPose);
+    public void resetOdometry(Pose2d initialPose);
+
+    public double getYaw();
+    
+    public void driveForward(double forward, double rotate);
 
     /**
      * Creates a trajectory command for this drivebase using
