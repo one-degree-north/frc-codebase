@@ -11,10 +11,11 @@ public class ODN_AHRS implements ODN_Gyro {
 
     @Override
     public Rotation2d getYaw() {
+        /*
         if (m_navx.isMagnetometerCalibrated()) {
             // We will only get valid fused headings if the magnetometer is calibrated
             return Rotation2d.fromDegrees(180 - m_navx.getFusedHeading());
-        }
+        }*/
         return Rotation2d.fromDegrees(m_navx.getYaw());
     }
 

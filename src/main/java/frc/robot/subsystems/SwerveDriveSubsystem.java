@@ -232,7 +232,7 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Holonomic
 
 	@Override
 	public void polarDrive(double speed, double direction, double rotate) {
-		cartesianDrive(speed * Math.sin(Math.toDegrees(direction)), speed * Math.cos(Math.toDegrees(direction)),
+		cartesianDrive(speed * Math.sin(-Math.toRadians(direction)), speed * Math.cos(-Math.toRadians(direction)),
 				rotate);
 	}
 

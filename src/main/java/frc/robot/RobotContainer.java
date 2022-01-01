@@ -55,7 +55,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     JoystickButton button = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    button.whenPressed(new AutoAlignCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27)));
+    button.toggleWhenPressed(new AutoAlignCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), m_controller));
     JoystickButton button2 = new JoystickButton(m_controller, XboxController.Button.kB.value);
     button2.whenPressed(new InstantCommand(()->m_drive.zeroGyroscope(), m_drive));
   }
