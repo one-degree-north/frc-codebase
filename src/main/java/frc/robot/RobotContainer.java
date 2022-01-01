@@ -4,21 +4,14 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoAlignCommand;
-import frc.robot.commands.DriveTrajectoryCommand;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
@@ -61,7 +54,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
+    JoystickButton button = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    button.whenPressed(new AutoAlignCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27)));
+    JoystickButton button2 = new JoystickButton(m_controller, XboxController.Button.kB.value);
+    button2.whenPressed(new InstantCommand(()->m_drive.zeroGyroscope(), m_drive));
   }
   
   
@@ -112,7 +108,7 @@ public class RobotContainer {
     // SwerveTrajectoryCommand test = new SwerveTrajectoryCommand(m_drive, List.of(new Translation2d(-1.5,0)), 
     //   new Pose2d(-2.75, 0, Rotation2d.fromDegrees(90)));
 
-    return null;
+    return m_autoCommand;
 
   }
 

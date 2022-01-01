@@ -4,22 +4,8 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
-import frc.lib.encoder.NullEncoder;
-import frc.lib.encoder.ODN_CANCoder;
-import frc.lib.motorcontroller.MotorControllerGroup;
-import frc.lib.motorcontroller.ODN_SparkMax;
-import frc.lib.motorcontroller.ODN_TalonFX;
-import frc.lib.motorcontroller.ODN_VictorSPX;
-import frc.lib.motorcontroller.ODN_SparkMax.MotorType;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
 /**

@@ -123,7 +123,7 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Drivebase
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
         MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND
-                / Math.hypot(constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, constants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
+                / Math.hypot(constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, constants.DRIVETRAIN_WHEELBASE_METERS / 2.0) / 5;
 
         m_kinematics = new SwerveDriveKinematics(
                 // Front left
