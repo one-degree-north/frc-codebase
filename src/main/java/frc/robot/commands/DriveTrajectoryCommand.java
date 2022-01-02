@@ -8,6 +8,7 @@ import java.util.List;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.ODN_Drivebase;
@@ -30,7 +31,15 @@ public class DriveTrajectoryCommand extends CommandBase {
     this.m_drive = drive;
     this.m_startPose = startPose;
 
-    m_command = drive.generateTrajectoryCommand(startPose, waypoints, endPose);
+    m_command = drive.generateTrajectoryCommand(drive.generateTrajectory(startPose, waypoints, endPose));
+
+    addRequirements(drive);
+  }
+
+  public DriveTrajectoryCommand(ODN_Drivebase drive, Trajectory traj) {
+    this.m_drive = drive;
+
+    m_command = drive.generateTrajectoryCommand(traj);
 
     addRequirements(drive);
   }

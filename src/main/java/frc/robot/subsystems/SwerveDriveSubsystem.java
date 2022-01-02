@@ -275,8 +275,7 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Holonomic
 	}
 
 	@Override
-	public Command generateTrajectoryCommand(Pose2d startPose, List<Translation2d> waypoints, Pose2d endPose) {
-		// Create config for trajectory
+	public Trajectory generateTrajectory(Pose2d startPose, List<Translation2d> waypoints, Pose2d endPose){
 		TrajectoryConfig config = new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
 				AutoConstants.kMaxAccelerationMetersPerSecondSquared)
 						// Add kinematics to ensure max speed is actually obeyed
@@ -292,6 +291,13 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Holonomic
 				endPose,
 				// Pass config to generate Trajectory properly for this drivebase
 				config);
+		return trajectory;
+	}
+
+	@Override
+	public Command generateTrajectoryCommand(Trajectory trajectory) {
+		// Create config for trajectory
+		
 
 		var thetaController = new ProfiledPIDController(AutoConstants.kPThetaController, 0, 0,
 				AutoConstants.kThetaControllerConstraints);
@@ -318,4 +324,6 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Holonomic
 	public void resetOdometry(Pose2d pose) {
 		m_odometry.resetPosition(pose, getGyroscopeRotation());
 	}
+
+	
 }

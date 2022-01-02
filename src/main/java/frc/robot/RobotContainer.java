@@ -4,8 +4,10 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathPlanner;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -14,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.robot.commands.DriveTrajectoryCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -67,47 +70,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // m_drive.resetAllEncoders();
 
-  //   SwerveTrajectoryCommand traj1 = new SwerveTrajectoryCommand(m_drive,
-  //   List.of(
-  //     new Translation2d(3, 0)), 
-  //     new Pose2d(2,0.75, Rotation2d.fromDegrees(-90)));
+ 
 
 
-  // SwerveTrajectoryCommand traj2 = new SwerveTrajectoryCommand(m_drive,
-  //   List.of(), 
-  //     new Pose2d(1.5,0, new Rotation2d(0))); 
 
-  //   return traj1.andThen(traj2);
-
-    // SwerveTrajectoryCommand traj1 = new SwerveTrajectoryCommand(m_drive,
-    // List.of(
-    //   new Translation2d(0.2,-0.5),
-    //   new Translation2d(0.75, -0.75),
-    //   new Translation2d(1.25,-0.5),
-    //   new Translation2d(1.5,0),
-    //   new Translation2d(1.25, 0.5),
-    //   new Translation2d(0.75, 0.75),
-    //   new Translation2d(0.2, 0.5)),
-
-    //   new Pose2d(0,0, Rotation2d.fromDegrees(180)));
-
-
-    // SwerveTrajectoryCommand traj2 = new SwerveTrajectoryCommand(m_drive,
-    // List.of(
-    //   new Translation2d(0.2,0.5),
-    //   new Translation2d(0.75, 0.75),
-    //   new Translation2d(1.25,0.5),
-    //   new Translation2d(1.5,0),
-    //   new Translation2d(1.25,-0.5),
-    //   new Translation2d(0.75,-0.75),
-    //   new Translation2d(0.2,-0.5)),
-    //   new Pose2d(0,0, Rotation2d.fromDegrees(0)));
-
-    // SwerveTrajectoryCommand test = new SwerveTrajectoryCommand(m_drive, List.of(new Translation2d(-1.5,0)), 
-    //   new Pose2d(-2.75, 0, Rotation2d.fromDegrees(90)));
-
+    // Trajectory examplePath = PathPlanner.loadPath("tester", 8, 5);
+    // m_autoCommand = new DriveTrajectoryCommand(m_drive, examplePath);
     return m_autoCommand;
 
   }

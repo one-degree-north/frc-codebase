@@ -233,11 +233,10 @@ public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
   }
 
   @Override
-  public Command generateTrajectoryCommand(Pose2d startPose, List<Translation2d> waypoints, Pose2d endPose) {
+  public Trajectory generateTrajectory(Pose2d startPose, List<Translation2d> waypoints, Pose2d endPose){
     var feedforward = new SimpleMotorFeedforward(m_constants.ksVolts,
         m_constants.kvVoltSecondsPerMeter,
         m_constants.kaVoltSecondsSquaredPerMeter);
-    
     // Helper class to calculate voltage sent to motors
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -246,6 +245,7 @@ public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
             10);
 
     // Create config for trajectory
+    
     TrajectoryConfig config =
         new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
                              AutoConstants.kMaxAccelerationMetersPerSecondSquared)
@@ -265,6 +265,17 @@ public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
         // Pass config to generate Trajectory properly for this drivebase
         config
     );
+
+    return trajectory;
+  }
+
+  @Override
+  public Command generateTrajectoryCommand(Trajectory trajectory) {
+    
+    var feedforward = new SimpleMotorFeedforward(m_constants.ksVolts,
+        m_constants.kvVoltSecondsPerMeter,
+        m_constants.kaVoltSecondsSquaredPerMeter);
+  
 
     return new RamseteCommand(
         // Trajectory to travel

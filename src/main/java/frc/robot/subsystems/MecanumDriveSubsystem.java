@@ -229,13 +229,8 @@ public class MecanumDriveSubsystem extends SubsystemBase implements ODN_Holonomi
     rearRight.setVoltage(volts.rearRightVoltage);
     drive.feed();
   }
-
   @Override
-  public Command generateTrajectoryCommand(Pose2d startPose, List<Translation2d> waypoints, Pose2d endPose) {
-    var feedforward = new SimpleMotorFeedforward(m_constants.ksVolts, m_constants.kvVoltSecondsPerMeter,
-        m_constants.kaVoltSecondsSquaredPerMeter);
-
-    // Create config for trajectory
+  public Trajectory generateTrajectory(Pose2d startPose, List<Translation2d> waypoints, Pose2d endPose){
     TrajectoryConfig config = new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
             // Add kinematics to correctly calculate wheel speeds
@@ -251,6 +246,16 @@ public class MecanumDriveSubsystem extends SubsystemBase implements ODN_Holonomi
         endPose,
         // Pass config to generate Trajectory properly for this drivebase
         config);
+
+    return trajectory;
+  }
+  
+  @Override
+  public Command generateTrajectoryCommand(Trajectory trajectory) {
+    var feedforward = new SimpleMotorFeedforward(m_constants.ksVolts, m_constants.kvVoltSecondsPerMeter,
+        m_constants.kaVoltSecondsSquaredPerMeter);
+
+    // Create config for trajectory
 
         var thetaController =
         new ProfiledPIDController(
