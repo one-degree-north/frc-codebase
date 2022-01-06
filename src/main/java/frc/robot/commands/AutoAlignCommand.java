@@ -8,7 +8,6 @@ import java.util.function.Function;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.ODN_Drivebase;
 import frc.lib.ODN_HolonomicDrivebase;
@@ -41,7 +40,7 @@ public class AutoAlignCommand extends CommandBase {
   @Override
   public void execute() {
     // Attenuation function returns turning speed from limelight horizontal angle offset
-    double sidespeed = -m_joystick.getX(Hand.kLeft);
+    double sidespeed = -m_joystick.getLeftX();
     m_drive.cartesianDriveRelative((m_limelight.getOffsetVertical()/27-distance)/10, sidespeed, m_attenuationFunction.apply(m_limelight.getOffsetHorizontal()));
     //m_drive.polarDrive(sidespeed, 90-m_drive.getYaw()-m_limelight.getOffsetHorizontal(), m_attenuationFunction.apply(m_limelight.getOffsetHorizontal()));
   }

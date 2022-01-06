@@ -4,13 +4,13 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.controller.ArmFeedforward;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ODN_State;
 import frc.lib.encoder.Encoder;
-import frc.lib.motorcontroller.MotorController;
+import frc.lib.motorcontroller.ODN_MotorController;
 
 public class ArmSubsystem extends SubsystemBase implements ODN_State {
 
@@ -18,7 +18,7 @@ public class ArmSubsystem extends SubsystemBase implements ODN_State {
 
   public static class Constants {
     //CAN IDs for spark and encoder
-    public MotorController motor;
+    public ODN_MotorController motor;
     public Encoder encoder;
 
     // Convert encoder output to meters
@@ -38,7 +38,7 @@ public class ArmSubsystem extends SubsystemBase implements ODN_State {
     public double length;
   }
 
-  private MotorController m_motor;
+  private ODN_MotorController m_motor;
   private Encoder m_encoder;
 
   private double m_pos;

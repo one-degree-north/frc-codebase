@@ -8,36 +8,36 @@ import java.util.List;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.kinematics.MecanumDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.MecanumDriveMotorVoltages;
-import edu.wpi.first.wpilibj.kinematics.MecanumDriveOdometry;
-import edu.wpi.first.wpilibj.kinematics.MecanumDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
+import edu.wpi.first.math.kinematics.MecanumDriveMotorVoltages;
+import edu.wpi.first.math.kinematics.MecanumDriveOdometry;
+import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ODN_HolonomicDrivebase;
 import frc.lib.encoder.Encoder;
-import frc.lib.motorcontroller.MotorControllerGroup;
+import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.robot.Constants.AutoConstants;
 
 public class MecanumDriveSubsystem extends SubsystemBase implements ODN_HolonomicDrivebase {
   public static class Constants {
-    // MotorControllers
-    public MotorControllerGroup frontLeft;
-    public MotorControllerGroup rearLeft;
-    public MotorControllerGroup frontRight;
-    public MotorControllerGroup rearRight;
+    // ODN_MotorControllers
+    public ODN_MotorControllerGroup frontLeft;
+    public ODN_MotorControllerGroup rearLeft;
+    public ODN_MotorControllerGroup frontRight;
+    public ODN_MotorControllerGroup rearRight;
 
     // Encoders
     public Encoder frontLeftEncoder;
@@ -74,10 +74,10 @@ public class MecanumDriveSubsystem extends SubsystemBase implements ODN_Holonomi
   private Encoder frontRightEncoder;
   private Encoder rearRightEncoder;
 
-  private MotorControllerGroup frontLeft;
-  private MotorControllerGroup rearLeft;
-  private MotorControllerGroup frontRight;
-  private MotorControllerGroup rearRight;
+  private ODN_MotorControllerGroup frontLeft;
+  private ODN_MotorControllerGroup rearLeft;
+  private ODN_MotorControllerGroup frontRight;
+  private ODN_MotorControllerGroup rearRight;
 
   private MecanumDrive drive;
 

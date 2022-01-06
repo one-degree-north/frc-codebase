@@ -1,7 +1,7 @@
 package frc.lib.gyro;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 
 public class ODN_Pigeon implements ODN_Gyro {
 

@@ -5,15 +5,15 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.motorcontroller.MotorController;
+import frc.lib.motorcontroller.ODN_MotorController;
 
 public class MotorControllerSubsystem extends SubsystemBase {
   public static class Constants {
-    public MotorController group;
+    public ODN_MotorController group;
   }
-  private MotorController m_controller;
+  private ODN_MotorController m_controller;
 
-  /** Creates a new MotorControllerSubsystem. */
+  /** Creates a new ODN_MotorControllerSubsystem. */
   public MotorControllerSubsystem(Constants constants) {
     m_controller = constants.group;
   }

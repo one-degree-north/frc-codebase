@@ -3,11 +3,11 @@ package frc.lib.motorcontroller;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
-public class MotorControllerGroup {
+public class ODN_MotorControllerGroup {
 
     private SpeedControllerGroup m_backend;
 
-    public MotorControllerGroup(MotorController... controllers) {
+    public ODN_MotorControllerGroup(ODN_MotorController... controllers) {
         SpeedController[] s = new SpeedController[controllers.length];
         for(int i=0;i<controllers.length;i++) {
             s[i] = controllers[i].getBackend();

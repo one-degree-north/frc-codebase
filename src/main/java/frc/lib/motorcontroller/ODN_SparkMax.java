@@ -5,7 +5,7 @@ import com.revrobotics.CANSparkMax;
 import frc.lib.encoder.Encoder;
 import frc.lib.encoder.ODN_CANEncoder;
 
-public class ODN_SparkMax implements MotorController {
+public class ODN_SparkMax implements ODN_MotorController {
 
     public static enum MotorType {
         brushed, brushless

@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.lib.encoder.Encoder;
 import frc.lib.encoder.ODN_VictorEncoder;
 
-public class ODN_VictorSPX implements MotorController {
+public class ODN_VictorSPX implements ODN_MotorController {
 
     private WPI_VictorSPX m_backend;
 

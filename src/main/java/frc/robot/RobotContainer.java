@@ -5,9 +5,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.PathPlanner;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -43,9 +41,9 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drive.setDefaultCommand(new RunCommand(() -> 
-      m_drive.cartesianDriveAbsolute(modifyAxis(m_controller.getY(Hand.kLeft)), 
-      modifyAxis(m_controller.getX(Hand.kLeft)),
-      modifyAxis(m_controller.getX(Hand.kRight))), 
+      m_drive.cartesianDriveAbsolute(modifyAxis(m_controller.getLeftY()), 
+      modifyAxis(m_controller.getLeftX()),
+      modifyAxis(m_controller.getRightX())), 
       m_drive));
     
   }

@@ -1,9 +1,10 @@
 package frc.lib.motorcontroller;
 
-import edu.wpi.first.wpilibj.SpeedController;
 import frc.lib.encoder.Encoder;
 
-public interface MotorController {
+import edu.wpi.first.wpilibj.SpeedController;
+
+public interface ODN_MotorController {
     /**
      * Set the speed of a motor as a percentage of the maximum speed
      * @param speed The speed to set. This should be between -1.0 and 1.0.
