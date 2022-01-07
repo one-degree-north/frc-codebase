@@ -118,3 +118,14 @@ A subsystem to control a mecanum drivebase.
 
 Functions you may need:
 - `void tankDrive(double left, double right)` drives using the left and right speeds
+
+# Included Files (`frc.robot.commands`)
+
+You may need to add some of your own commands into this folder. Below is an explanation of the commands that are currently a part of the codebase.
+
+## ArmCommand
+This command uses an arm placed on an vertical elevator, moving the end of the arm horizontally at constant speed
+## LimelightArcCommand
+This command locks the robot into only moving in an arc around a piece of reflective tape at a constant distance. This only works with `ODN_HolonomicDrivebase`, so no tank drive with this command.
+## TrajectoryCommand
+This command makes the robot follow a trajectory, either given with position data or as a PathPlanner path file.
