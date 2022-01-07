@@ -2,7 +2,7 @@ package frc.lib.motorcontroller;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.lib.encoder.Encoder;
+import frc.lib.encoder.ODN_Encoder;
 import frc.lib.encoder.ODN_TalonEncoder;
 
 public class ODN_TalonFX implements ODN_MotorController {
@@ -29,7 +29,7 @@ public class ODN_TalonFX implements ODN_MotorController {
     }
 
     @Override
-    public Encoder getEncoder() {
+    public ODN_Encoder getEncoder() {
         return new ODN_TalonEncoder(this, 0);
     }
 

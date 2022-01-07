@@ -23,7 +23,7 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstrai
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.lib.ODN_Drivebase;
-import frc.lib.encoder.Encoder;
+import frc.lib.encoder.ODN_Encoder;
 import frc.lib.gyro.ODN_Gyro;
 import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.robot.Constants.AutoConstants;
@@ -35,8 +35,8 @@ public class TankDriveSubsystem extends ODN_Drivebase {
     public ODN_MotorControllerGroup right;
 
     // Encoders
-    public Encoder leftEncoder;
-    public Encoder rightEncoder;
+    public ODN_Encoder leftEncoder;
+    public ODN_Encoder rightEncoder;
 
     // gyro
     public ODN_Gyro gyro;
@@ -60,8 +60,8 @@ public class TankDriveSubsystem extends ODN_Drivebase {
     public double kPDriveVel = 1;
   }
 
-  private Encoder leftEncoder;
-  private Encoder rightEncoder;
+  private ODN_Encoder leftEncoder;
+  private ODN_Encoder rightEncoder;
 
   private ODN_MotorControllerGroup left;
   private ODN_MotorControllerGroup right;

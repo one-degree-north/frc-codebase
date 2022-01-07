@@ -1,9 +1,9 @@
 package frc.lib.encoder;
 
-public interface Encoder {
+public interface ODN_Encoder {
     /**
      * Gets the position of the encoder. By default it is measured in degrees,
-     * but units can be changed using {@link Encoder#setPositionConversionFactor(double)}
+     * but units can be changed using {@link ODN_Encoder#setPositionConversionFactor(double)}
      * @return The position of the encoder
      */
     public double getPosition();
@@ -23,7 +23,7 @@ public interface Encoder {
 
     /**
      * Gets the velocity of the encoder. By default it is measured in degrees per second,
-     * but units can be changed using {@link Encoder#setVelocityConversionFactor(double)}
+     * but units can be changed using {@link ODN_Encoder#setVelocityConversionFactor(double)}
      * @return The velocity of the encoder
      */
     public double getVelocity();

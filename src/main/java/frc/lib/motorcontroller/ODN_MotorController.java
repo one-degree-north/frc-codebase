@@ -1,6 +1,6 @@
 package frc.lib.motorcontroller;
 
-import frc.lib.encoder.Encoder;
+import frc.lib.encoder.ODN_Encoder;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -32,7 +32,7 @@ public interface ODN_MotorController {
      * Gets encoder connected to this motor controller
      * @return Encoder object from encoder connected to this motor controller
      */
-    public Encoder getEncoder();
+    public ODN_Encoder getEncoder();
 
     /**
      * Gets the SpeedController object which is used in this motor controller

@@ -2,7 +2,7 @@ package frc.lib.encoder;
 
 import com.revrobotics.CANEncoder;
 
-public class ODN_CANEncoder implements Encoder {
+public class ODN_CANEncoder implements ODN_Encoder {
 
     private CANEncoder m_backend;
 

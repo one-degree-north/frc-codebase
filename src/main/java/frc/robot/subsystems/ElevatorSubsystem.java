@@ -9,7 +9,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ODN_State;
-import frc.lib.encoder.Encoder;
+import frc.lib.encoder.ODN_Encoder;
 import frc.lib.motorcontroller.ODN_MotorController;
 
 public class ElevatorSubsystem extends SubsystemBase implements ODN_State {
@@ -19,7 +19,7 @@ public class ElevatorSubsystem extends SubsystemBase implements ODN_State {
   public static class Constants {
     //CAN IDs for spark and encoder
     public ODN_MotorController motor;
-    public Encoder encoder;
+    public ODN_Encoder encoder;
 
     // Convert encoder output to meters
     public double encoderFactor;
@@ -36,7 +36,7 @@ public class ElevatorSubsystem extends SubsystemBase implements ODN_State {
   }
 
   private ODN_MotorController m_motor;
-  private Encoder m_encoder;
+  private ODN_Encoder m_encoder;
 
   private double m_pos;
 

@@ -16,6 +16,8 @@ The only files you will ever need to edit when using the codebase is `RobotConta
 - `ODN_AHRS` implements `ODN_Gyro` for the [navX MXP sensor](https://pdocs.kauailabs.com/navx-mxp/)
 - `ODN_Pigeon` implements `ODN_Gyro` for the [PigeonIMU sensor](http://www.ctr-electronics.com/gadgeteer-imu-module-pigeon.html)
   - Constructor takes the CAN id of the PigeonIMU
+- If you do not have a gyro, but a subsystem requires one in the constructor, use `ODN_NullGyro`
+  - Be careful that you don't do anything that would require an actual gyro in this situation
 
 Only functions you will ever need to use:
 - `Rotation2d getYaw()` gets the rotation of the robot, positive being clockwise.
@@ -40,6 +42,8 @@ Only functions you will ever need to use:
 - `ODN_CANEncoder` implements `Encoder` for the SparkMax integrated encoder
 - `ODN_TalonEncoder` implements `Encoder` for a Talon (TalonSRX or TalonFX) integrated encoder
 - `ODN_VictorEncoder` implements `Encoder` for a Victor integrated encoder
+- If you do not have an encoder, but a subsystem requires one in the constructor, use `ODN_NullEncoder`
+  - Be careful that you don't do anything that would require an actual encoder in this situation
 
 Only functions you should ever need to use:
 - `void setPositionConversionFactor(double factor)` sets the factor for converting from raw encoder output to a meaurement in degrees

@@ -2,7 +2,7 @@ package frc.lib.motorcontroller;
 
 import com.revrobotics.CANSparkMax;
 
-import frc.lib.encoder.Encoder;
+import frc.lib.encoder.ODN_Encoder;
 import frc.lib.encoder.ODN_CANEncoder;
 
 public class ODN_SparkMax implements ODN_MotorController {
@@ -35,7 +35,7 @@ public class ODN_SparkMax implements ODN_MotorController {
     }
 
     @Override
-    public Encoder getEncoder() {
+    public ODN_Encoder getEncoder() {
         return new ODN_CANEncoder(m_backend.getEncoder());
     }
 

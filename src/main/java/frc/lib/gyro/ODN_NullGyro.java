@@ -2,7 +2,7 @@ package frc.lib.gyro;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-public class NullGyro implements ODN_Gyro {
+public class ODN_NullGyro implements ODN_Gyro {
 
     @Override
     public Rotation2d getYaw() {

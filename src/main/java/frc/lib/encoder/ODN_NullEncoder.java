@@ -1,6 +1,6 @@
 package frc.lib.encoder;
 
-public class NullEncoder implements Encoder {
+public class ODN_NullEncoder implements ODN_Encoder {
 
     @Override
     public double getPosition() {

@@ -25,7 +25,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
 import frc.lib.ODN_HolonomicDrivebase;
-import frc.lib.encoder.Encoder;
+import frc.lib.encoder.ODN_Encoder;
 import frc.lib.gyro.ODN_Gyro;
 import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.robot.Constants.AutoConstants;
@@ -39,10 +39,10 @@ public class MecanumDriveSubsystem extends ODN_HolonomicDrivebase {
     public ODN_MotorControllerGroup rearRight;
 
     // Encoders
-    public Encoder frontLeftEncoder;
-    public Encoder rearLeftEncoder;
-    public Encoder frontRightEncoder;
-    public Encoder rearRightEncoder;
+    public ODN_Encoder frontLeftEncoder;
+    public ODN_Encoder rearLeftEncoder;
+    public ODN_Encoder frontRightEncoder;
+    public ODN_Encoder rearRightEncoder;
 
     // gyro
     public ODN_Gyro gyro;
@@ -68,10 +68,10 @@ public class MecanumDriveSubsystem extends ODN_HolonomicDrivebase {
     public double kPDriveVel = 1;
   }
 
-  private Encoder frontLeftEncoder;
-  private Encoder rearLeftEncoder;
-  private Encoder frontRightEncoder;
-  private Encoder rearRightEncoder;
+  private ODN_Encoder frontLeftEncoder;
+  private ODN_Encoder rearLeftEncoder;
+  private ODN_Encoder frontRightEncoder;
+  private ODN_Encoder rearRightEncoder;
 
   private ODN_MotorControllerGroup frontLeft;
   private ODN_MotorControllerGroup rearLeft;

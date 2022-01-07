@@ -2,7 +2,7 @@ package frc.lib.encoder;
 
 import com.ctre.phoenix.sensors.CANCoder;
 
-public class ODN_CANCoder implements Encoder {
+public class ODN_CANCoder implements ODN_Encoder {
 
     private CANCoder m_backend;
 

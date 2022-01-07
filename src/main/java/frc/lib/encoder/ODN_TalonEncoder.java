@@ -7,7 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.lib.motorcontroller.ODN_TalonFX;
 import frc.lib.motorcontroller.ODN_TalonSRX;
 
-public class ODN_TalonEncoder implements Encoder {
+public class ODN_TalonEncoder implements ODN_Encoder {
 
     private BaseTalon m_backend;
     private int m_sensorID;
