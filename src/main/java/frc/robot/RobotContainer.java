@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.AutoAlignCommand;
+import frc.robot.commands.LimelightArcCommand;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
-import frc.robot.commands.DriveTrajectoryCommand;
+import frc.robot.commands.TrajectoryCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -56,7 +56,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     JoystickButton button = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    button.toggleWhenPressed(new AutoAlignCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), m_controller));
+    button.toggleWhenPressed(new LimelightArcCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), m_controller));
     JoystickButton button2 = new JoystickButton(m_controller, XboxController.Button.kB.value);
     button2.whenPressed(new InstantCommand(()->m_drive.zeroGyroscope(), m_drive));
   }
@@ -68,13 +68,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
- 
-
-
-
-    // Trajectory examplePath = PathPlanner.loadPath("tester", 8, 5);
-    // m_autoCommand = new DriveTrajectoryCommand(m_drive, examplePath);
+    m_autoCommand = new TrajectoryCommand(m_drive, "tester", 8, 5);
     return m_autoCommand;
 
   }

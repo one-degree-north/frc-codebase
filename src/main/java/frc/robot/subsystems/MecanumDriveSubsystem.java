@@ -149,8 +149,8 @@ public class MecanumDriveSubsystem extends SubsystemBase implements ODN_Holonomi
    * @param rotation The robot's turning rate around the z axis [-1, 1]. Clockwise
    *                 is positive.
    */
-  public void cartesianDriveRelative(double ySpeed, double xSpeed, double xRotation) {
-    drive.driveCartesian(ySpeed, xSpeed, xRotation);
+  public void cartesianDriveRelative(double ySpeed, double xSpeed, double zRotation) {
+    drive.driveCartesian(ySpeed, xSpeed, zRotation);
   }
 
   /**
@@ -161,8 +161,8 @@ public class MecanumDriveSubsystem extends SubsystemBase implements ODN_Holonomi
    * @param rotation The robot's turning rate around the z axis [-1, 1]. Clockwise
    *                 is positive.
    */
-  public void cartesianDriveAbsolute(double ySpeed, double xSpeed, double xRotation) {
-    //TODO: THIS
+  public void cartesianDriveAbsolute(double ySpeed, double xSpeed, double zRotation) {
+    drive.driveCartesian(ySpeed, xSpeed, zRotation, getYaw());
   }
 
   /**

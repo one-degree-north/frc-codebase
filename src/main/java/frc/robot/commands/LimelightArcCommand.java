@@ -6,23 +6,19 @@ package frc.robot.commands;
 
 import java.util.function.Function;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.lib.ODN_Drivebase;
 import frc.lib.ODN_HolonomicDrivebase;
 import frc.robot.subsystems.LimelightSubsystem;
 
-public class AutoAlignCommand extends CommandBase {
-  public static final double EPSILON = 0.5; // in degrees
-
+public class LimelightArcCommand extends CommandBase {
   private ODN_HolonomicDrivebase m_drive;
   private LimelightSubsystem m_limelight;
   private Function<Double, Double> m_attenuationFunction;
   private XboxController m_joystick;
   private double distance; 
 
-  public AutoAlignCommand(ODN_HolonomicDrivebase drive, LimelightSubsystem limelight, Function<Double, Double> attenuationFunction, XboxController joystick) {
+  public LimelightArcCommand(ODN_HolonomicDrivebase drive, LimelightSubsystem limelight, Function<Double, Double> attenuationFunction, XboxController joystick) {
     this.m_drive = drive;
     this.m_limelight = limelight;
     this.m_attenuationFunction = attenuationFunction;
@@ -39,10 +35,8 @@ public class AutoAlignCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Attenuation function returns turning speed from limelight horizontal angle offset
     double sidespeed = -m_joystick.getLeftX();
     m_drive.cartesianDriveRelative((m_limelight.getOffsetVertical()/27-distance)/10, sidespeed, m_attenuationFunction.apply(m_limelight.getOffsetHorizontal()));
-    //m_drive.polarDrive(sidespeed, 90-m_drive.getYaw()-m_limelight.getOffsetHorizontal(), m_attenuationFunction.apply(m_limelight.getOffsetHorizontal()));
   }
 
   // Called once the command ends or is interrupted.
