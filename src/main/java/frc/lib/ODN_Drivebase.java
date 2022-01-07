@@ -59,6 +59,8 @@ public abstract class ODN_Drivebase extends SubsystemBase {
     /**
      * Creates a trajectory for this drivebase using
      * a starting pose, an ending pose, and waypoints in between.
+     * DO NOT USE THIS COMMAND DIRECTLY. It is only to be used internally
+     * by the #DriveTrajectoryCommand.
      * @param startPose The starting pose of the robot (sets relative coordinate system)
      * @param waypoints The points for the robot to reach before the end position
      * @param endPose The ending pose

@@ -10,7 +10,7 @@ The only files you will ever need to edit when using the codebase is `RobotConta
 - [REVRobotics](https://docs.revrobotics.com/sparkmax/software-resources/spark-max-api-information#java-api)
 - [CTRE-Phoenix](https://github.com/CrossTheRoadElec/Phoenix-Releases/releases/tag/v5.20.2.2)
 
-## Included Files
+## Included Files (`frc.lib`)
 ### Gyros
 `ODN_Gyro` is the basic gyro interface which all gyros implement to allow easy switiching between different gyros in code
 - `ODN_AHRS` implements `ODN_Gyro` for the [navX MXP sensor](https://pdocs.kauailabs.com/navx-mxp/)
@@ -48,3 +48,22 @@ Only functions you will ever need to use:
 Only functions you should ever need to use:
 - `void setPositionConversionFactor(double factor)` sets the factor for converting from raw encoder output to a meaurement in degrees
 -	`void setVelocityConversionFactor(double factor)` sets the factor for converting from raw encoder velocity to a meaurement in degrees (these numbers should probably both be the same, but you do have to set both)
+
+### Drivebases
+In `frc.lib` there exists an `ODN_Drivebase` class and an `ODN_HolonomicDrivebase` class. Using `ODN_Drivebase` allows for switching drivebases more easily in the code. However, not all drivebases are made equal. A tank drive cannot move sideways. This is what we have `ODN_HolonomicDrivebase` which generalizes Swerve Drive and Mecanum Drive (but could also include Octocanum drive in the future along with other similarly abled drivebases).
+
+
+Functions you may need to use from `ODN_Drivebase`:
+- `void rotate(double speed)` rotates in place
+- `void stop()` stops the robot in place
+- `Rotation2d getYaw()` gets the orientation of the robot (don't use this function if you are using `ODN_NullGyro` for this drivebase)
+- `void resetYaw()` sets the current heading to 0 degrees
+- `void driveForward(double forward, double rotate)` drives the robot forward and rotates (arcade drive)
+- `void resetOdometry(Pose2d initialPose)` resets the odometry, defining the current pose to be `initialPose` (odometry only works if you have all the nessecary encoders and gyro on the drivebase, e.g. no `ODN_NullEncoder` or `ODN_NullGyro`)
+
+Functions you may need to use from `ODN_HolonomicDrivebase`:
+- `void cartesianDriveAbsolute(double xSpeed, double ySpeed, double rotate)` drives with velocity given in cartesian coordinates field-relative
+  - Cannot be used without a real gyro (not `ODN_NullGyro`)
+- `void cartesianDriveRelative(double xSpeed, double ySpeed, double rotate)` drives with velocity given in cartesian coordinates robot-relative
+- `void polarDrive(double magnitude, Rotation2d direction, double rotate)` drives with velocity given in polar coordinates
+  - Cannot be used without a real gyro (not `ODN_NullGyro`)
