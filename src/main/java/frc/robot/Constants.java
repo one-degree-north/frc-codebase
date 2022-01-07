@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import frc.lib.gyro.ODN_AHRS;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
 /**
@@ -51,7 +52,7 @@ public final class Constants {
         swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 10; // FIXME Set back right steer encoder ID
         swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(-21.533); // FIXME Measure and set back right steer offset
 
-        
+        swerveConstants.gyro = new ODN_AHRS();
     }
 
     public static int kControllerPort = 0;

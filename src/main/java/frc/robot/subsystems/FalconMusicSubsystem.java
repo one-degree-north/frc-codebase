@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FalconMusicSubsystem extends SubsystemBase {
   public static class Constants {
-    // Creates four falcons (add more if needed)
     public TalonFX[] falcons;
   }
 

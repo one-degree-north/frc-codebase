@@ -6,8 +6,6 @@ package frc.robot.subsystems;
 
 import java.util.List;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -25,13 +23,13 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ODN_HolonomicDrivebase;
 import frc.lib.encoder.Encoder;
+import frc.lib.gyro.ODN_Gyro;
 import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.robot.Constants.AutoConstants;
 
-public class MecanumDriveSubsystem extends SubsystemBase implements ODN_HolonomicDrivebase {
+public class MecanumDriveSubsystem extends ODN_HolonomicDrivebase {
   public static class Constants {
     // ODN_MotorControllers
     public ODN_MotorControllerGroup frontLeft;
@@ -45,8 +43,8 @@ public class MecanumDriveSubsystem extends SubsystemBase implements ODN_Holonomi
     public Encoder frontRightEncoder;
     public Encoder rearRightEncoder;
 
-    // CAN ID for gyro
-    public int id_gyro;
+    // gyro
+    public ODN_Gyro gyro;
 
     /** Converts output from encoder to meters travelled on the left side */
     public double frontLeftEncoderFactor;
@@ -83,8 +81,6 @@ public class MecanumDriveSubsystem extends SubsystemBase implements ODN_Holonomi
 
   public Constants m_constants;
 
-  private PigeonIMU gyro;
-
   private MecanumDriveOdometry m_odometry;
 
   /**
@@ -93,14 +89,14 @@ public class MecanumDriveSubsystem extends SubsystemBase implements ODN_Holonomi
    * @param constants Object containing all the constants for this drivebase
    */
   public MecanumDriveSubsystem(Constants constants) {
+    super(constants.gyro);
     this.m_constants = constants;
     frontLeft = constants.frontLeft;
     rearLeft = constants.rearLeft;
     frontRight = constants.frontRight;
     rearRight = constants.rearRight;
     drive = new MecanumDrive(frontLeft.getBackend(), rearLeft.getBackend(), frontRight.getBackend(), rearRight.getBackend());
-    gyro = new PigeonIMU(constants.id_gyro);
-    m_odometry = new MecanumDriveOdometry(constants.kDriveKinematics, Rotation2d.fromDegrees(getYaw()));
+    m_odometry = new MecanumDriveOdometry(constants.kDriveKinematics, getYaw());
 
     frontLeft = constants.frontLeft;
     rearLeft = constants.rearLeft;
@@ -125,56 +121,20 @@ public class MecanumDriveSubsystem extends SubsystemBase implements ODN_Holonomi
    */
   @Override
   public void periodic() {
-    m_odometry.update(Rotation2d.fromDegrees(getYaw()), new MecanumDriveWheelSpeeds(frontLeftEncoder.getVelocity(),
+    m_odometry.update(getYaw(), new MecanumDriveWheelSpeeds(frontLeftEncoder.getVelocity(),
         frontRightEncoder.getVelocity(), rearLeftEncoder.getVelocity(), rearRightEncoder.getVelocity()));
   }
 
-  /**
-   * Gets rotation around z-axis from the PigeonIMU. Positive is clockwise.
-   * Measurement is in degrees.
-   * 
-   * @return rotation around z-axis in degrees
-   */
-  public double getYaw() {
-    double[] arr = new double[3];
-    gyro.getYawPitchRoll(arr);
-    return arr[0];
-  }
-
-  /**
-   * Drives the robot using the arcade drive mode
-   * 
-   * @param forward  The robot's speed along the x axis [-1, 1]. Forward is
-   *                 positive.
-   * @param rotation The robot's turning rate around the z axis [-1, 1]. Clockwise
-   *                 is positive.
-   */
   public void cartesianDriveRelative(double ySpeed, double xSpeed, double zRotation) {
     drive.driveCartesian(ySpeed, xSpeed, zRotation);
   }
 
-  /**
-   * Drives the robot using the arcade drive mode
-   * 
-   * @param forward  The robot's speed along the x axis [-1, 1]. Forward is
-   *                 positive.
-   * @param rotation The robot's turning rate around the z axis [-1, 1]. Clockwise
-   *                 is positive.
-   */
   public void cartesianDriveAbsolute(double ySpeed, double xSpeed, double zRotation) {
-    drive.driveCartesian(ySpeed, xSpeed, zRotation, getYaw());
+    drive.driveCartesian(ySpeed, xSpeed, zRotation, getYaw().getDegrees());
   }
 
-  /**
-   * Drives the robot using the tank drive mode
-   * 
-   * @param left  The robot's left side speed along the X axis [-1, 1]. Forward is
-   *              positive.
-   * @param right The robot's right side speed along the X axis [-1, 1]. Forward
-   *              is positive.
-   */
-  public void polarDrive(double magnitude, double angle, double zRotation) {
-    drive.drivePolar(magnitude, angle, zRotation);
+  public void polarDrive(double magnitude, Rotation2d direction, double zRotation) {
+    drive.drivePolar(magnitude, direction.getDegrees(), zRotation);
   }
 
   /**
@@ -192,7 +152,7 @@ public class MecanumDriveSubsystem extends SubsystemBase implements ODN_Holonomi
    */
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getYaw()));
+    m_odometry.resetPosition(pose, getYaw());
   }
 
   /**

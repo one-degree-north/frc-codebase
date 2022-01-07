@@ -26,14 +26,12 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import frc.lib.gyro.ODN_AHRS;
-import frc.lib.ODN_HolonomicDrivebase;
 import frc.lib.gyro.ODN_Gyro;
+import frc.lib.ODN_HolonomicDrivebase;
 import frc.robot.Constants.AutoConstants;
 
-public class SwerveDriveSubsystem extends SubsystemBase implements ODN_HolonomicDrivebase {
+public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 
 	public static class Constants {
 
@@ -59,6 +57,8 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Holonomic
 		public int BACK_RIGHT_MODULE_STEER_MOTOR; // FIXME Set back right steer motor ID
 		public int BACK_RIGHT_MODULE_STEER_ENCODER; // FIXME Set back right steer encoder ID
 		public double BACK_RIGHT_MODULE_STEER_OFFSET; // FIXME Measure and set back right steer offset
+
+		public ODN_Gyro gyro;
 	}
 
 	/**
@@ -101,24 +101,14 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Holonomic
 
 	private final SwerveDriveOdometry m_odometry;
 
-	// By default we use a Pigeon for our gyroscope. But if you use another
-	// gyroscope, like a NavX, you can change this.
-	// The important thing about how you configure your gyroscope is that rotating
-	// the robot counter-clockwise should
-	// cause the angle reading to increase until it wraps back over to zero.
-	// FIXME Remove if you are using a Pigeon
-	// FIXME Uncomment if you are using a NavX
-	private final ODN_Gyro m_gyro = new ODN_AHRS();
-
 	// These are our modules. We initialize them in the constructor.
 	private final SwerveModule m_frontLeftModule;
 	private final SwerveModule m_frontRightModule;
 	private final SwerveModule m_backLeftModule;
 	private final SwerveModule m_backRightModule;
 
-	private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
-
 	public SwerveDriveSubsystem(Constants constants) {
+		super(constants.gyro);
 
 		ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
@@ -140,7 +130,7 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Holonomic
 				new Translation2d(-constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
 						-constants.DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
-		this.m_odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation());
+		this.m_odometry = new SwerveDriveOdometry(m_kinematics, getYaw());
 
 		// There are 4 methods you can call to create your swerve modules.
 		// The method you use depends on what motors you are using.
@@ -204,28 +194,12 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Holonomic
 				constants.BACK_RIGHT_MODULE_STEER_OFFSET);
 	}
 
-	/**
-	 * Sets the gyroscope angle to zero. This can be used to set the direction the
-	 * robot is currently facing to the 'forwards' direction.
-	 */
-	public void zeroGyroscope() {
-		m_gyro.resetYaw();
-	}
-
-	public double getYaw() {
-		return m_gyro.getYaw().getDegrees();
-	}
-
-	public Rotation2d getGyroscopeRotation() {
-		return m_gyro.getYaw();
-	}
-
 	@Override
 	public void cartesianDriveAbsolute(double xSpeed, double ySpeed, double rotate) {
 
-		m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed * MAX_VELOCITY_METERS_PER_SECOND,
+		ChassisSpeeds m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed * MAX_VELOCITY_METERS_PER_SECOND,
 				ySpeed * MAX_VELOCITY_METERS_PER_SECOND, rotate * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-				getGyroscopeRotation());
+				getYaw());
 		SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
 		setModuleStates(states);
 	}
@@ -233,21 +207,21 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Holonomic
 	@Override
 	public void cartesianDriveRelative(double xSpeed, double ySpeed, double rotate) {
 
-		m_chassisSpeeds = new ChassisSpeeds(xSpeed * MAX_VELOCITY_METERS_PER_SECOND,
+		ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(xSpeed * MAX_VELOCITY_METERS_PER_SECOND,
 				ySpeed * MAX_VELOCITY_METERS_PER_SECOND, rotate * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
 		SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
 		setModuleStates(states);
 	}
 
 	@Override
-	public void polarDrive(double speed, double direction, double rotate) {
-		cartesianDriveAbsolute(speed * Math.sin(-Math.toRadians(direction)), speed * Math.cos(-Math.toRadians(direction)),
+	public void polarDrive(double speed, Rotation2d direction, double rotate) {
+		cartesianDriveAbsolute(speed * -direction.getSin(), speed * direction.getCos(),
 				rotate);
 	}
 
 	@Override
 	public void periodic() {
-		m_odometry.update(getGyroscopeRotation(),
+		m_odometry.update(getYaw(),
 				new SwerveModuleState(m_frontLeftModule.getDriveVelocity(),
 						new Rotation2d(m_frontLeftModule.getSteerAngle())),
 				new SwerveModuleState(m_backLeftModule.getDriveVelocity(),
@@ -322,7 +296,7 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ODN_Holonomic
 
 	@Override
 	public void resetOdometry(Pose2d pose) {
-		m_odometry.resetPosition(pose, getGyroscopeRotation());
+		m_odometry.resetPosition(pose, getYaw());
 	}
 
 	

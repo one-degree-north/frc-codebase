@@ -6,8 +6,6 @@ package frc.robot.subsystems;
 
 import java.util.List;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -24,13 +22,13 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ODN_Drivebase;
 import frc.lib.encoder.Encoder;
+import frc.lib.gyro.ODN_Gyro;
 import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.robot.Constants.AutoConstants;
 
-public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
+public class TankDriveSubsystem extends ODN_Drivebase {
   public static class Constants {
     // ODN_MotorControllers
     public ODN_MotorControllerGroup left;
@@ -40,8 +38,8 @@ public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
     public Encoder leftEncoder;
     public Encoder rightEncoder;
 
-    // CAN ID for gyro
-    public int id_gyro;
+    // gyro
+    public ODN_Gyro gyro;
 
     /** Converts output from encoder to meters travelled on the left side */
     public double leftEncoderFactor;
@@ -72,8 +70,6 @@ public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
 
   public Constants m_constants;
 
-  private PigeonIMU gyro;
-
   private DifferentialDriveOdometry m_odometry;
 
   /**
@@ -82,12 +78,12 @@ public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
    * @param constants Object containing all the constants for this drivebase
    */
   public TankDriveSubsystem(Constants constants) {
+    super(constants.gyro);
     this.m_constants = constants;
     left = constants.left;
     right = constants.right;
     drive = new DifferentialDrive(left.getBackend(), right.getBackend());
-    gyro = new PigeonIMU(constants.id_gyro);
-    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getYaw()));
+    m_odometry = new DifferentialDriveOdometry(getYaw());
 
     leftEncoder = constants.leftEncoder;
     rightEncoder = constants.rightEncoder;
@@ -105,19 +101,7 @@ public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
    */
   @Override
   public void periodic() {
-    m_odometry.update(Rotation2d.fromDegrees(getYaw()), leftEncoderPosition(), rightEncoderPosition());
-  }
-
-  /**
-   * Gets rotation around z-axis from the PigeonIMU. Positive is clockwise.
-   * Measurement is in degrees.
-   * 
-   * @return rotation around z-axis in degrees
-   */
-  public double getYaw() {
-    double[] arr = new double[3];
-    gyro.getYawPitchRoll(arr);
-    return arr[0];
+    m_odometry.update(getYaw(), leftEncoderPosition(), rightEncoderPosition());
   }
 
   /**
@@ -191,7 +175,7 @@ public class TankDriveSubsystem extends SubsystemBase implements ODN_Drivebase {
    */
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getYaw()));
+    m_odometry.resetPosition(pose, getYaw());
   }
 
   /**
