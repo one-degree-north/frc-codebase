@@ -43,7 +43,7 @@ public class TrajectoryCommand extends CommandBase {
   }
 
   /**
-   * Constructs a TrajectoryCommand object with a trajectory object
+   * Constructs a TrajectoryCommand object with a trajectory object (NOT ACCESSIBLE)
    * @param drive Drivebase subsystem to follow the trajectory
    * @param traj The trajectory to follow
    */

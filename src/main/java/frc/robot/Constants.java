@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import frc.lib.gyro.ODN_AHRS;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
@@ -24,38 +22,31 @@ public final class Constants {
 
     public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
     static {
-        swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47; // FIXME Measure and set trackwidth
-        /**
-         * The front-to-back distance between the drivetrain wheels.
-         *
-         * Should be measured from center to center.
-         */
-        swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47; // FIXME Measure and set wheelbase
+        swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47;
+        swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47;
     
-        swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 2; // FIXME Set front left module drive motor ID
-        swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 1; // FIXME Set front left module steer motor ID
-        swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 12; // FIXME Set front left steer encoder ID
-        swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.471); // FIXME Measure and set front left steer offset
+        swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
+        swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 1;
+        swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 12;
+        swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.471);
     
-        swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 6; // FIXME Set front right drive motor ID
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 5; // FIXME Set front right steer motor ID
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 11; // FIXME Set front right steer encoder ID
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(136.055-180); // FIXME Measure and set front right steer offset
+        swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 6;
+        swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 5;
+        swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 11;
+        swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(136.055-180);
     
-        swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4; // FIXME Set back left drive motor ID
-        swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 3; // FIXME Set back left steer motor ID
-        swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 9; // FIXME Set back left steer encoder ID
-        swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.542-180); // FIXME Measure and set back left steer offset
-    
-        swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 8; // FIXME Set back right drive motor ID
-        swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 7; // FIXME Set back right steer motor ID
-        swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 10; // FIXME Set back right steer encoder ID
-        swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(-21.533); // FIXME Measure and set back right steer offset
+        swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4;
+        swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 3;
+        swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 9;
+        swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.542-180);
+
+        swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
+        swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 7;
+        swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 10;
+        swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(-21.533);
 
         swerveConstants.gyro = new ODN_AHRS();
     }
-
-    public static int kControllerPort = 0;
     
     public static final class AutoConstants {
         public static double kMaxSpeedMetersPerSecond = 1;
@@ -69,9 +60,6 @@ public final class Constants {
         public static double kRamseteZeta = 1;
 		public static double kPYController = 1;
 		public static double kPXController = 1;
-		public static Constraints kThetaControllerConstraints =
-        new TrapezoidProfile.Constraints(
-            kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
 		public static double kPThetaController = 1;
     }
 

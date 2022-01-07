@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
 import frc.lib.ODN_HolonomicDrivebase;
@@ -219,7 +220,8 @@ public class MecanumDriveSubsystem extends ODN_HolonomicDrivebase {
 
         var thetaController =
         new ProfiledPIDController(
-            AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+            AutoConstants.kPThetaController, 0, 0, new TrapezoidProfile.Constraints(
+              AutoConstants.kMaxAngularSpeedRadiansPerSecond, AutoConstants.kMaxAngularSpeedRadiansPerSecondSquared));
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
     return new MecanumControllerCommand(

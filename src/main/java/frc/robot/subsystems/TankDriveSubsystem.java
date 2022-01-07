@@ -101,39 +101,7 @@ public class TankDriveSubsystem extends ODN_Drivebase {
    */
   @Override
   public void periodic() {
-    m_odometry.update(getYaw(), leftEncoderPosition(), rightEncoderPosition());
-  }
-
-  /**
-   * 
-   * @return The distance travelled by the left side of the robot
-   */
-  public double leftEncoderPosition() {
-    return leftEncoder.getPosition();
-  }
-
-  /**
-   * 
-   * @return The distance travelled by the right side of the robot
-   */
-  public double rightEncoderPosition() {
-    return rightEncoder.getPosition();
-  }
-
-  /**
-   * 
-   * @return The velocity of the left side of the robot
-   */
-  public double leftEncoderVelocity() {
-    return leftEncoder.getVelocity();
-  }
-
-  /**
-   * 
-   * @return The velocity of the right side of the robot
-   */
-  public double rightEncoderVelocity() {
-    return rightEncoder.getVelocity();
+    m_odometry.update(getYaw(), leftEncoder.getPosition(), rightEncoder.getPosition());
   }
 
   /**
@@ -191,7 +159,7 @@ public class TankDriveSubsystem extends ODN_Drivebase {
    * @return the speeds of both sides of the robot
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(leftEncoderVelocity(), rightEncoderVelocity());
+    return new DifferentialDriveWheelSpeeds(leftEncoder.getVelocity(), rightEncoder.getVelocity());
   }
 
   /**
