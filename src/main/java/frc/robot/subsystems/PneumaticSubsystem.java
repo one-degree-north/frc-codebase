@@ -27,4 +27,10 @@ public class PneumaticSubsystem extends SubsystemBase {
       s.toggle();
     }
   }
+
+  public void set(Value direction) {
+    for(DoubleSolenoid s: m_solenoids) {
+      s.set(direction);
+    }
+  }
 }

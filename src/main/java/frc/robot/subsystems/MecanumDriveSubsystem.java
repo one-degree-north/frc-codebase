@@ -27,16 +27,16 @@ import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
 import frc.lib.ODN_HolonomicDrivebase;
 import frc.lib.encoder.ODN_Encoder;
 import frc.lib.gyro.ODN_Gyro;
-import frc.lib.motorcontroller.ODN_MotorControllerGroup;
+import frc.lib.motorcontroller.ODN_MotorController;
 import frc.robot.Constants.AutoConstants;
 
 public class MecanumDriveSubsystem extends ODN_HolonomicDrivebase {
   public static class Constants {
     // ODN_MotorControllers
-    public ODN_MotorControllerGroup frontLeft;
-    public ODN_MotorControllerGroup rearLeft;
-    public ODN_MotorControllerGroup frontRight;
-    public ODN_MotorControllerGroup rearRight;
+    public ODN_MotorController frontLeft;
+    public ODN_MotorController rearLeft;
+    public ODN_MotorController frontRight;
+    public ODN_MotorController rearRight;
 
     // Encoders
     public ODN_Encoder frontLeftEncoder;
@@ -73,10 +73,10 @@ public class MecanumDriveSubsystem extends ODN_HolonomicDrivebase {
   private ODN_Encoder frontRightEncoder;
   private ODN_Encoder rearRightEncoder;
 
-  private ODN_MotorControllerGroup frontLeft;
-  private ODN_MotorControllerGroup rearLeft;
-  private ODN_MotorControllerGroup frontRight;
-  private ODN_MotorControllerGroup rearRight;
+  private ODN_MotorController frontLeft;
+  private ODN_MotorController rearLeft;
+  private ODN_MotorController frontRight;
+  private ODN_MotorController rearRight;
 
   private MecanumDrive drive;
 
@@ -126,11 +126,11 @@ public class MecanumDriveSubsystem extends ODN_HolonomicDrivebase {
         frontRightEncoder.getVelocity(), rearLeftEncoder.getVelocity(), rearRightEncoder.getVelocity()));
   }
 
-  public void cartesianDriveRelative(double ySpeed, double xSpeed, double zRotation) {
+  public void cartesianDriveRelative(double xSpeed, double ySpeed, double zRotation) {
     drive.driveCartesian(ySpeed, xSpeed, zRotation);
   }
 
-  public void cartesianDriveAbsolute(double ySpeed, double xSpeed, double zRotation) {
+  public void cartesianDriveAbsolute(double xSpeed, double ySpeed, double zRotation) {
     drive.driveCartesian(ySpeed, xSpeed, zRotation, getYaw().getDegrees());
   }
 
