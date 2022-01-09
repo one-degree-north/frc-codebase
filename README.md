@@ -37,17 +37,24 @@ Only functions you will ever need to use:
 - `Encoder getEncoder()` is used to get the integrated encoder from the motor controller
 
 ## Encoders
-`Encoder` is the basic gyro interface which all encoders implement to allow easy switiching between different encoder in code
-- `ODN_CANCoder` implements `Encoder` for the [CANCoder magnetic encoder](http://www.ctr-electronics.com/cancoder.html)
-- `ODN_CANEncoder` implements `Encoder` for the SparkMax integrated encoder
-- `ODN_TalonEncoder` implements `Encoder` for a Talon (TalonSRX or TalonFX) integrated encoder
-- `ODN_VictorEncoder` implements `Encoder` for a Victor integrated encoder
+`ODN_Encoder` is the basic gyro interface which all encoders implement to allow easy switiching between different encoder in code
+- `ODN_CANCoder` implements `ODN_Encoder` for the [CANCoder magnetic encoder](http://www.ctr-electronics.com/cancoder.html)
+- `ODN_CANEncoder` implements `ODN_Encoder` for the SparkMax integrated encoder
+- `ODN_TalonEncoder` implements `ODN_Encoder` for a Talon (TalonSRX or TalonFX) integrated encoder
+- `ODN_VictorEncoder` implements `ODN_Encoder` for a Victor integrated encoder
 - If you do not have an encoder, but a subsystem requires one in the constructor, use `ODN_NullEncoder`
   - Be careful that you don't do anything that would require an actual encoder in this situation
 
 Only functions you should ever need to use:
 - `void setPositionConversionFactor(double factor)` sets the factor for converting from raw encoder output to a meaurement in degrees
 -	`void setVelocityConversionFactor(double factor)` sets the factor for converting from raw encoder velocity to a meaurement in degrees (these numbers should probably both be the same, but you do have to set both)
+
+## Sensors
+`ODN_UltrasonicSensor` is the basic interface for ultrasonic sensors. There are two types of ultrasonic sensors in FRC, ping-response ultrasonic sensors, which use two seperate DIO pins for sending the ultrasonic signals and measuring the response. This is used in the codebase with the `ODN_PingUltrasonicSensor` class. There are also analog ultrasonic sensors which return an analog voltage corresponding to the measured distance. This is used in the codebase with the `ODN_AnalogUltrasonicSensor` class.
+
+The only function of this class is `double getDistanceInches()` which returns the distance in inches.
+
+`ODN_ColorSensor` is a class for the REV Robotics Color Sensor V3. There are two features with this sensor. Getting the sensed color with `Color getColor()`, and matching a color to a set of possible colors with `Color match(ColorMatch matcher)`. The color matcher object can be created with the `ColorMatch ODN_ColorSensor::createMatcher(double confidence, Color... colors)`. `colors` is a list of colors that you want to compare against. `confidence` is a number between 0-1 which you will need to tune in order to detect when none of the given colors are present.
 
 ## Drivebases
 In `frc.lib` there exists an `ODN_Drivebase` class and an `ODN_HolonomicDrivebase` class. Using `ODN_Drivebase` allows for switching drivebases more easily in the code. However, not all drivebases are made equal. A tank drive cannot move sideways. This is what we have `ODN_HolonomicDrivebase` which generalizes Swerve Drive and Mecanum Drive (but could also include Octocanum drive in the future along with other similarly abled drivebases).
