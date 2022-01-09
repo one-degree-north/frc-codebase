@@ -1,18 +1,18 @@
 package frc.lib.motorcontroller;
 
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 public class ODN_MotorControllerGroup {
 
-    private SpeedControllerGroup m_backend;
+    private MotorControllerGroup m_backend;
 
     public ODN_MotorControllerGroup(ODN_MotorController... controllers) {
-        SpeedController[] s = new SpeedController[controllers.length];
+        MotorController[] s = new MotorController[controllers.length];
         for(int i=0;i<controllers.length;i++) {
             s[i] = controllers[i].getBackend();
         }
-        m_backend = new SpeedControllerGroup(s);
+        m_backend = new MotorControllerGroup(s);
     }
 
     public void set(double speed) {
@@ -23,7 +23,7 @@ public class ODN_MotorControllerGroup {
         m_backend.setInverted(isInverted);
     }
 
-	public SpeedController getBackend() {
+	public MotorController getBackend() {
 		return m_backend;
 	}
 

@@ -1,12 +1,12 @@
 package frc.lib.encoder;
 
-import com.revrobotics.CANEncoder;
+import com.revrobotics.RelativeEncoder;
 
 public class ODN_CANEncoder implements ODN_Encoder {
 
-    private CANEncoder m_backend;
+    private RelativeEncoder m_backend;
 
-    public ODN_CANEncoder(CANEncoder backend) {
+    public ODN_CANEncoder(RelativeEncoder backend) {
         m_backend = backend;
     }
 
@@ -42,7 +42,7 @@ public class ODN_CANEncoder implements ODN_Encoder {
         m_backend.setVelocityConversionFactor(factor);
     }
 
-    public CANEncoder getBackend() {
+    public RelativeEncoder getBackend() {
         return m_backend;
     }
     
