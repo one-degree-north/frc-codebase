@@ -6,9 +6,14 @@ This codebase is used as a foundation when programming competition robots
 The only files you will ever need to edit when using the codebase is `RobotContainer.java` and `Constants.java`
 
 # Dependencies
+The following libraries need to be downloaded, extracted, and installed
 - [WPILib 2022](https://github.com/wpilibsuite/allwpilib/releases/tag/v2022.1.1-rc-1)
-- [REVRobotics](https://docs.revrobotics.com/sparkmax/software-resources/spark-max-api-information#java-api)
 - [CTRE-Phoenix](https://github.com/CrossTheRoadElec/Phoenix-Releases/releases/tag/v5.20.2.2)
+
+The following libraries are the JSON files for online installation
+- [REVRobotics](https://software-metadata.revrobotics.com/REVLib.json)
+- [navX](https://www.kauailabs.com/dist/frc/2022/navx_frc.json)
+- [SwerveDriveSpecialties](https://raw.githubusercontent.com/SwerveDriveSpecialties/swerve-lib/master/SdsSwerveLib.json)
 
 # Included Files (`frc.lib`)
 ## Gyros
