@@ -16,18 +16,22 @@ public class ODN_MotorControllerGroup implements ODN_MotorController {
         m_backend = new MotorControllerGroup(s);
     }
 
+    @Override
     public void set(double speed) {
         m_backend.set(speed);
     }
 
+    @Override
     public void setInverted(boolean isInverted) {
         m_backend.setInverted(isInverted);
     }
 
+    @Override
 	public MotorController getBackend() {
 		return m_backend;
 	}
 
+    @Override
 	public void setVoltage(double outputVolts) {
         m_backend.setVoltage(outputVolts);
 	}
@@ -35,6 +39,12 @@ public class ODN_MotorControllerGroup implements ODN_MotorController {
     @Override
     public ODN_Encoder getEncoder() {
         return null;
+    }
+
+    @Override
+    public void setRealSpeed(double speed) {
+        // TODO: Add exceptions for this case
+        // Cannot set real speed for a motor controller group
     }
     
 }

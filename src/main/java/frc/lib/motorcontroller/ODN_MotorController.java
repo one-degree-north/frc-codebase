@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
 public interface ODN_MotorController {
     /**
-     * Set the speed of a motor as a percentage of the maximum speed
+     * Set the percentage of maximum power to send to the motor
      * @param speed The speed to set. This should be between -1.0 and 1.0.
      */
     public void set(double speed);
@@ -21,6 +21,12 @@ public interface ODN_MotorController {
      * @param voltage The voltage to output
      */
     public void setVoltage(double voltage);
+
+    /**
+     * Sets the speed of a motor, compensating for any external factors to ensure that the speed of the motor is actually what it is set to be
+     * @param speed speed at which to set this motor to move at
+     */
+    public void setRealSpeed(double speed);
 
     /**
      * An interface to reverse the direction of a motor controller

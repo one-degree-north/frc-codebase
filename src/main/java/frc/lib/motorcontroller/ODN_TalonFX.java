@@ -1,5 +1,6 @@
 package frc.lib.motorcontroller;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.lib.encoder.ODN_Encoder;
@@ -36,6 +37,11 @@ public class ODN_TalonFX implements ODN_MotorController {
     @Override
     public WPI_TalonFX getBackend() {
         return m_backend;
+    }
+
+    @Override
+    public void setRealSpeed(double speed) {
+        m_backend.set(ControlMode.Velocity, speed);
     }
     
 }
