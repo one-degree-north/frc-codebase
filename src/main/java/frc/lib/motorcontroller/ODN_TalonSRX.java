@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import frc.lib.encoder.ODN_Encoder;
-import frc.lib.encoder.ODN_TalonEncoder;
+import frc.lib.encoder.ODN_PhoenixEncoder;
 
 public class ODN_TalonSRX implements ODN_MotorController {
 
@@ -31,7 +31,7 @@ public class ODN_TalonSRX implements ODN_MotorController {
 
     @Override
     public ODN_Encoder getEncoder() {
-        return new ODN_TalonEncoder(this, 0);
+        return new ODN_PhoenixEncoder(this, 0);
     }
 
     @Override

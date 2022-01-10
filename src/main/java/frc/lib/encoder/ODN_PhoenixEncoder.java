@@ -1,18 +1,33 @@
 package frc.lib.encoder;
 
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import frc.lib.motorcontroller.ODN_TalonFX;
+import frc.lib.motorcontroller.ODN_TalonSRX;
 import frc.lib.motorcontroller.ODN_VictorSPX;
 
-public class ODN_VictorEncoder implements ODN_Encoder {
+public class ODN_PhoenixEncoder implements ODN_Encoder {
 
-    private WPI_VictorSPX m_backend;
+    private BaseMotorController m_backend;
     private int m_sensorID;
 
     private double m_positionFactor = 1;
     private double m_velocityFactor = 1;
 
-    public ODN_VictorEncoder(ODN_VictorSPX talon, int sensorID) {
+    public ODN_PhoenixEncoder(ODN_TalonSRX talon, int sensorID) {
+        m_backend = talon.getBackend();
+        m_sensorID = sensorID;
+    }
+
+    public ODN_PhoenixEncoder(ODN_TalonFX talon, int sensorID) {
+        m_backend = talon.getBackend();
+        m_sensorID = sensorID;
+    }
+
+    public ODN_PhoenixEncoder(ODN_VictorSPX talon, int sensorID) {
         m_backend = talon.getBackend();
         m_sensorID = sensorID;
     }
@@ -49,8 +64,16 @@ public class ODN_VictorEncoder implements ODN_Encoder {
         this.m_velocityFactor = factor;
     }
 
-    public WPI_VictorSPX getBackend() {
-        return m_backend;
+    public WPI_TalonSRX getBackendSRX() {
+        return (WPI_TalonSRX)m_backend;
+    }
+
+    public WPI_TalonFX getBackendFX() {
+        return (WPI_TalonFX)m_backend;
+    }
+
+    public WPI_VictorSPX getBackendSPX() {
+        return (WPI_VictorSPX)m_backend;
     }
     
 }
