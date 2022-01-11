@@ -11,8 +11,11 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.LimelightArcCommand;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.MotorControllerSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.commands.TrajectoryCommand;
+import frc.lib.motorcontroller.ODN_MotorController;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,6 +27,7 @@ public class RobotContainer {
   // Robot subsystems here:
   private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
+  private MotorControllerSubsystem m_shooter = new MotorControllerSubsystem(Constants.motorConstants);
 
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
@@ -38,10 +42,13 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_drive.setDefaultCommand(new RunCommand(() -> 
-      m_drive.cartesianDriveAbsolute(modifyAxis(m_controller.getLeftY()), 
-      modifyAxis(m_controller.getLeftX()),
-      modifyAxis(m_controller.getRightX())), 
+    m_drive.setDefaultCommand(new RunCommand(() -> {
+        m_drive.cartesianDriveAbsolute(modifyAxis(m_controller.getLeftY()), 
+          modifyAxis(m_controller.getLeftX()),
+          modifyAxis(m_controller.getRightX()));
+        m_shooter.setSpeed(100);
+        System.out.println(m_shooter.getSpeed());
+      },
       m_drive));
     
   }

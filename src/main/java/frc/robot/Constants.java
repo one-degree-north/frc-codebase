@@ -8,7 +8,9 @@ import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
 
 import frc.lib.gyro.ODN_AHRS;
 import frc.lib.helper.SwerveModuleBuilder;
+import frc.lib.motorcontroller.ODN_TalonFX;
 import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.robot.subsystems.MotorControllerSubsystem;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -46,6 +48,11 @@ public final class Constants {
         swerveConstants.config = SwerveModuleBuilder.NEO_MK3_STANDARD_CONFIG;
 
         swerveConstants.gyro = new ODN_AHRS();
+    }
+
+    public static MotorControllerSubsystem.Constants motorConstants = new MotorControllerSubsystem.Constants();
+    static {
+        motorConstants.motor = new ODN_TalonFX(15);
     }
 
     public static final class AutoConstants {

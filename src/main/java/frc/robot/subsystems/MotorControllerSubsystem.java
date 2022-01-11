@@ -9,16 +9,24 @@ import frc.lib.motorcontroller.ODN_MotorController;
 
 public class MotorControllerSubsystem extends SubsystemBase {
   public static class Constants {
-    public ODN_MotorController group;
+    public ODN_MotorController motor;
   }
   private ODN_MotorController m_controller;
 
   /** Creates a new ODN_MotorControllerSubsystem. */
   public MotorControllerSubsystem(Constants constants) {
-    m_controller = constants.group;
+    m_controller = constants.motor;
+  }
+
+  public void set(double speed){
+    m_controller.set(speed);
   }
 
   public void setSpeed(double speed){
-    m_controller.set(speed);
+    m_controller.setRealSpeed(speed);
+  }
+
+  public double getSpeed(){
+    return m_controller.getEncoder().getVelocity();
   }
 }
