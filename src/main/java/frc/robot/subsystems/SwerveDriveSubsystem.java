@@ -6,7 +6,7 @@ package frc.robot.subsystems;
 
 import java.util.List;
 
-import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
@@ -19,9 +19,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -39,25 +36,11 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 		public double DRIVETRAIN_TRACKWIDTH_METERS = 0.47; // FIXME Measure and set trackwidth
 		public double DRIVETRAIN_WHEELBASE_METERS; // FIXME Measure and set wheelbase
 
-		public int FRONT_LEFT_MODULE_DRIVE_MOTOR; // FIXME Set front left module drive motor ID
-		public int FRONT_LEFT_MODULE_STEER_MOTOR; // FIXME Set front left module steer motor ID
-		public int FRONT_LEFT_MODULE_STEER_ENCODER; // FIXME Set front left steer encoder ID
-		public double FRONT_LEFT_MODULE_STEER_OFFSET; // FIXME Measure and set front left steer offset
-
-		public int FRONT_RIGHT_MODULE_DRIVE_MOTOR; // FIXME Set front right drive motor ID
-		public int FRONT_RIGHT_MODULE_STEER_MOTOR; // FIXME Set front right steer motor ID
-		public int FRONT_RIGHT_MODULE_STEER_ENCODER; // FIXME Set front right steer encoder ID
-		public double FRONT_RIGHT_MODULE_STEER_OFFSET; // FIXME Measure and set front right steer offset
-
-		public int BACK_LEFT_MODULE_DRIVE_MOTOR; // FIXME Set back left drive motor ID
-		public int BACK_LEFT_MODULE_STEER_MOTOR; // FIXME Set back left steer motor ID
-		public int BACK_LEFT_MODULE_STEER_ENCODER; // FIXME Set back left steer encoder ID
-		public double BACK_LEFT_MODULE_STEER_OFFSET; // FIXME Measure and set back left steer offset
-
-		public int BACK_RIGHT_MODULE_DRIVE_MOTOR; // FIXME Set back right drive motor ID
-		public int BACK_RIGHT_MODULE_STEER_MOTOR; // FIXME Set back right steer motor ID
-		public int BACK_RIGHT_MODULE_STEER_ENCODER; // FIXME Set back right steer encoder ID
-		public double BACK_RIGHT_MODULE_STEER_OFFSET; // FIXME Measure and set back right steer offset
+		public SwerveModule frontLeftModule;
+		public SwerveModule frontRightModule;
+		public SwerveModule backLeftModule;
+		public SwerveModule backRightModule;
+		public ModuleConfiguration config;
 
 		public ODN_Gyro gyro;
 	}
@@ -86,9 +69,12 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 	 * This is a measure of how fast the robot should be able to drive in a straight
 	 * line.
 	 */
-	public static final double MAX_VELOCITY_METERS_PER_SECOND = 5880.0 / 60.0
-			/ SdsModuleConfigurations.MK3_STANDARD.getDriveReduction()
-			* SdsModuleConfigurations.MK3_STANDARD.getWheelDiameter() * Math.PI;
+	public static double maxVelocity(ModuleConfiguration moduleConfig) {
+		return 5880.0 / 60.0
+		/ moduleConfig.getDriveReduction()
+		* moduleConfig.getWheelDiameter() * Math.PI;
+	}
+	public double MAX_VELOCITY_METERS_PER_SECOND;
 	/**
 	 * The maximum angular velocity of the robot in radians per second.
 	 * <p>
@@ -111,7 +97,7 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 	public SwerveDriveSubsystem(Constants constants) {
 		super(constants.gyro);
 
-		ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+		MAX_VELOCITY_METERS_PER_SECOND = maxVelocity(constants.config);
 
 		MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND
 				/ Math.hypot(constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, constants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
@@ -133,66 +119,10 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 
 		this.m_odometry = new SwerveDriveOdometry(m_kinematics, getYaw());
 
-		// There are 4 methods you can call to create your swerve modules.
-		// The method you use depends on what motors you are using.
-		//
-		// Mk3SwerveModuleHelper.createFalcon500(...)
-		// Your module has two Falcon 500s on it. One for steering and one for driving.
-		//
-		// Mk3SwerveModuleHelper.createNeo(...)
-		// Your module has two NEOs on it. One for steering and one for driving.
-		//
-		// Mk3SwerveModuleHelper.createFalcon500Neo(...)
-		// Your module has a Falcon 500 and a NEO on it. The Falcon 500 is for driving
-		// and the NEO is for steering.
-		//
-		// Mk3SwerveModuleHelper.createNeoFalcon500(...)
-		// Your module has a NEO and a Falcon 500 on it. The NEO is for driving and the
-		// Falcon 500 is for steering.
-		//
-		// Similar helpers also exist for Mk4 modules using the Mk4SwerveModuleHelper
-		// class.
-
-		// By default we will use Falcon 500s in standard configuration. But if you use
-		// a different configuration or motors
-		// you MUST change it. If you do not, your code will crash on startup.
-		// FIXME Setup motor configuration
-
-		m_frontLeftModule = Mk3SwerveModuleHelper.createNeo(
-				// This parameter is optional, but will allow you to see the current state of
-				// the module on the dashboard.
-				tab.getLayout("Front Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0),
-				// This can either be STANDARD or F
-				// AST depending on your gear configuration
-				Mk3SwerveModuleHelper.GearRatio.STANDARD,
-				// This is the ID of the drive motor
-				constants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
-				// This is the ID of the steer motor
-				constants.FRONT_LEFT_MODULE_STEER_MOTOR,
-				// This is the ID of the steer encoder
-				constants.FRONT_LEFT_MODULE_STEER_ENCODER,
-				// This is how much the steer encoder is offset from true zero (In our case,
-				// zero is facing straight forward)
-				constants.FRONT_LEFT_MODULE_STEER_OFFSET);
-
-		// We will do the same for the other modules
-		m_frontRightModule = Mk3SwerveModuleHelper.createNeo(
-				tab.getLayout("Front Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(2, 0),
-				Mk3SwerveModuleHelper.GearRatio.STANDARD, constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
-				constants.FRONT_RIGHT_MODULE_STEER_MOTOR, constants.FRONT_RIGHT_MODULE_STEER_ENCODER,
-				constants.FRONT_RIGHT_MODULE_STEER_OFFSET);
-
-		m_backLeftModule = Mk3SwerveModuleHelper.createNeo(
-				tab.getLayout("Back Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(4, 0),
-				Mk3SwerveModuleHelper.GearRatio.STANDARD, constants.BACK_LEFT_MODULE_DRIVE_MOTOR,
-				constants.BACK_LEFT_MODULE_STEER_MOTOR, constants.BACK_LEFT_MODULE_STEER_ENCODER,
-				constants.BACK_LEFT_MODULE_STEER_OFFSET);
-
-		m_backRightModule = Mk3SwerveModuleHelper.createNeo(
-				tab.getLayout("Back Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(6, 0),
-				Mk3SwerveModuleHelper.GearRatio.STANDARD, constants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
-				constants.BACK_RIGHT_MODULE_STEER_MOTOR, constants.BACK_RIGHT_MODULE_STEER_ENCODER,
-				constants.BACK_RIGHT_MODULE_STEER_OFFSET);
+		m_frontLeftModule = constants.frontLeftModule;
+		m_frontRightModule = constants.frontRightModule;
+		m_backLeftModule = constants.backLeftModule;
+		m_backRightModule = constants.backRightModule;
 	}
 
 	@Override

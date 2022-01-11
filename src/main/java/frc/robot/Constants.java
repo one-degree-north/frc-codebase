@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
+
 import frc.lib.gyro.ODN_AHRS;
+import frc.lib.helper.SwerveModuleBuilder;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
 /**
@@ -19,48 +22,45 @@ import frc.robot.subsystems.SwerveDriveSubsystem;
  */
 public final class Constants {
 
-
     public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
     static {
         swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47;
         swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47;
-    
-        swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 1;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 12;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.471);
-    
-        swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 6;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 5;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 11;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(136.055-180);
-    
-        swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4;
-        swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 3;
-        swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 9;
-        swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.542-180);
 
-        swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 7;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 10;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(-21.533);
+        swerveConstants.frontLeftModule = SwerveModuleBuilder.createNEO_MK3_STANDARD(
+                "Front Left Module", 0, 0,
+                2, 1, 12, -Math.toRadians(7.471));
+
+        swerveConstants.frontRightModule = SwerveModuleBuilder.createNEO_MK3_STANDARD(
+                "Front Right Module", 2, 0,
+                6, 5, 11, -Math.toRadians(136.055 - 180));
+
+        swerveConstants.backLeftModule = SwerveModuleBuilder.createNEO_MK3_STANDARD(
+                "Back Left Module", 4, 0,
+                4, 3, 9, -Math.toRadians(71.542 - 180));
+
+        swerveConstants.backRightModule = SwerveModuleBuilder.createNEO_MK3_STANDARD(
+                "Back Right Module", 6, 0,
+                8, 7, 10, -Math.toRadians(-21.533));
+
+        swerveConstants.config = SwerveModuleBuilder.NEO_MK3_STANDARD_CONFIG;
 
         swerveConstants.gyro = new ODN_AHRS();
     }
-    
+
     public static final class AutoConstants {
         public static double kMaxSpeedMetersPerSecond = 1;
         public static double kMaxAccelerationMetersPerSecondSquared = 1;
-        
+
         public static final double kMaxAngularSpeedRadiansPerSecond = 40;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = 40;
-        
+
         // These numbers must be correctly calculated
         public static double kRamseteB = 1;
         public static double kRamseteZeta = 1;
-		public static double kPYController = 1;
-		public static double kPXController = 1;
-		public static double kPThetaController = 1;
+        public static double kPYController = 1;
+        public static double kPXController = 1;
+        public static double kPThetaController = 1;
     }
 
 }
