@@ -66,7 +66,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    m_autoCommand = new TrajectoryCommand(m_drive, "tester", 8, 5);
+    m_autoCommand = new TrajectoryCommand(m_drive, "New Path", 8, 5);
     return m_autoCommand;
 
   }
