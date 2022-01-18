@@ -27,9 +27,26 @@ import frc.lib.motorcontroller.ODN_TalonFX;
  */
 public class RobotContainer {
   // Robot subsystems here:
+
+  //Drivebase
   // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
+
+  //Limelight
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
-  private MotorControllerSubsystem m_shooter = new MotorControllerSubsystem(Constants.motorConstants);
+
+  //Intake and Indexer
+  private MotorControllerSubsystem m_intakeFront = new MotorControllerSubsystem(Constants.intakeFrontConstants);
+  private MotorControllerSubsystem m_intakeBack = new MotorControllerSubsystem(Constants.intakeBackConstants);
+
+  //Shooter
+  private MotorControllerSubsystem m_shooterTop = new MotorControllerSubsystem(Constants.shooterTopConstants);
+  private MotorControllerSubsystem m_shooterBottom = new MotorControllerSubsystem(Constants.shooterBottomConstants);
+  private MotorControllerSubsystem m_hood = new MotorControllerSubsystem(Constants.hoodConstants);
+
+  //Climber
+  private MotorControllerSubsystem m_climberRotate = new MotorControllerSubsystem(Constants.climberRotateConstants);
+  private MotorControllerSubsystem m_climberReach = new MotorControllerSubsystem(Constants.climberReachConstants);
+
 
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
@@ -37,7 +54,6 @@ public class RobotContainer {
   // Robot commands go here:
   // This command runs on autonomous
   private Command m_autoCommand = null;
-  private ODN_TalonFX testFX = new ODN_TalonFX(15);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -54,9 +70,7 @@ public class RobotContainer {
     //   },
     //   m_drive));
 
-    m_shooter.setDefaultCommand(new RunCommand(() -> {
-      System.out.println(m_shooter.getSpeed());
-    }, m_shooter));
+    
     
   }
 
@@ -71,9 +85,10 @@ public class RobotContainer {
     // button.toggleWhenPressed(new LimelightArcCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), m_controller));
     // JoystickButton button2 = new JoystickButton(m_controller, XboxController.Button.kB.value);
     // button2.whenPressed(new InstantCommand(()->m_drive.resetYaw(), m_drive));
+
+    //Intake and Indexer
     JoystickButton testBtn = new JoystickButton(m_controller, XboxController.Button.kX.value);
-    testBtn.whenPressed(new InstantCommand(()->m_shooter.setSpeed(3000), m_shooter));
-    testBtn.whenReleased(new InstantCommand(()->m_shooter.setSpeed(0), m_shooter));
+    
   }
   
   
