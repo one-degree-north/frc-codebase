@@ -11,12 +11,15 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.LimelightArcCommand;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.MotorControllerSubsystem;
+import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.commands.TrajectoryCommand;
 import frc.lib.motorcontroller.ODN_MotorController;
 import frc.lib.motorcontroller.ODN_TalonFX;
+import frc.lib.sensor.ODN_ColorSensor;
 
 
 /**
@@ -29,7 +32,11 @@ public class RobotContainer {
   // Robot subsystems here:
   // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
-  private MotorControllerSubsystem m_shooter = new MotorControllerSubsystem(Constants.motorConstants);
+  private MotorControllerSubsystem m_shooter = new MotorControllerSubsystem(Constants.shooterConstants);
+  private MotorControllerSubsystem m_indexerMotor = new MotorControllerSubsystem(Constants.indexerConstants);
+  private IndexerSubsystem m_indexer = new IndexerSubsystem(m_indexerMotor, new ODN_ColorSensor());
+  private MotorControllerSubsystem m_intakeMotor = new MotorControllerSubsystem(Constants.intakeConstants);
+  private PneumaticSubsystem m_intakePneumatic = new PneumaticSubsystem(Constants.pneumaticConstants);
 
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
@@ -54,9 +61,10 @@ public class RobotContainer {
     //   },
     //   m_drive));
 
-    m_shooter.setDefaultCommand(new RunCommand(() -> {
-      System.out.println(m_shooter.getSpeed());
-    }, m_shooter));
+    m_indexer.setDefaultCommand(new RunCommand(()-> {
+      m_indexer.set(0.8);
+    },
+    m_indexer));
     
   }
 
@@ -67,13 +75,17 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // JoystickButton button = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    // button.toggleWhenPressed(new LimelightArcCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), m_controller));
-    // JoystickButton button2 = new JoystickButton(m_controller, XboxController.Button.kB.value);
-    // button2.whenPressed(new InstantCommand(()->m_drive.resetYaw(), m_drive));
-    JoystickButton testBtn = new JoystickButton(m_controller, XboxController.Button.kX.value);
-    testBtn.whenPressed(new InstantCommand(()->m_shooter.setSpeed(3000), m_shooter));
-    testBtn.whenReleased(new InstantCommand(()->m_shooter.setSpeed(0), m_shooter));
+    JoystickButton shooterSpeed = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    shooterSpeed.whenPressed(new InstantCommand(()-> m_shooter.setSpeed(3000), m_shooter));
+    shooterSpeed.whenReleased(new InstantCommand(()-> m_shooter.setSpeed(0), m_shooter));
+
+    JoystickButton moveIntake = new JoystickButton(m_controller, XboxController.Button.kB.value);
+    moveIntake.whenPressed(new InstantCommand(()-> m_intakePneumatic.toggle(), m_intakePneumatic));
+
+    JoystickButton spinIntake = new JoystickButton(m_controller, XboxController.Button.kX.value);
+    spinIntake.whenHeld(new InstantCommand(()-> m_intakeMotor.set(0.8), m_intakeMotor));
+
+
   }
   
   

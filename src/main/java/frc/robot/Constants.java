@@ -4,10 +4,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.lib.gyro.ODN_AHRS;
+import frc.lib.motorcontroller.ODN_MotorController;
+import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.lib.motorcontroller.ODN_TalonFX;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.MotorControllerSubsystem;
+import frc.robot.subsystems.PneumaticSubsystem;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -50,9 +55,33 @@ public final class Constants {
     //     swerveConstants.gyro = new ODN_AHRS();
     // }
 
-    public static MotorControllerSubsystem.Constants motorConstants = new MotorControllerSubsystem.Constants();
+    public static MotorControllerSubsystem.Constants shooterConstants = new MotorControllerSubsystem.Constants();
     static {
-        motorConstants.motor = new ODN_TalonFX(15);
+        ODN_TalonFX motor =  new ODN_TalonFX(14);
+        motor.setInverted(true);
+        
+        shooterConstants.motor = new ODN_MotorControllerGroup(
+            new ODN_TalonFX(15),
+            motor
+        );
+    }
+
+    public static MotorControllerSubsystem.Constants indexerConstants = new MotorControllerSubsystem.Constants();
+    static {
+        indexerConstants.motor = new ODN_TalonFX(16);
+    }
+
+    public static MotorControllerSubsystem.Constants intakeConstants = new MotorControllerSubsystem.Constants();
+    static {
+        intakeConstants.motor = new ODN_TalonFX(17);
+    }
+
+    public static PneumaticSubsystem.Constants pneumaticConstants = new PneumaticSubsystem.Constants();
+    static {
+        pneumaticConstants.solenoids = new DoubleSolenoid[]{
+            new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1),
+            new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3)
+        };
     }
 
     public static final class AutoConstants {
