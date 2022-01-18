@@ -31,7 +31,10 @@ public class ODN_TalonFX implements ODN_MotorController {
 
     @Override
     public ODN_Encoder getEncoder() {
-        return new ODN_PhoenixEncoder(this, 0);
+        ODN_Encoder e = new ODN_PhoenixEncoder(this, 0);
+        e.setPositionConversionFactor(60.0/2048*10);
+        e.setVelocityConversionFactor(60.0/2048*10);
+        return e;
     }
 
     @Override
@@ -39,9 +42,11 @@ public class ODN_TalonFX implements ODN_MotorController {
         return m_backend;
     }
 
+    public static final double MAX_SPEED = 6380;
+
     @Override
     public void setRealSpeed(double speed) {
-        m_backend.set(ControlMode.Velocity, speed);
+        m_backend.setVoltage(12*speed/MAX_SPEED);
     }
     
 }
