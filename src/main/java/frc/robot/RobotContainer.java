@@ -41,8 +41,9 @@ public class RobotContainer {
   //Shooter
   private MotorControllerSubsystem m_shooterTop = new MotorControllerSubsystem(Constants.shooterTopConstants);
   private MotorControllerSubsystem m_shooterBottom = new MotorControllerSubsystem(Constants.shooterBottomConstants);
-  private MotorControllerSubsystem m_hood = new MotorControllerSubsystem(Constants.hoodConstants);
 
+  //hood 
+  
   //Climber
   private MotorControllerSubsystem m_climberRotate = new MotorControllerSubsystem(Constants.climberRotateConstants);
   private MotorControllerSubsystem m_climberReach = new MotorControllerSubsystem(Constants.climberReachConstants);

@@ -67,12 +67,10 @@ public final class Constants {
 
     public static MotorControllerSubsystem.Constants shooterTopConstants = new MotorControllerSubsystem.Constants();
     public static MotorControllerSubsystem.Constants shooterBottomConstants = new MotorControllerSubsystem.Constants();
-    public static MotorControllerSubsystem.Constants hoodConstants = new MotorControllerSubsystem.Constants();
 
     static {
         shooterTopConstants.motor = new ODN_TalonFX(13);
         shooterBottomConstants.motor = new ODN_TalonFX(14);
-        hoodConstants.motor = new ODN_TalonFX(15);
     }
 
     //climber
