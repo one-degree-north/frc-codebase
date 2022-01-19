@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.sensor.ODN_ColorSensor;
 import frc.robot.Constants;
+import frc.robot.commands.ShootAwayCommand;
 
 public class IndexerSubsystem extends SubsystemBase {
   private MotorControllerSubsystem m_motor;

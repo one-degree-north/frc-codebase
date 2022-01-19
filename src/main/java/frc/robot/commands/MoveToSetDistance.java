@@ -8,7 +8,6 @@ import java.util.function.Function;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.lib.ODN_Drivebase;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
@@ -24,8 +23,8 @@ public class MoveToSetDistance extends CommandBase {
   /** Creates a new MoveToSetDistance. */
   public MoveToSetDistance(SwerveDriveSubsystem m_swerve, LimelightSubsystem m_limelight, XboxController m_joystick, double endDistance) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_swerve, m_limelight);
     this.endDistance = endDistance;
+    addRequirements(m_swerve, m_limelight);
   }
 
   // Called when the command is initially scheduled.
