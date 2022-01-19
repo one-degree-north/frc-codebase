@@ -46,9 +46,16 @@ public class HoodSubsystem extends SubsystemBase {
   }
 
   public void set(double angle){
-      if(angle>=55 && angle<=70){
+      if(angle<=55){
+        m_pos = 55;
+      }
+      else if(angle>=70){
+        m_pos = 70;
+      }
+      else{
         m_pos = angle;
       }
+      
 
   }
 
