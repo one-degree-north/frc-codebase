@@ -5,11 +5,13 @@
 package frc.robot;
 
 
+import frc.lib.encoder.ODN_CANCoder;
 import frc.lib.gyro.ODN_AHRS;
 import frc.lib.motorcontroller.ODN_SparkMax;
 import frc.lib.motorcontroller.ODN_TalonFX;
 import frc.lib.motorcontroller.ODN_SparkMax.MotorType;
 import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.robot.subsystems.HoodSubsystem;
 import frc.robot.subsystems.MotorControllerSubsystem;
 
 /**
@@ -79,11 +81,30 @@ public final class Constants {
     public static MotorControllerSubsystem.Constants climberReachConstants = new MotorControllerSubsystem.Constants();
 
     static {
-        shooterTopConstants.motor = new ODN_TalonFX(16);
-        shooterBottomConstants.motor = new ODN_TalonFX(17);
+        climberRotateConstants.motor = new ODN_TalonFX(16);
+        climberReachConstants.motor = new ODN_TalonFX(17);
+        
     }    
 
+    //hood
 
+    public static HoodSubsystem.Constants hoodConstants = new HoodSubsystem.Constants();
+    static {
+        hoodConstants.minValue = 55;
+        hoodConstants.maxValue = 70;
+        hoodConstants.motor = new ODN_TalonFX(18);
+        hoodConstants.encoder = new ODN_CANCoder(19);
+        hoodConstants.conversion = 1/100;
+        hoodConstants.kp=1;
+        hoodConstants.ki=0;
+        hoodConstants.kd=0;
+        hoodConstants.maxVelocity=2;
+        hoodConstants.maxVelocity=5;
+
+
+
+        
+    }
 
     public static final class AutoConstants {
         public static double kMaxSpeedMetersPerSecond = 1;
