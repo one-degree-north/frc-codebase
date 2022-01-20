@@ -13,6 +13,7 @@ import frc.lib.motorcontroller.ODN_TalonFX;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.MotorControllerSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -55,15 +56,20 @@ public final class Constants {
     //     swerveConstants.gyro = new ODN_AHRS();
     // }
 
-    public static MotorControllerSubsystem.Constants shooterConstants = new MotorControllerSubsystem.Constants();
+    public static MotorControllerSubsystem.Constants shooterMotorConstants = new MotorControllerSubsystem.Constants();
     static {
-        ODN_TalonFX motor =  new ODN_TalonFX(14);
+        ODN_TalonFX motor = new ODN_TalonFX(14);
         motor.setInverted(true);
-        
-        shooterConstants.motor = new ODN_MotorControllerGroup(
+        shooterMotorConstants.motor = new ODN_MotorControllerGroup(
             new ODN_TalonFX(15),
             motor
         );
+    }
+
+    public static ShooterSubsystem.Constants shooterConstants = new ShooterSubsystem.Constants();
+    static {
+        shooterConstants.motor = new MotorControllerSubsystem(shooterMotorConstants);
+        shooterConstants.max_speed = 3000;
     }
 
     public static MotorControllerSubsystem.Constants indexerConstants = new MotorControllerSubsystem.Constants();

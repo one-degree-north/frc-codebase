@@ -17,6 +17,7 @@ import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.MotorControllerSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.commands.TrajectoryCommand;
 import frc.lib.motorcontroller.ODN_MotorController;
@@ -34,7 +35,7 @@ public class RobotContainer {
   // Robot subsystems here:
   // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
-  private MotorControllerSubsystem m_shooter = new MotorControllerSubsystem(Constants.shooterConstants);
+  private ShooterSubsystem m_shooter = new ShooterSubsystem(Constants.shooterConstants);
   private MotorControllerSubsystem m_indexerMotor = new MotorControllerSubsystem(Constants.indexerConstants);
   private IndexerSubsystem m_indexer = new IndexerSubsystem(m_indexerMotor, new ODN_ColorSensor());
   private MotorControllerSubsystem m_intakeMotor = new MotorControllerSubsystem(Constants.intakeConstants);
@@ -81,8 +82,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     JoystickButton shooterSpeed = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    shooterSpeed.whenPressed(new InstantCommand(()-> m_shooter.setSpeed(3000), m_shooter));
-    shooterSpeed.whenReleased(new InstantCommand(()-> m_shooter.setSpeed(0), m_shooter));
+    shooterSpeed.whenPressed(new InstantCommand(()-> m_shooter.on(), m_shooter));
+    shooterSpeed.whenReleased(new InstantCommand(()-> m_shooter.off(), m_shooter));
 
     JoystickButton moveIntake = new JoystickButton(m_controller, XboxController.Button.kB.value);
     moveIntake.whenPressed(new InstantCommand(()-> m_intakePneumatic.toggle(), m_intakePneumatic));
