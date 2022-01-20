@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.sensor.ODN_ColorSensor;
+import frc.robot.RobotContainer;
+import frc.robot.commands.ShootAwayCommand;
 
 public class IndexerSubsystem extends SubsystemBase {
   private static final Color RED = new Color(1, 0, 0);
@@ -39,17 +41,23 @@ public class IndexerSubsystem extends SubsystemBase {
   public void periodic() {
     if(m_matcher.matchClosestColor(m_color.getColor()).color.equals(RED)) {
       //TODO: write this code
-      // new ShootAwayCommand().schedule();
+      new ShootAwayCommand(RobotContainer.container.getIndexer(), 
+      RobotContainer.container.getDrivebase(), 
+      RobotContainer.container.getShooter()).schedule();
     }
     if(m_breakbeam.get())
     {
-      //shooter stops moving
+      RobotContainer.container.getIndexer().off();
     }
 
     // This method will be called once per scheduler run
   }
 
-  public void set(double d) {
-    m_motor.set(d);
+  public void on() {
+    m_motor.set(0.8);
+  }
+
+  public void off() {
+    m_motor.set(0);
   }
 }

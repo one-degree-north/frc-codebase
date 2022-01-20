@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.lib.gyro.ODN_Gyro;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
@@ -15,13 +14,11 @@ public class ShootAwayCommand extends CommandBase {
   private IndexerSubsystem m_indexer;
   private SwerveDriveSubsystem m_swerve;
   private ShooterSubsystem m_shooter;
-  private ODN_Gyro m_gyro;
-  public ShootAwayCommand(IndexerSubsystem indexer, SwerveDriveSubsystem swerve, ShooterSubsystem shooter, ODN_Gyro gyro) {
+  public ShootAwayCommand(IndexerSubsystem indexer, SwerveDriveSubsystem swerve, ShooterSubsystem shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_indexer = indexer;
     m_swerve = swerve;
     m_shooter = shooter;
-    m_gyro = gyro;
     addRequirements(m_indexer, m_swerve);
   }
 
@@ -32,7 +29,7 @@ public class ShootAwayCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_swerve.cartesianDriveAbsolute(0, 0, m_gyro.getYaw().getRadians()-Math.PI/2);
+    m_swerve.cartesianDriveAbsolute(0, 0, m_swerve.getYaw().getRadians()-Math.PI/2);
   }
 
   // Called once the command ends or is interrupted.

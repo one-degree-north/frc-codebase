@@ -5,13 +5,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.basesubsystem.LimelightSubsystem;
+import frc.lib.basesubsystem.SwerveDriveSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -24,6 +23,7 @@ import frc.robot.subsystems.ShooterSubsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  public static RobotContainer container;
   // Robot subsystems here:
   // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
@@ -43,6 +43,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    container = this;
     // Configure the button bindings
     configureButtonBindings();
 
@@ -56,12 +57,9 @@ public class RobotContainer {
     //   m_drive));
 
     m_indexer.setDefaultCommand(new RunCommand(()-> {
-      m_indexer.set(0.8);
+      m_indexer.on();
     },
     m_indexer));
-
-    ShuffleboardTab tab = Shuffleboard.getTab("chungus");
-    tab.addNumber("chungus", ()->0);
     
   }
 
@@ -116,5 +114,21 @@ public class RobotContainer {
     value = Math.copySign(value * value, value);
 
     return value;
+  }
+
+  public IndexerSubsystem getIndexer() {
+    return m_indexer;
+  }
+
+  public IntakeSubsystem getIntake() {
+    return m_intake;
+  }
+
+  public ShooterSubsystem getShooter() {
+    return m_shooter;
+  }
+
+  public SwerveDriveSubsystem getDrivebase() {
+    return null;
   }
 }
