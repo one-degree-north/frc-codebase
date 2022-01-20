@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.lib.motorcontroller.ODN_TalonFX;
+import frc.lib.sensor.ODN_ColorSensor;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.PneumaticSubsystem;
@@ -74,9 +77,15 @@ public final class Constants {
         shooterConstants.max_speed = 3000;
     }
 
-    public static MotorControllerSubsystem.Constants indexerConstants = new MotorControllerSubsystem.Constants();
+    public static MotorControllerSubsystem.Constants indexerMotorConstants = new MotorControllerSubsystem.Constants();
     static {
-        indexerConstants.motor = new ODN_TalonFX(16);
+        indexerMotorConstants.motor = new ODN_TalonFX(16);
+    }
+    public static IndexerSubsystem.Constants indexerConstants = new IndexerSubsystem.Constants();
+    static {
+        indexerConstants.motor = new MotorControllerSubsystem(indexerMotorConstants);
+        indexerConstants.color = new ODN_ColorSensor();
+        indexerConstants.breakbeam = new DigitalInput(1);
     }
 
     

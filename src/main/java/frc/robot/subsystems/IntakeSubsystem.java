@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.basesubsystem.MotorControllerSubsystem;
+import frc.lib.basesubsystem.PneumaticSubsystem;
 
 public class IntakeSubsystem extends SubsystemBase {
     public static class Constants {

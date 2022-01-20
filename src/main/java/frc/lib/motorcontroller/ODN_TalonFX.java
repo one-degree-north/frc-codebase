@@ -1,6 +1,5 @@
 package frc.lib.motorcontroller;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.lib.encoder.ODN_Encoder;

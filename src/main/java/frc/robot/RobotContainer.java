@@ -5,25 +5,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.LimelightArcCommand;
 import frc.lib.basesubsystem.LimelightSubsystem;
-import frc.lib.basesubsystem.MotorControllerSubsystem;
-import frc.lib.basesubsystem.PneumaticSubsystem;
-import frc.lib.basesubsystem.SwerveDriveSubsystem;
-import frc.robot.commands.TrajectoryCommand;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.lib.motorcontroller.ODN_MotorController;
-import frc.lib.motorcontroller.ODN_TalonFX;
-import frc.lib.sensor.ODN_ColorSensor;
 
 
 /**
@@ -37,17 +28,17 @@ public class RobotContainer {
   // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
   private ShooterSubsystem m_shooter = new ShooterSubsystem(Constants.shooterConstants);
-  private MotorControllerSubsystem m_indexerMotor = new MotorControllerSubsystem(Constants.indexerConstants);
-  private IndexerSubsystem m_indexer = new IndexerSubsystem(m_indexerMotor, new ODN_ColorSensor());
+  private IndexerSubsystem m_indexer = new IndexerSubsystem(Constants.indexerConstants);
   private IntakeSubsystem m_intake = new IntakeSubsystem(Constants.intakeConstants);
 
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
 
   // Robot commands go here:
+
+
   // This command runs on autonomous
   private Command m_autoCommand = null;
-  private ODN_TalonFX testFX = new ODN_TalonFX(15);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -102,9 +93,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // m_autoCommand = new TrajectoryCommand(m_drive, "New Path", 8, 5);
-    // return m_autoCommand;
-    return null;
+    return m_autoCommand;
   }
 
   private static double deadband(double value, double deadband) {
