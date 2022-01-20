@@ -2,7 +2,7 @@ package frc.lib.sensor;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
 
-public class ODN_PingUltrasonicSensor implements ODN_UltrasonicSensor {
+public class ODN_PingUltrasonicSensor implements ODN_DistanceSensor {
 
     private final Ultrasonic m_ultrasonic;
 
