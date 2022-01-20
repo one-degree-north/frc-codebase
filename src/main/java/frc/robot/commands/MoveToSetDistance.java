@@ -8,8 +8,8 @@ import java.util.function.Function;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.lib.basesubsystem.LimelightSubsystem;
+import frc.lib.basesubsystem.SwerveDriveSubsystem;
 
 public class MoveToSetDistance extends CommandBase {
   private double endDistance;

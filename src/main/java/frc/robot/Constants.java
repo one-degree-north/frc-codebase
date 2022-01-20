@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.lib.motorcontroller.ODN_TalonFX;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.MotorControllerSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem;
+import frc.lib.basesubsystem.MotorControllerSubsystem;
+import frc.lib.basesubsystem.PneumaticSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /**

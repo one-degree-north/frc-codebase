@@ -7,8 +7,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.gyro.ODN_Gyro;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.MotorControllerSubsystem;
-import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.lib.basesubsystem.MotorControllerSubsystem;
+import frc.lib.basesubsystem.SwerveDriveSubsystem;
 
 public class ShootAwayCommand extends CommandBase {
   /** Creates a new ShootAwayCommand. */
