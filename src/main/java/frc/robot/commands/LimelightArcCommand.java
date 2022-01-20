@@ -34,6 +34,7 @@ public class LimelightArcCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
     distance = m_limelight.getOffsetVertical()/27;
     m_hood.set(55+15*m_hoodFunction.apply(m_limelight.getOffsetVertical()+33));
   }

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.LimelightArcCommand;
+import frc.robot.subsystems.HoodSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.MotorControllerSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
@@ -26,11 +27,14 @@ import frc.lib.motorcontroller.ODN_TalonFX;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+
+  public static RobotContainer container;
   // Robot subsystems here:
 
   //Drivebase
   // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
-
+  
   //Limelight
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
 
@@ -43,6 +47,7 @@ public class RobotContainer {
   private MotorControllerSubsystem m_shooterBottom = new MotorControllerSubsystem(Constants.shooterBottomConstants);
 
   //hood 
+  private HoodSubsystem m_hood = new HoodSubsystem(Constants.hoodConstants);
   
   //Climber
   private MotorControllerSubsystem m_climberRotate = new MotorControllerSubsystem(Constants.climberRotateConstants);
@@ -59,6 +64,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    container = this;
     // Configure the button bindings
     configureButtonBindings();
 
@@ -71,10 +77,12 @@ public class RobotContainer {
     //   },
     //   m_drive));
 
-    
-    
+  
   }
 
+  public double getAngle(){
+    return m_limelight.getOffsetVertical();
+  }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -91,6 +99,7 @@ public class RobotContainer {
     JoystickButton testBtn = new JoystickButton(m_controller, XboxController.Button.kX.value);
     
   }
+  
   
   
   /**

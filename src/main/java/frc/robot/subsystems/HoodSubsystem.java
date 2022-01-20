@@ -75,7 +75,11 @@ public class HoodSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     double speed = pid.calculate(m_encoder.getPosition(), m_pos);
+    if(Math.abs(speed)<EPSILON){
+      speed = 0;
+    }
     if(m_encoder.getPosition()>=55 && m_encoder.getPosition()<=70){
+      
       m_motor.setVoltage(speed);
     }
 
