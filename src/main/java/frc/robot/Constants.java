@@ -6,11 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import frc.lib.gyro.ODN_AHRS;
-import frc.lib.motorcontroller.ODN_MotorController;
 import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.lib.motorcontroller.ODN_TalonFX;
-import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.MotorControllerSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -56,6 +54,10 @@ public final class Constants {
     //     swerveConstants.gyro = new ODN_AHRS();
     // }
 
+    // -----------------------------------------------------------------------
+    // --------- SHOOTER -----------------------------------------------------
+    // -----------------------------------------------------------------------
+
     public static MotorControllerSubsystem.Constants shooterMotorConstants = new MotorControllerSubsystem.Constants();
     static {
         ODN_TalonFX motor = new ODN_TalonFX(14);
@@ -77,17 +79,29 @@ public final class Constants {
         indexerConstants.motor = new ODN_TalonFX(16);
     }
 
-    public static MotorControllerSubsystem.Constants intakeConstants = new MotorControllerSubsystem.Constants();
+    
+
+    // -----------------------------------------------------------------------
+    // --------- INTAKE ------------------------------------------------------
+    // -----------------------------------------------------------------------
+
+    public static MotorControllerSubsystem.Constants intakeMotorConstants = new MotorControllerSubsystem.Constants();
     static {
-        intakeConstants.motor = new ODN_TalonFX(17);
+        intakeMotorConstants.motor = new ODN_TalonFX(17);
     }
 
-    public static PneumaticSubsystem.Constants pneumaticConstants = new PneumaticSubsystem.Constants();
+    public static PneumaticSubsystem.Constants intakePneumaticConstants = new PneumaticSubsystem.Constants();
     static {
-        pneumaticConstants.solenoids = new DoubleSolenoid[]{
+        intakePneumaticConstants.solenoids = new DoubleSolenoid[]{
             new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1),
             new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3)
         };
+    }
+
+    public static IntakeSubsystem.Constants intakeConstants = new IntakeSubsystem.Constants();
+    static {
+        intakeConstants.motor = new MotorControllerSubsystem(intakeMotorConstants);
+        intakeConstants.pneumatics = new PneumaticSubsystem(intakePneumaticConstants);
     }
 
     public static final class AutoConstants {

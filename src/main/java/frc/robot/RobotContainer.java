@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.LimelightArcCommand;
 import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.MotorControllerSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
@@ -38,8 +39,7 @@ public class RobotContainer {
   private ShooterSubsystem m_shooter = new ShooterSubsystem(Constants.shooterConstants);
   private MotorControllerSubsystem m_indexerMotor = new MotorControllerSubsystem(Constants.indexerConstants);
   private IndexerSubsystem m_indexer = new IndexerSubsystem(m_indexerMotor, new ODN_ColorSensor());
-  private MotorControllerSubsystem m_intakeMotor = new MotorControllerSubsystem(Constants.intakeConstants);
-  private PneumaticSubsystem m_intakePneumatic = new PneumaticSubsystem(Constants.pneumaticConstants);
+  private IntakeSubsystem m_intake = new IntakeSubsystem(Constants.intakeConstants);
 
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
@@ -86,10 +86,11 @@ public class RobotContainer {
     shooterSpeed.whenReleased(new InstantCommand(()-> m_shooter.off(), m_shooter));
 
     JoystickButton moveIntake = new JoystickButton(m_controller, XboxController.Button.kB.value);
-    moveIntake.whenPressed(new InstantCommand(()-> m_intakePneumatic.toggle(), m_intakePneumatic));
+    moveIntake.whenPressed(new InstantCommand(()-> m_intake.toggle(), m_intake));
 
     JoystickButton spinIntake = new JoystickButton(m_controller, XboxController.Button.kX.value);
-    spinIntake.whenHeld(new InstantCommand(()-> m_intakeMotor.set(0.8), m_intakeMotor));
+    spinIntake.whenPressed(new InstantCommand(()-> m_intake.on(), m_intake));
+    spinIntake.whenReleased(new InstantCommand(()-> m_intake.off(), m_intake));
 
 
   }

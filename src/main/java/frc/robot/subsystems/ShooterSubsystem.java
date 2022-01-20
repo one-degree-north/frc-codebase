@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.motorcontroller.ODN_MotorController;
 
 public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
@@ -20,7 +19,6 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem(Constants constants) {
     m_motors = constants.motor;
     m_max_speed = constants.max_speed;
-    
   }
 
   @Override
