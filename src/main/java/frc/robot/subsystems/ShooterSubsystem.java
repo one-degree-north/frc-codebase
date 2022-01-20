@@ -11,19 +11,19 @@ public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   public static class Constants {
     public MotorControllerSubsystem motor;
-    public double max_speed;
+    public double shoot_speed;
   }
   
   private MotorControllerSubsystem m_motors;
-  private double m_max_speed;
+  private double shoot_speed;
 
   public ShooterSubsystem(Constants constants) {
     m_motors = constants.motor;
-    m_max_speed = constants.max_speed;
+    shoot_speed = constants.shoot_speed;
   }
 
   public void on() {
-    m_motors.setSpeed(m_max_speed);
+    m_motors.setSpeed(shoot_speed);
   }
 
   public void off() {

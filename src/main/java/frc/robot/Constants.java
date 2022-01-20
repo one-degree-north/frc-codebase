@@ -28,6 +28,7 @@ import frc.robot.subsystems.ShooterSubsystem;
  */
 public final class Constants {
 
+    public static final double DIST_TO_SHOOT_FROM = 0;
 
     // public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
     // static {
@@ -74,7 +75,7 @@ public final class Constants {
     public static ShooterSubsystem.Constants shooterConstants = new ShooterSubsystem.Constants();
     static {
         shooterConstants.motor = new MotorControllerSubsystem(shooterMotorConstants);
-        shooterConstants.max_speed = 3000;
+        shooterConstants.shoot_speed = 3000;
     }
 
     public static MotorControllerSubsystem.Constants indexerMotorConstants = new MotorControllerSubsystem.Constants();
@@ -85,7 +86,8 @@ public final class Constants {
     static {
         indexerConstants.motor = new MotorControllerSubsystem(indexerMotorConstants);
         indexerConstants.color = new ODN_ColorSensor();
-        indexerConstants.breakbeam = new DigitalInput(1);
+        indexerConstants.breakbeam_enter = new DigitalInput(1);
+        indexerConstants.breakbeam_exit = new DigitalInput(2);
     }
 
     

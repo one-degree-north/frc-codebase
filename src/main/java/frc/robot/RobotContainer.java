@@ -131,4 +131,12 @@ public class RobotContainer {
   public SwerveDriveSubsystem getDrivebase() {
     return null;
   }
+
+  public LimelightSubsystem getLimelight() {
+    return m_limelight;
+  }
+
+  public XboxController getJoystick() {
+    return m_controller;
+  }
 }
