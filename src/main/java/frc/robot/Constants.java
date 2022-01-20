@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -86,7 +87,7 @@ public final class Constants {
     static {
         indexerConstants.motor = new MotorControllerSubsystem(indexerMotorConstants);
         indexerConstants.color = new ODN_ColorSensor();
-        indexerConstants.breakbeam_enter = new DigitalInput(1);
+        indexerConstants.breakbeam_enter = new AnalogInput(1);
         indexerConstants.breakbeam_exit = new DigitalInput(2);
     }
 

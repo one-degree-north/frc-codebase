@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.ColorMatch;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,12 +25,12 @@ public class IndexerSubsystem extends SubsystemBase {
   public static class Constants {
     public MotorControllerSubsystem motor;
     public ODN_ColorSensor color;
-    public DigitalInput breakbeam_enter;
+    public AnalogInput breakbeam_enter;
     public DigitalInput breakbeam_exit;
   }
   private MotorControllerSubsystem m_motor;
   private ODN_ColorSensor m_color;
-  public DigitalInput m_breakbeam_enter;
+  public AnalogInput m_breakbeam_enter;
   public DigitalInput m_breakbeam_exit;
 
 
@@ -59,7 +60,7 @@ public class IndexerSubsystem extends SubsystemBase {
     {
       RobotContainer.container.getIndexer().off();
     }
-    if(m_breakbeam_enter.get())
+    if(m_breakbeam_enter.getValue() / 4096.0 * 0.7 + 0.1 < 5)
     {
       RobotContainer.container.getIndexer().on();
     }
