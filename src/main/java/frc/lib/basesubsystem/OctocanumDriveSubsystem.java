@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.lib.basesubsystem;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
