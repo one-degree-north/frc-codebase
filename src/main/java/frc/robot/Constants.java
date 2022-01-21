@@ -66,11 +66,9 @@ public final class Constants {
     public static ShooterSubsystem.Constants shooterConstants = new ShooterSubsystem.Constants();
     static {
         shooterConstants.motor = new MotorControllerSubsystem.Constants();
-        ODN_TalonFX motor = new ODN_TalonFX(14);
-        motor.setInverted(true);
         shooterConstants.motor.motor = new ODN_MotorControllerGroup(
             new ODN_TalonFX(15),
-            motor
+            new ODN_TalonFX(14).setInverted(true)
         );
         shooterConstants.shoot_speed = 3000;
     }

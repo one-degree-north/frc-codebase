@@ -22,8 +22,9 @@ public class ODN_MotorControllerGroup implements ODN_MotorController {
     }
 
     @Override
-    public void setInverted(boolean isInverted) {
+    public ODN_MotorControllerGroup setInverted(boolean isInverted) {
         m_backend.setInverted(isInverted);
+        return this;
     }
 
     @Override

@@ -24,8 +24,9 @@ public class ODN_TalonFX implements ODN_MotorController {
     }
 
     @Override
-    public void setInverted(boolean isInverted) {
+    public ODN_TalonFX setInverted(boolean isInverted) {
         m_backend.setInverted(isInverted);
+        return this;
     }
 
     @Override

@@ -25,8 +25,9 @@ public class ODN_VictorSPX implements ODN_MotorController {
     }
 
     @Override
-    public void setInverted(boolean isInverted) {
+    public ODN_VictorSPX setInverted(boolean isInverted) {
         m_backend.setInverted(isInverted);
+        return this;
     }
 
     @Override

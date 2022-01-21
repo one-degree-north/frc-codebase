@@ -35,8 +35,9 @@ public class ODN_SparkMax implements ODN_MotorController {
     }
 
     @Override
-    public void setInverted(boolean isInverted) {
+    public ODN_SparkMax setInverted(boolean isInverted) {
         m_backend.setInverted(isInverted);
+        return this;
     }
 
     @Override

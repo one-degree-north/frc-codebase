@@ -32,7 +32,7 @@ public interface ODN_MotorController {
      * An interface to reverse the direction of a motor controller
      * @param isInverted True is inverted
      */
-    public void setInverted(boolean isInverted);
+    public ODN_MotorController setInverted(boolean isInverted);
 
     /**
      * Gets encoder connected to this motor controller
