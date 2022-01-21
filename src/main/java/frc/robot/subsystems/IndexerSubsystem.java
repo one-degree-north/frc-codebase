@@ -26,7 +26,7 @@ public class IndexerSubsystem extends SubsystemBase {
   private static final ColorMatch m_matcher = ODN_ColorSensor.createMatcher(0.8, RED, BLUE);
 
   public static class Constants {
-    public MotorControllerSubsystem motor;
+    public MotorControllerSubsystem.Constants motor;
     public ODN_ColorSensor color;
     public ODN_Adafruit164Sensor enter_sensor;
     public DigitalInput exit_sensor;
@@ -41,7 +41,7 @@ public class IndexerSubsystem extends SubsystemBase {
 
   /** Creates a new IndexerSubsystem. */
   public IndexerSubsystem(Constants constants) {
-    m_motor = constants.motor;
+    m_motor = new MotorControllerSubsystem(constants.motor);
     m_color = constants.color;
     m_enter_sensor = constants.enter_sensor;
     m_exit_sensor = constants.exit_sensor;

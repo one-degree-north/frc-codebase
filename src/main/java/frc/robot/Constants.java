@@ -63,58 +63,51 @@ public final class Constants {
     // --------- SHOOTER -----------------------------------------------------
     // -----------------------------------------------------------------------
 
-    public static MotorControllerSubsystem.Constants shooterMotorConstants = new MotorControllerSubsystem.Constants();
+    public static ShooterSubsystem.Constants shooterConstants = new ShooterSubsystem.Constants();
     static {
+        shooterConstants.motor = new MotorControllerSubsystem.Constants();
         ODN_TalonFX motor = new ODN_TalonFX(14);
         motor.setInverted(true);
-        shooterMotorConstants.motor = new ODN_MotorControllerGroup(
+        shooterConstants.motor.motor = new ODN_MotorControllerGroup(
             new ODN_TalonFX(15),
             motor
         );
-    }
-
-    public static ShooterSubsystem.Constants shooterConstants = new ShooterSubsystem.Constants();
-    static {
-        shooterConstants.motor = new MotorControllerSubsystem(shooterMotorConstants);
         shooterConstants.shoot_speed = 3000;
     }
+    
+    // -----------------------------------------------------------------------
+    // --------- INDEXER -----------------------------------------------------
+    // -----------------------------------------------------------------------
 
-    public static MotorControllerSubsystem.Constants indexerMotorConstants = new MotorControllerSubsystem.Constants();
-    static {
-        indexerMotorConstants.motor = new ODN_TalonFX(16);
-    }
     public static IndexerSubsystem.Constants indexerConstants = new IndexerSubsystem.Constants();
     static {
-        indexerConstants.motor = new MotorControllerSubsystem(indexerMotorConstants);
+        
+        indexerConstants.motor = new MotorControllerSubsystem.Constants();
+        indexerConstants.motor.motor = new ODN_TalonFX(16);
         indexerConstants.color = new ODN_ColorSensor();
         indexerConstants.enter_sensor = new ODN_Adafruit164Sensor(1);
         indexerConstants.exit_sensor = new DigitalInput(2);
     }
 
-    
-
     // -----------------------------------------------------------------------
     // --------- INTAKE ------------------------------------------------------
     // -----------------------------------------------------------------------
 
-    public static MotorControllerSubsystem.Constants intakeMotorConstants = new MotorControllerSubsystem.Constants();
+    public static IntakeSubsystem.Constants intakeConstants = new IntakeSubsystem.Constants();
     static {
-        intakeMotorConstants.motor = new ODN_TalonFX(17);
-    }
+        intakeConstants.motor = new MotorControllerSubsystem.Constants();
+        intakeConstants.motor.motor = new ODN_TalonFX(17);
 
-    public static PneumaticSubsystem.Constants intakePneumaticConstants = new PneumaticSubsystem.Constants();
-    static {
-        intakePneumaticConstants.solenoids = new DoubleSolenoid[]{
+        intakeConstants.pneumatics = new PneumaticSubsystem.Constants();
+        intakeConstants.pneumatics.solenoids = new DoubleSolenoid[]{
             new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1),
             new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3)
         };
     }
 
-    public static IntakeSubsystem.Constants intakeConstants = new IntakeSubsystem.Constants();
-    static {
-        intakeConstants.motor = new MotorControllerSubsystem(intakeMotorConstants);
-        intakeConstants.pneumatics = new PneumaticSubsystem(intakePneumaticConstants);
-    }
+    // -----------------------------------------------------------------------
+    // --------- AUTO CONSTANTS ----------------------------------------------
+    // -----------------------------------------------------------------------
 
     public static final class AutoConstants {
         public static double kMaxSpeedMetersPerSecond = 1;

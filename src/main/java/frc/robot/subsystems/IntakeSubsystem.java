@@ -7,15 +7,15 @@ import frc.lib.basesubsystem.PneumaticSubsystem;
 
 public class IntakeSubsystem extends SubsystemBase {
     public static class Constants {
-        public MotorControllerSubsystem motor;
-        public PneumaticSubsystem pneumatics;
+        public MotorControllerSubsystem.Constants motor;
+        public PneumaticSubsystem.Constants pneumatics;
     }
     private MotorControllerSubsystem m_motor;
     private PneumaticSubsystem m_pneumatics;
 
     public IntakeSubsystem(Constants constants) {
-        this.m_motor = constants.motor;
-        this.m_pneumatics = constants.pneumatics;
+        this.m_motor = new MotorControllerSubsystem(constants.motor);
+        this.m_pneumatics = new PneumaticSubsystem(constants.pneumatics);
     }
 
     public void toggle() {

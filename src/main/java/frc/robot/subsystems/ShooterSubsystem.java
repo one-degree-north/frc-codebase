@@ -10,7 +10,7 @@ import frc.lib.basesubsystem.MotorControllerSubsystem;
 public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   public static class Constants {
-    public MotorControllerSubsystem motor;
+    public MotorControllerSubsystem.Constants motor;
     public double shoot_speed;
   }
   
@@ -18,7 +18,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private double shoot_speed;
 
   public ShooterSubsystem(Constants constants) {
-    m_motors = constants.motor;
+    m_motors = new MotorControllerSubsystem(constants.motor);
     shoot_speed = constants.shoot_speed;
   }
 
