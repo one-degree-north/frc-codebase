@@ -11,6 +11,7 @@ import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.lib.motorcontroller.ODN_TalonFX;
 import frc.lib.sensor.ODN_Adafruit164Sensor;
 import frc.lib.sensor.ODN_ColorSensor;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
@@ -98,9 +99,26 @@ public final class Constants {
 
         intakeConstants.pneumatics = new PneumaticSubsystem.Constants();
         intakeConstants.pneumatics.solenoids = new DoubleSolenoid[]{
-            new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1),
+            new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1)
+        };
+    }
+
+    // -----------------------------------------------------------------------
+    // --------- CLIMBER -----------------------------------------------------
+    // -----------------------------------------------------------------------
+
+    public static ClimbSubsystem.Constants climbConstants = new ClimbSubsystem.Constants();
+    static {
+        climbConstants.enable_climber = new PneumaticSubsystem.Constants();
+        climbConstants.enable_climber.solenoids = new DoubleSolenoid[] {
             new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3)
         };
+        climbConstants.rotation = new PneumaticSubsystem.Constants();
+        climbConstants.rotation.solenoids = new DoubleSolenoid[] {
+            new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5)
+        };
+        climbConstants.motor = new MotorControllerSubsystem.Constants();
+        climbConstants.motor.motor = new ODN_TalonFX(18);
     }
 
     // -----------------------------------------------------------------------
@@ -120,16 +138,6 @@ public final class Constants {
 		public static double kPYController = 1;
 		public static double kPXController = 1;
 		public static double kPThetaController = 1;
-
-        /*
-            BBBB  III  GGGG      CCCC H   H U   U N   N  GGGG U   U  SSSS
-            B   B  I  G         C     H   H U   U NN  N G     U   U S   
-            BBBB   I  G         C     HHHHH U   U N N N G     U   U  SSS
-            B   B  I  G   G     C     H   H U   U N  NN G   G U   U     S
-            BBBB  III  GGGG      CCCC H   H  UUU  N   N  GGGG  UUU  SSSS
-
-            thank you frank. 
-        */
     }
 
 }

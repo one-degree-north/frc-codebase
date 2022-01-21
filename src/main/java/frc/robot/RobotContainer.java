@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -30,6 +31,7 @@ public class RobotContainer {
   private ShooterSubsystem m_shooter = new ShooterSubsystem(Constants.shooterConstants);
   private IndexerSubsystem m_indexer = new IndexerSubsystem(Constants.indexerConstants);
   private IntakeSubsystem m_intake = new IntakeSubsystem(Constants.intakeConstants);
+  private ClimbSubsystem m_climb = new ClimbSubsystem(Constants.climbConstants);
 
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
@@ -62,6 +64,7 @@ public class RobotContainer {
     },
     m_indexer));
     
+    m_climb.disable();
   }
 
   /**
