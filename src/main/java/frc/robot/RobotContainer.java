@@ -74,6 +74,7 @@ public class RobotContainer {
     shooterSpeed.whenPressed(new InstantCommand(()-> m_shooter.on(), m_shooter));
     shooterSpeed.whenReleased(new InstantCommand(()-> m_shooter.off(), m_shooter));
 
+    //TODO: Remove when automation confirmed works
     JoystickButton moveIntake = new JoystickButton(m_controller, XboxController.Button.kB.value);
     moveIntake.whenPressed(new InstantCommand(()-> m_intake.toggle(), m_intake));
 

@@ -15,12 +15,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class OakSubsystem extends SubsystemBase {
 
     public static class Detection {
-        String label;
-        int x1, y1, x2, y2;
-        double x, y, z;
+        public String label;
+        public int x1, y1, x2, y2;
+        public double x, y, z;
     }
 
     private BufferedReader m_read;
+    private Detection[] m_detections;
 
     public OakSubsystem(String hostname, int port) {
         Socket so;
@@ -30,10 +31,6 @@ public class OakSubsystem extends SubsystemBase {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void evaluateDetections(Detection[] detections) {
-        
     }
 
     @Override
@@ -57,11 +54,15 @@ public class OakSubsystem extends SubsystemBase {
                     d.z = Double.parseDouble(arr[7]);
                     dec[i++] = d;
                 }
-                evaluateDetections(dec);
+                m_detections = dec;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Detection[] getDetections() {
+        return m_detections;
     }
     
 }

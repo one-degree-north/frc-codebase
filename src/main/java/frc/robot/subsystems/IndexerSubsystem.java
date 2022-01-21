@@ -6,17 +6,20 @@ package frc.robot.subsystems;
 
 import com.revrobotics.ColorMatch;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
+import frc.lib.encoder.ODN_Encoder;
+import frc.lib.sensor.ODN_Adafruit164Sensor;
 import frc.lib.sensor.ODN_ColorSensor;
 import frc.robot.RobotContainer;
-import frc.robot.commands.ShootAwayCommand;
-import frc.robot.commands.ShootTowardCommand;
+import frc.robot.commands.IndexerContinueCommand;
 
 public class IndexerSubsystem extends SubsystemBase {
+
+  private static final double DISTANCE_TO_ENABLE = 0;
+
   private static final Color RED = new Color(1, 0, 0);
   private static final Color BLUE = new Color(0, 0, 1);
 
@@ -25,42 +28,45 @@ public class IndexerSubsystem extends SubsystemBase {
   public static class Constants {
     public MotorControllerSubsystem motor;
     public ODN_ColorSensor color;
-    public AnalogInput breakbeam_enter;
-    public DigitalInput breakbeam_exit;
+    public ODN_Adafruit164Sensor enter_sensor;
+    public DigitalInput exit_sensor;
+    private ODN_Encoder encoder;
   }
   private MotorControllerSubsystem m_motor;
   private ODN_ColorSensor m_color;
-  public AnalogInput m_breakbeam_enter;
-  public DigitalInput m_breakbeam_exit;
+  public ODN_Adafruit164Sensor m_enter_sensor;
+  public DigitalInput m_exit_sensor;
+  private ODN_Encoder m_encoder;
 
 
   /** Creates a new IndexerSubsystem. */
   public IndexerSubsystem(Constants constants) {
     m_motor = constants.motor;
     m_color = constants.color;
-    m_breakbeam_enter = constants.breakbeam_enter;
-    m_breakbeam_exit = constants.breakbeam_exit;
+    m_enter_sensor = constants.enter_sensor;
+    m_exit_sensor = constants.exit_sensor;
+    m_encoder = constants.encoder;
+  }
+
+  public static enum BallColor {
+    BLUE, RED, NONE
+  }
+
+  public BallColor getColor() {
+    Color match_res = m_matcher.matchColor(m_color.getColor()).color;
+    if(match_res == null) return BallColor.NONE;
+    if(match_res.equals(RED)) return BallColor.RED;
+    if(match_res.equals(BLUE)) return BallColor.BLUE;
+    return null;
   }
 
   @Override
   public void periodic() {
-    Color match_res = m_matcher.matchClosestColor(m_color.getColor()).color;
-    if(match_res.equals(RED)) {
-      new ShootAwayCommand(RobotContainer.container.getIndexer(), 
-      RobotContainer.container.getDrivebase(), 
-      RobotContainer.container.getShooter()).schedule();
-    } else if(match_res.equals(BLUE)) {
-      new ShootTowardCommand(RobotContainer.container.getIndexer(), 
-      RobotContainer.container.getDrivebase(), 
-      RobotContainer.container.getShooter(), 
-      RobotContainer.container.getLimelight(),
-      RobotContainer.container.getJoystick()).schedule();
-    }
-    if(m_breakbeam_exit.get())
+    if(m_exit_sensor.get())
     {
-      RobotContainer.container.getIndexer().off();
+      new IndexerContinueCommand(this);
     }
-    if(m_breakbeam_enter.getValue() / 4096.0 * 0.7 + 0.1 < 5)
+    if(m_enter_sensor.getDistanceInches() < DISTANCE_TO_ENABLE)
     {
       RobotContainer.container.getIndexer().on();
     }
@@ -74,5 +80,13 @@ public class IndexerSubsystem extends SubsystemBase {
 
   public void off() {
     m_motor.set(0);
+  }
+
+  public void resetEncoder() {
+    m_encoder.setPosition(0);
+  }
+
+  public double getEncoder() {
+    return m_encoder.getPosition();
   }
 }

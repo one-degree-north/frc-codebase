@@ -4,12 +4,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.lib.motorcontroller.ODN_TalonFX;
+import frc.lib.sensor.ODN_Adafruit164Sensor;
 import frc.lib.sensor.ODN_ColorSensor;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -87,8 +87,8 @@ public final class Constants {
     static {
         indexerConstants.motor = new MotorControllerSubsystem(indexerMotorConstants);
         indexerConstants.color = new ODN_ColorSensor();
-        indexerConstants.breakbeam_enter = new AnalogInput(1);
-        indexerConstants.breakbeam_exit = new DigitalInput(2);
+        indexerConstants.enter_sensor = new ODN_Adafruit164Sensor(1);
+        indexerConstants.exit_sensor = new DigitalInput(2);
     }
 
     
