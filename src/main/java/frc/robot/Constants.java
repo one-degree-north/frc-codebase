@@ -76,7 +76,7 @@ public final class Constants {
     public static ShooterSubsystem.Constants shooterConstants = new ShooterSubsystem.Constants();
     static {
         shooterConstants.motor = new MotorControllerSubsystem(shooterMotorConstants);
-        shooterConstants.shoot_speed = 3000;
+        shooterConstants.shoot_speed = 50;
     }
 
     public static MotorControllerSubsystem.Constants indexerMotorConstants = new MotorControllerSubsystem.Constants();
@@ -129,6 +129,16 @@ public final class Constants {
 		public static double kPYController = 1;
 		public static double kPXController = 1;
 		public static double kPThetaController = 1;
+
+        /*
+            BBBB  III  GGGG      CCCC H   H U   U N   N  GGGG U   U  SSSS
+            B   B  I  G         C     H   H U   U NN  N G     U   U S   
+            BBBB   I  G         C     HHHHH U   U N N N G     U   U  SSS
+            B   B  I  G   G     C     H   H U   U N  NN G   G U   U     S
+            BBBB  III  GGGG      CCCC H   H  UUU  N   N  GGGG  UUU  SSSS
+
+            thank you frank. 
+        */
     }
 
 }

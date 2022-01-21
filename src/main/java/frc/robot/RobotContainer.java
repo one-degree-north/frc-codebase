@@ -44,6 +44,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     container = this;
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -70,12 +71,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton shooterSpeed = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    shooterSpeed.whenPressed(new InstantCommand(()-> m_shooter.on(), m_shooter));
-    shooterSpeed.whenReleased(new InstantCommand(()-> m_shooter.off(), m_shooter));
+    // JoystickButton shooterSpeed = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    // shooterSpeed.whenPressed(new InstantCommand(()-> m_shooter.on(), m_shooter));
+    // shooterSpeed.whenReleased(new InstantCommand(()-> m_shooter.off(), m_shooter));
 
-    JoystickButton moveIntake = new JoystickButton(m_controller, XboxController.Button.kB.value);
-    moveIntake.whenPressed(new InstantCommand(()-> m_intake.toggle(), m_intake));
+    // JoystickButton moveIntake = new JoystickButton(m_controller, XboxController.Button.kB.value);
+    // moveIntake.whenPressed(new InstantCommand(()-> m_intake.toggle(), m_intake));
 
     JoystickButton spinIntake = new JoystickButton(m_controller, XboxController.Button.kX.value);
     spinIntake.whenPressed(new InstantCommand(()-> m_intake.on(), m_intake));
