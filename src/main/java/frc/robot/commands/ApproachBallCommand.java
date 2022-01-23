@@ -12,14 +12,14 @@ import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.OakSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
 
-public class MoveToSetDistance extends CommandBase {
+public class ApproachBallCommand extends CommandBase {
   private double endDistance;
   private SwerveDriveSubsystem m_swerve;
   private OakSubsystem m_oak;
   private XboxController m_joystick;
   private Function<Double, Double> m_func = LimelightSubsystem.linearAttenuation(70);
   /** Creates a new MoveToSetDistance. */
-  public MoveToSetDistance(SwerveDriveSubsystem swerve, OakSubsystem oak, XboxController joystick, double endDistance) {
+  public ApproachBallCommand(SwerveDriveSubsystem swerve, OakSubsystem oak, XboxController joystick, double endDistance) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.endDistance = endDistance;
     m_swerve = swerve;

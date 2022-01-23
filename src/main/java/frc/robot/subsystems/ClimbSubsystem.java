@@ -5,22 +5,21 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.PneumaticSubsystem;
 
 public class ClimbSubsystem extends SubsystemBase {
 
-  private PneumaticSubsystem m_enable_climber;
-  private PneumaticSubsystem m_rotation;
-  private MotorControllerSubsystem m_motor;
-
   public static class Constants {
     public PneumaticSubsystem.Constants enable_climber;
     public PneumaticSubsystem.Constants rotation;
     public MotorControllerSubsystem.Constants motor;
   }
+
+  private PneumaticSubsystem m_enable_climber;
+  private PneumaticSubsystem m_rotation;
+  private MotorControllerSubsystem m_motor;
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem(Constants constants) {
@@ -46,13 +45,7 @@ public class ClimbSubsystem extends SubsystemBase {
     m_rotation.set(Value.kForward);
   }
 
-  public Command raiseTelescopingElevator() {
-    //TODO: Write this
-    return null;
-  }
-
-  public Command dropTelescopingElevator() {
-    //TODO: Write this
-    return null;
+  public void setMotor(double speed) {
+    m_motor.set(speed);
   }
 }

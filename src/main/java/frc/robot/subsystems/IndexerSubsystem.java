@@ -13,8 +13,7 @@ import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.encoder.ODN_Encoder;
 import frc.lib.sensor.ODN_Adafruit164Sensor;
 import frc.lib.sensor.ODN_ColorSensor;
-import frc.robot.RobotContainer;
-import frc.robot.commands.IndexerContinueCommand;
+import frc.robot.commands.IndexerCommand;
 
 public class IndexerSubsystem extends SubsystemBase {
 
@@ -62,16 +61,10 @@ public class IndexerSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(m_exit_sensor.get())
-    {
-      new IndexerContinueCommand(this);
-    }
     if(m_enter_sensor.getDistanceInches() < DISTANCE_TO_ENABLE)
     {
-      RobotContainer.container.getIndexer().on();
+      new IndexerCommand(this);
     }
-
-    // This method will be called once per scheduler run
   }
 
   public void on() {
@@ -88,5 +81,9 @@ public class IndexerSubsystem extends SubsystemBase {
 
   public double getEncoder() {
     return m_encoder.getPosition();
+  }
+
+  public boolean getExitSensor() {
+    return m_exit_sensor.get();
   }
 }
