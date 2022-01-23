@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
+import frc.robot.commands.ElevatorHeightCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -74,19 +76,29 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton shooterSpeed = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    shooterSpeed.whenPressed(new InstantCommand(()-> m_shooter.on(), m_shooter));
-    shooterSpeed.whenReleased(new InstantCommand(()-> m_shooter.off(), m_shooter));
+    JoystickButton shoot = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    shoot.whenPressed(new InstantCommand(()-> m_shooter.on(), m_shooter));
+    shoot.whenReleased(new InstantCommand(()-> m_shooter.off(), m_shooter));
+
+    JoystickButton climb = new JoystickButton(m_controller, XboxController.Button.kY.value);
+    climb.whenPressed(new SequentialCommandGroup(
+      new InstantCommand(()->m_climb.enable(), m_climb),
+      new ElevatorHeightCommand(m_climb, ClimbSubsystem.TOP),
+      //Drive robot back a little
+      new ElevatorHeightCommand(m_climb, ClimbSubsystem.BOTTOM),
+      new InstantCommand(()->m_climb.contractRotation(), m_climb),
+      new ElevatorHeightCommand(m_climb, ClimbSubsystem.TRANSFER),
+      new InstantCommand(()->m_climb.extendRotation(), m_climb),
+      new ElevatorHeightCommand(m_climb, ClimbSubsystem.TOP)
+    ));
 
     //TODO: Remove when automation confirmed works
     JoystickButton moveIntake = new JoystickButton(m_controller, XboxController.Button.kB.value);
     moveIntake.whenPressed(new InstantCommand(()-> m_intake.toggle(), m_intake));
-
     JoystickButton spinIntake = new JoystickButton(m_controller, XboxController.Button.kX.value);
     spinIntake.whenPressed(new InstantCommand(()-> m_intake.on(), m_intake));
     spinIntake.whenReleased(new InstantCommand(()-> m_intake.off(), m_intake));
-
-
+    
   }
   
   

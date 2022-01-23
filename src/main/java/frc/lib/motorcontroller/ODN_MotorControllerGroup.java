@@ -7,13 +7,19 @@ import frc.lib.encoder.ODN_Encoder;
 public class ODN_MotorControllerGroup implements ODN_MotorController {
 
     private MotorControllerGroup m_backend;
+    private ODN_Encoder m_encoder;
 
     public ODN_MotorControllerGroup(ODN_MotorController... controllers) {
+        this(controllers[0].getEncoder(), controllers);
+    }
+
+    public ODN_MotorControllerGroup(ODN_Encoder encoder, ODN_MotorController... controllers) {
         MotorController[] s = new MotorController[controllers.length];
         for(int i=0;i<controllers.length;i++) {
             s[i] = controllers[i].getBackend();
         }
         m_backend = new MotorControllerGroup(s);
+        m_encoder = encoder;
     }
 
     @Override
@@ -39,7 +45,7 @@ public class ODN_MotorControllerGroup implements ODN_MotorController {
 
     @Override
     public ODN_Encoder getEncoder() {
-        return null;
+        return m_encoder;
     }
 
     @Override

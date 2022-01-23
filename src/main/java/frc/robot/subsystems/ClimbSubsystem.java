@@ -17,6 +17,10 @@ public class ClimbSubsystem extends SubsystemBase {
     public MotorControllerSubsystem.Constants motor;
   }
 
+  public static final double TOP = 0;
+  public static final double BOTTOM = 0;
+  public static final double TRANSFER = 0;
+
   private PneumaticSubsystem m_enable_climber;
   private PneumaticSubsystem m_rotation;
   private MotorControllerSubsystem m_motor;
@@ -47,5 +51,9 @@ public class ClimbSubsystem extends SubsystemBase {
 
   public void setMotor(double speed) {
     m_motor.set(speed);
+  }
+
+  public double getMotorLocation() {
+    return m_motor.getPosition();
   }
 }
