@@ -10,9 +10,10 @@ import frc.lib.gyro.ODN_AHRS;
 import frc.lib.motorcontroller.ODN_SparkMax;
 import frc.lib.motorcontroller.ODN_TalonFX;
 import frc.lib.motorcontroller.ODN_SparkMax.MotorType;
-import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.lib.basesubsystem.SwerveDriveSubsystem;
 import frc.robot.subsystems.HoodSubsystem;
-import frc.robot.subsystems.MotorControllerSubsystem;
+import frc.lib.motorcontroller.ODN_TalonFX;
+import frc.lib.basesubsystem.MotorControllerSubsystem;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide

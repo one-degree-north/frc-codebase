@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib.ODN_HolonomicDrivebase;
 import frc.robot.subsystems.HoodSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.MotorControllerSubsystem;
+import frc.lib.basesubsystem.LimelightSubsystem;
+import frc.lib.basesubsystem.MotorControllerSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

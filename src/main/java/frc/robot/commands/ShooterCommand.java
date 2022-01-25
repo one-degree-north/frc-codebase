@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.MotorControllerSubsystem;
+import frc.lib.basesubsystem.MotorControllerSubsystem;
 
 public class ShooterCommand extends CommandBase {
   /** Creates a new ShooterCommand. */

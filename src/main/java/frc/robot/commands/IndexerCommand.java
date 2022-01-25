@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.MotorControllerSubsystem;
+import frc.lib.basesubsystem.MotorControllerSubsystem;
 
 public class IndexerCommand extends CommandBase {
   private MotorControllerSubsystem indexerR;

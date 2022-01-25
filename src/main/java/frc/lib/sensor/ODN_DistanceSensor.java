@@ -1,5 +1,5 @@
 package frc.lib.sensor;
 
-public interface ODN_UltrasonicSensor {
+public interface ODN_DistanceSensor {
     public double getDistanceInches();
 }

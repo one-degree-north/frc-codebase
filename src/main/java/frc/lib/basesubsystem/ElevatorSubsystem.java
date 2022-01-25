@@ -2,9 +2,9 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.lib.basesubsystem;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,7 +12,7 @@ import frc.lib.ODN_State;
 import frc.lib.encoder.ODN_Encoder;
 import frc.lib.motorcontroller.ODN_MotorController;
 
-public class ArmSubsystem extends SubsystemBase implements ODN_State {
+public class ElevatorSubsystem extends SubsystemBase implements ODN_State {
 
   public static final double EPSILON = 0.01;
 
@@ -32,10 +32,7 @@ public class ArmSubsystem extends SubsystemBase implements ODN_State {
     public double kp, ki, kd;
 
     // Feedforward values
-    public double ks, kcos, kv;
-
-    // Length of the arm
-    public double length;
+    public double ks, kg, kv;
   }
 
   private ODN_MotorController m_motor;
@@ -47,9 +44,9 @@ public class ArmSubsystem extends SubsystemBase implements ODN_State {
   
   private ProfiledPIDController m_controller;
 
-  private ArmFeedforward m_feedforward;
+  private ElevatorFeedforward m_feedforward;
 
-  public ArmSubsystem(Constants constants) {
+  public ElevatorSubsystem(Constants constants) {
     this.m_constants = constants;
     m_motor = constants.motor;
     m_encoder = constants.encoder;
@@ -58,7 +55,7 @@ public class ArmSubsystem extends SubsystemBase implements ODN_State {
     
     m_controller = new ProfiledPIDController(m_constants.kp, m_constants.ki, m_constants.kd, 
         new TrapezoidProfile.Constraints(m_constants.maxVelocity, m_constants.maxAcceleration));
-    m_feedforward = new ArmFeedforward(m_constants.ks, m_constants.kcos, m_constants.kv);
+    m_feedforward = new ElevatorFeedforward(m_constants.ks, m_constants.kg, m_constants.kv);
   }
 
   @Override
@@ -82,6 +79,6 @@ public class ArmSubsystem extends SubsystemBase implements ODN_State {
     double speed = m_controller.calculate(m_encoder.getPosition(), m_pos);
 
     // Add feedforward compensation to speed
-    m_motor.setVoltage(speed + m_feedforward.calculate(m_encoder.getPosition(), m_encoder.getVelocity()));
+    m_motor.setVoltage(speed + m_feedforward.calculate(m_encoder.getVelocity()));
   }
 }
