@@ -6,17 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.LimelightArcCommand;
 import frc.robot.subsystems.HoodSubsystem;
-import frc.lib.basesubsystem.SwerveDriveSubsystem;
-import frc.robot.commands.TrajectoryCommand;
-import frc.lib.motorcontroller.ODN_MotorController;
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
-import frc.lib.motorcontroller.ODN_TalonFX;
 
 
 /**
@@ -37,9 +31,9 @@ public class RobotContainer {
   //Limelight
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
 
-  //Intake and Indexer
-  private MotorControllerSubsystem m_intakeFront = new MotorControllerSubsystem(Constants.intakeFrontConstants);
-  private MotorControllerSubsystem m_intakeBack = new MotorControllerSubsystem(Constants.intakeBackConstants);
+  // //Intake and Indexer
+  // private MotorControllerSubsystem m_intakeFront = new MotorControllerSubsystem(Constants.intakeFrontConstants);
+  // private MotorControllerSubsystem m_intakeBack = new MotorControllerSubsystem(Constants.intakeBackConstants);
 
   //Shooter
   private MotorControllerSubsystem m_shooterTop = new MotorControllerSubsystem(Constants.shooterTopConstants);
@@ -67,14 +61,15 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // m_drive.setDefaultCommand(new RunCommand(() -> {
+    m_shooterTop.setDefaultCommand(new RunCommand(() -> {
     //     m_drive.cartesianDriveAbsolute(modifyAxis(m_controller.getLeftY()), 
     //       modifyAxis(m_controller.getLeftX()),
     //       modifyAxis(m_controller.getRightX()));
-    //     m_shooter.setSpeed(100);
-    //     System.out.println(m_shooter.getSpeed());
-    //   },
-    //   m_drive));
+        m_shooterTop.setSpeed(6000);
+        System.out.println(m_shooterTop.getSpeed());
+      },
+      m_shooterTop));
+
 
   
   }

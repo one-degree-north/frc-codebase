@@ -9,10 +9,8 @@ import frc.lib.encoder.ODN_CANCoder;
 import frc.lib.gyro.ODN_AHRS;
 import frc.lib.motorcontroller.ODN_SparkMax;
 import frc.lib.motorcontroller.ODN_TalonFX;
-import frc.lib.motorcontroller.ODN_SparkMax.MotorType;
-import frc.lib.basesubsystem.SwerveDriveSubsystem;
+import frc.lib.motorcontroller.ODN_SparkMax.Type;
 import frc.robot.subsystems.HoodSubsystem;
-import frc.lib.motorcontroller.ODN_TalonFX;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
 
 /**
@@ -28,33 +26,33 @@ import frc.lib.basesubsystem.MotorControllerSubsystem;
 public final class Constants {
 
     //drivebase
-    public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
-    static {
-        swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47;
-        swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47;
+    // public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
+    // static {
+    //     swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47;
+    //     swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47;
     
-        swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 1;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 12;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.471);
+    //     swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
+    //     swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 1;
+    //     swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 12;
+    //     swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.471);
     
-        swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 6;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 5;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 11;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(136.055-180);
+    //     swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 6;
+    //     swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 5;
+    //     swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 11;
+    //     swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(136.055-180);
     
-        swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4;
-        swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 3;
-        swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 9;
-        swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.542-180);
+    //     swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4;
+    //     swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 3;
+    //     swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 9;
+    //     swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.542-180);
 
-        swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 7;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 10;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(-21.533);
+    //     swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
+    //     swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 7;
+    //     swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 10;
+    //     swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(-21.533);
 
-        swerveConstants.gyro = new ODN_AHRS();
-    }
+    //     swerveConstants.gyro = new ODN_AHRS();
+    // }
 
 
     //intake
@@ -62,8 +60,8 @@ public final class Constants {
     public static MotorControllerSubsystem.Constants intakeBackConstants = new MotorControllerSubsystem.Constants();
 
     static {
-        intakeFrontConstants.motor = new ODN_SparkMax(11, MotorType.brushless);
-        intakeBackConstants.motor = new ODN_SparkMax(12, MotorType.brushless);
+        intakeFrontConstants.motor = new ODN_SparkMax(11, Type.brushless);
+        intakeBackConstants.motor = new ODN_SparkMax(12, Type.brushless);
     }
 
     //shooter

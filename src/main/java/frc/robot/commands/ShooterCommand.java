@@ -44,10 +44,10 @@ public class ShooterCommand extends CommandBase {
       done = true;
     }
     else if(System.currentTimeMillis()/1000.0-t_s>0.1 && System.currentTimeMillis()/1000.0-t_s<0.6){
-        m_top.setSpeed(m_shooter.apply(RobotContainer.container.getAngle()+33));
+        m_top.setSpeed(m_shooter.apply(RobotContainer.container.getAngle()));
     }
     
-    m_bottom.setSpeed(0.75*m_shooter.apply(RobotContainer.container.getAngle()+33));
+    m_bottom.setSpeed(0.75*m_shooter.apply(RobotContainer.container.getAngle()));
 
 
 
