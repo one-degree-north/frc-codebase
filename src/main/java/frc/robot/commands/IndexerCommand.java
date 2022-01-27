@@ -8,23 +8,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
 
 public class IndexerCommand extends CommandBase {
-  private MotorControllerSubsystem indexerR;
-  private MotorControllerSubsystem indexerL;
+  private MotorControllerSubsystem m_intake;
 
   /** Creates a new IndexerCommand. */
-  public IndexerCommand( MotorControllerSubsystem right,  MotorControllerSubsystem left) {
+  public IndexerCommand( MotorControllerSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    indexerR = right;
-    indexerL = left;
-    addRequirements(indexerR, indexerL);
+    m_intake = intake;
+    addRequirements(m_intake);
   }
 
   double t_s;
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    indexerR.setSpeed(4000);
-    indexerL.setSpeed(4000);
+    m_intake.setSpeed(4000);
     t_s = System.currentTimeMillis()/1000.0;
 
   }
@@ -36,8 +33,8 @@ public class IndexerCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    indexerR.setSpeed(0);
-    indexerL.setSpeed(0);
+    m_intake.setSpeed(0);
+
   }
 
   // Returns true when the command should end.

@@ -7,6 +7,7 @@ package frc.robot;
 
 import frc.lib.encoder.ODN_CANCoder;
 import frc.lib.gyro.ODN_AHRS;
+import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.lib.motorcontroller.ODN_SparkMax;
 import frc.lib.motorcontroller.ODN_TalonFX;
 import frc.lib.motorcontroller.ODN_SparkMax.Type;
@@ -60,8 +61,7 @@ public final class Constants {
     public static MotorControllerSubsystem.Constants intakeBackConstants = new MotorControllerSubsystem.Constants();
 
     static {
-        intakeFrontConstants.motor = new ODN_SparkMax(11, Type.brushless);
-        intakeBackConstants.motor = new ODN_SparkMax(12, Type.brushless);
+        intakeFrontConstants.motor = new ODN_MotorControllerGroup(new ODN_SparkMax(11, Type.brushless), new ODN_SparkMax(12, Type.brushless));
     }
 
     //shooter
