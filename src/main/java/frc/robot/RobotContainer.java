@@ -6,11 +6,18 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.IndexerCommand;
+import frc.robot.commands.LimelightArcCommand;
+import frc.robot.commands.ShootCommand;
+import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.HoodSubsystem;
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
+import frc.lib.basesubsystem.SwerveDriveSubsystem;
 
 
 /**
@@ -26,14 +33,13 @@ public class RobotContainer {
   // Robot subsystems here:
 
   //Drivebase
-  // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
+  private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
   
   //Limelight
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
 
-  // //Intake and Indexer
-  // private MotorControllerSubsystem m_intakeFront = new MotorControllerSubsystem(Constants.intakeFrontConstants);
-  // private MotorControllerSubsystem m_intakeBack = new MotorControllerSubsystem(Constants.intakeBackConstants);
+  //Intake and Indexer
+  private MotorControllerSubsystem m_intake = new MotorControllerSubsystem(Constants.intakeConstants);
 
   //Shooter
   private MotorControllerSubsystem m_shooterTop = new MotorControllerSubsystem(Constants.shooterTopConstants);
@@ -65,8 +71,6 @@ public class RobotContainer {
     //     m_drive.cartesianDriveAbsolute(modifyAxis(m_controller.getLeftY()), 
     //       modifyAxis(m_controller.getLeftX()),
     //       modifyAxis(m_controller.getRightX()));
-        m_shooterTop.setSpeed(6000);
-        System.out.println(m_shooterTop.getSpeed());
       },
       m_shooterTop));
 
@@ -88,10 +92,48 @@ public class RobotContainer {
     // button.toggleWhenPressed(new LimelightArcCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), m_controller));
     // JoystickButton button2 = new JoystickButton(m_controller, XboxController.Button.kB.value);
     // button2.whenPressed(new InstantCommand(()->m_drive.resetYaw(), m_drive));
-
-    //Intake and Indexer
-    JoystickButton testBtn = new JoystickButton(m_controller, XboxController.Button.kX.value);
     
+    //intake in
+    JoystickButton intakeIn = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
+    intakeIn.whenPressed(new IndexerCommand(m_intake, true));
+    //intake out
+    Trigger intakeOut = new Trigger(()->m_controller.getLeftTriggerAxis()>0.7);
+    intakeOut.whenActive(new IndexerCommand(m_intake, false));
+    
+    
+
+    //high shoot
+    JoystickButton highShoot = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
+    highShoot.whenPressed(new ShootCommand(m_drive, m_limelight, m_intake, m_shooterTop, m_shooterBottom, m_hood, m_controller));
+    //low shoot
+    Trigger lowShoot = new Trigger(()->m_controller.getRightTriggerAxis()>0.7);
+    lowShoot.whenActive(new ShooterCommand(m_shooterTop, m_shooterBottom, ShootCommand.shoot(25, 107.95, 21, 30, 5), false));
+    
+
+    //climber
+    Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
+    linearUp.whenActive(new InstantCommand(()->{ 
+      m_climberReach.setSpeed(5900);
+    }));
+    Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
+    linearDown.whenActive(new InstantCommand(()->{ 
+      m_climberReach.setSpeed(-5900);
+    }));
+    
+
+    Trigger rotateForward = new Trigger(()->m_controller.getPOV()==90);
+    rotateForward.whenActive(new InstantCommand(()->{ 
+      m_climberRotate.setSpeed(5800);
+    }));
+    Trigger rotateBackward = new Trigger(()->m_controller.getPOV()==270);
+    rotateBackward.whenActive(new InstantCommand(()->{ 
+      m_climberRotate.setSpeed(-5800);
+    }));
+
+    //align
+    JoystickButton align = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    align.toggleWhenPressed(new LimelightArcCommand(m_drive, m_limelight, m_hood, LimelightSubsystem.linearAttenuation(27), ShootCommand.hood(55.0, 70.0, 25.0, 107.95), m_controller));
+   
   }
   
   

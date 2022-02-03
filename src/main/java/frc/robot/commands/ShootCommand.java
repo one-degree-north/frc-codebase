@@ -20,7 +20,7 @@ import frc.robot.subsystems.HoodSubsystem;
 public class ShootCommand extends SequentialCommandGroup {
   /** Creates a new ShootCommand. */
   //offset is 25 degrees, min is 55, max is 70, height is 107.95
-  private static Function<Double, Double> hood(double min, double max, double offset, double height) {
+  public static Function<Double, Double> hood(double min, double max, double offset, double height) {
     return (x)->{
       x+=offset;
       x = height/Math.tan(x);
@@ -36,7 +36,7 @@ public class ShootCommand extends SequentialCommandGroup {
   }
 
   //ft/s conversion: 60/(radius (ft) *2 *Math.Pi * 6380)
-  private static Function<Double, Double> shoot(double offset, double height, double min, double max, double conversion) {
+  public static Function<Double, Double> shoot(double offset, double height, double min, double max, double conversion) {
     return (x)->{
       x+=offset;
       x = height/Math.tan(x);
@@ -58,8 +58,8 @@ public class ShootCommand extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new AlignCommand(drive, m_limelight, m_hood, LimelightSubsystem.linearAttenuation(27), hood(55.0, 70.0, 25.0, 107.95), stick),
-      new IndexerCommand(m_intake),
-      new ShooterCommand(m_shooterTop, m_shooterBottom, shoot(25, 107.95, 21, 30, conversion ))
+      new IndexerCommand(m_intake, true),
+      new ShooterCommand(m_shooterTop, m_shooterBottom, shoot(25, 107.95, 21, 30, conversion), true)
 
     );
   }

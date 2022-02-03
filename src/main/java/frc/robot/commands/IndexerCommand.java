@@ -9,11 +9,12 @@ import frc.lib.basesubsystem.MotorControllerSubsystem;
 
 public class IndexerCommand extends CommandBase {
   private MotorControllerSubsystem m_intake;
-
+  private boolean isIntaking;
   /** Creates a new IndexerCommand. */
-  public IndexerCommand( MotorControllerSubsystem intake) {
+  public IndexerCommand(MotorControllerSubsystem intake, boolean intaking) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_intake = intake;
+    isIntaking = intaking;
     addRequirements(m_intake);
   }
 
@@ -21,7 +22,13 @@ public class IndexerCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.setSpeed(4000);
+    if(isIntaking){
+      m_intake.setSpeed(4000);
+    }
+    else{
+      m_intake.setSpeed(-4000);
+
+    }
     t_s = System.currentTimeMillis()/1000.0;
 
   }
