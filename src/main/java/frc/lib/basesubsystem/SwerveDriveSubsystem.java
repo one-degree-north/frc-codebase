@@ -6,9 +6,19 @@ package frc.lib.basesubsystem;
 
 import java.util.List;
 
+import com.swervedrivespecialties.swervelib.DriveControllerFactory;
+import com.swervedrivespecialties.swervelib.Mk3ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
+import com.swervedrivespecialties.swervelib.SteerControllerFactory;
 import com.swervedrivespecialties.swervelib.SwerveModule;
+import com.swervedrivespecialties.swervelib.SwerveModuleFactory;
+import com.swervedrivespecialties.swervelib.ctre.CanCoderAbsoluteConfiguration;
+import com.swervedrivespecialties.swervelib.ctre.CanCoderFactoryBuilder;
+import com.swervedrivespecialties.swervelib.ctre.Falcon500DriveControllerFactoryBuilder;
+import com.swervedrivespecialties.swervelib.ctre.Falcon500SteerConfiguration;
+import com.swervedrivespecialties.swervelib.ctre.Falcon500SteerControllerFactoryBuilder;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -21,6 +31,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
@@ -33,6 +44,55 @@ import frc.lib.ODN_HolonomicDrivebase;
 import frc.robot.Constants.AutoConstants;
 
 public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
+
+	public static class Helper {
+		//TODO: ASK MING FOR NUMBERS
+		public static final ModuleConfiguration ours = new ModuleConfiguration(0.1016,
+		1/6.55,
+		true,
+		(15.0 / 32.0) * (10.0 / 60.0),
+		true);
+
+		private static DriveControllerFactory<?, Integer> getFalcon500DriveFactory(Mk3ModuleConfiguration configuration) {
+			return new Falcon500DriveControllerFactoryBuilder()
+					.withVoltageCompensation(configuration.getNominalVoltage())
+					.withCurrentLimit(configuration.getDriveCurrentLimit())
+					.build();
+		}
+	
+		private static SteerControllerFactory<?, Falcon500SteerConfiguration<CanCoderAbsoluteConfiguration>> getFalcon500SteerFactory(Mk3ModuleConfiguration configuration) {
+			return new Falcon500SteerControllerFactoryBuilder()
+					.withVoltageCompensation(configuration.getNominalVoltage())
+					.withPidConstants(0.2, 0.0, 0.1)
+					.withCurrentLimit(configuration.getSteerCurrentLimit())
+					.build(new CanCoderFactoryBuilder()
+							.withReadingUpdatePeriod(100)
+							.build());
+		}
+
+		public static SwerveModule createFalcon500(
+				ShuffleboardLayout container,
+				Mk3ModuleConfiguration configuration,
+				ModuleConfiguration gearRatio,
+				int driveMotorPort,
+				int steerMotorPort,
+				int steerEncoderPort,
+				double steerOffset
+		) {
+			return new SwerveModuleFactory<>(
+					gearRatio,
+					getFalcon500DriveFactory(configuration),
+					getFalcon500SteerFactory(configuration)
+			).create(
+					container,
+					driveMotorPort,
+					new Falcon500SteerConfiguration<>(
+							steerMotorPort,
+							new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+					)
+			);
+		}
+	}
 
 	public static class Constants {
 
@@ -157,14 +217,13 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 		// a different configuration or motors
 		// you MUST change it. If you do not, your code will crash on startup.
 		// FIXME Setup motor configuration
-
-		m_frontLeftModule = Mk3SwerveModuleHelper.createNeo(
+		m_frontLeftModule = Helper.createFalcon500(
 				// This parameter is optional, but will allow you to see the current state of
 				// the module on the dashboard.
 				tab.getLayout("Front Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0),
 				// This can either be STANDARD or F
 				// AST depending on your gear configuration
-				Mk3SwerveModuleHelper.GearRatio.STANDARD,
+				new Mk3ModuleConfiguration(), Helper.ours,
 				// This is the ID of the drive motor
 				constants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
 				// This is the ID of the steer motor
@@ -176,21 +235,21 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 				constants.FRONT_LEFT_MODULE_STEER_OFFSET);
 
 		// We will do the same for the other modules
-		m_frontRightModule = Mk3SwerveModuleHelper.createNeo(
+		m_frontRightModule = Helper.createFalcon500(
 				tab.getLayout("Front Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(2, 0),
-				Mk3SwerveModuleHelper.GearRatio.STANDARD, constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
+				new Mk3ModuleConfiguration(), Helper.ours, constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
 				constants.FRONT_RIGHT_MODULE_STEER_MOTOR, constants.FRONT_RIGHT_MODULE_STEER_ENCODER,
 				constants.FRONT_RIGHT_MODULE_STEER_OFFSET);
 
-		m_backLeftModule = Mk3SwerveModuleHelper.createNeo(
+		m_backLeftModule = Helper.createFalcon500(
 				tab.getLayout("Back Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(4, 0),
-				Mk3SwerveModuleHelper.GearRatio.STANDARD, constants.BACK_LEFT_MODULE_DRIVE_MOTOR,
+				new Mk3ModuleConfiguration(), Helper.ours, constants.BACK_LEFT_MODULE_DRIVE_MOTOR,
 				constants.BACK_LEFT_MODULE_STEER_MOTOR, constants.BACK_LEFT_MODULE_STEER_ENCODER,
 				constants.BACK_LEFT_MODULE_STEER_OFFSET);
 
-		m_backRightModule = Mk3SwerveModuleHelper.createNeo(
+		m_backRightModule = Helper.createFalcon500(
 				tab.getLayout("Back Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(6, 0),
-				Mk3SwerveModuleHelper.GearRatio.STANDARD, constants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
+				new Mk3ModuleConfiguration(), Helper.ours, constants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
 				constants.BACK_RIGHT_MODULE_STEER_MOTOR, constants.BACK_RIGHT_MODULE_STEER_ENCODER,
 				constants.BACK_RIGHT_MODULE_STEER_OFFSET);
 	}
