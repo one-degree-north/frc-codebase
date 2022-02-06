@@ -16,6 +16,7 @@ public class ShooterSubsystem extends SubsystemBase {
   
   private MotorControllerSubsystem m_motors;
   private double shoot_speed;
+  private boolean m_running;
 
   public ShooterSubsystem(Constants constants) {
     m_motors = new MotorControllerSubsystem(constants.motor);
@@ -24,9 +25,16 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void on() {
     m_motors.setSpeed(shoot_speed);
+    m_running = true;
   }
 
   public void off() {
     m_motors.setSpeed(0);
+    m_running = false;
+  }
+
+  public void toggle() {
+    if(m_running) off();
+    else on();
   }
 }

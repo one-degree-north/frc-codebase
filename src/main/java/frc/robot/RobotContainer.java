@@ -4,15 +4,19 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
 import frc.robot.commands.ElevatorHeightCommand;
+import frc.robot.commands.IndexerContinueCommand;
+import frc.robot.commands.IndexerRunCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -56,15 +60,8 @@ public class RobotContainer {
     //     m_drive.cartesianDriveAbsolute(modifyAxis(m_controller.getLeftY()), 
     //       modifyAxis(m_controller.getLeftX()),
     //       modifyAxis(m_controller.getRightX()));
-    //     m_shooter.setSpeed(100);
-    //     System.out.println(m_shooter.getSpeed());
     //   },
     //   m_drive));
-
-    m_indexer.setDefaultCommand(new RunCommand(()-> {
-      m_indexer.on();
-    },
-    m_indexer));
     
     m_climb.disable();
   }
@@ -76,10 +73,32 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton shoot = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    shoot.whenPressed(new InstantCommand(()-> m_shooter.on(), m_shooter));
-    shoot.whenReleased(new InstantCommand(()-> m_shooter.off(), m_shooter));
+    Trigger intakeToggle = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
+    Trigger intakeRun = new Trigger(()->m_controller.getLeftTriggerAxis()>0.5);
+    Trigger manualShooterRev = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
+    Trigger shootBall = new Trigger(()->m_controller.getRightTriggerAxis()>0.5);
+    Trigger ballAtEntrance = m_indexer.ballAtEntrance();
+    Trigger ballAtExit = m_indexer.ballAtExit();
 
+    //drop or raise intake
+    intakeToggle.whenActive(() -> m_intake.toggle(), m_intake);
+
+    //turn on or off the intake
+    intakeRun.whenActive(() -> m_intake.toggleRun(), m_intake);
+
+    //if a ball enters the indexer, rev up the shooter
+    ballAtEntrance.whenActive(() -> m_shooter.on(), m_shooter);
+
+    //shoot ball
+    shootBall.whenActive(new IndexerContinueCommand(m_indexer));
+
+    //if manual shooter rev button is pressed, toggle whether the shooter is revving or off
+    manualShooterRev.whenActive(() -> m_shooter.toggle(), m_shooter);
+
+    //if ball is at entrance of indexer and no ball is at the exit, move it to the end
+    ballAtEntrance.and(ballAtExit.negate()).whenActive(new IndexerRunCommand(m_indexer));
+
+    //climbing stuff: figure this out later
     JoystickButton climb = new JoystickButton(m_controller, XboxController.Button.kY.value);
     climb.whenPressed(new SequentialCommandGroup(
       new InstantCommand(()->m_climb.enable(), m_climb),
@@ -91,13 +110,6 @@ public class RobotContainer {
       new InstantCommand(()->m_climb.extendRotation(), m_climb),
       new ElevatorHeightCommand(m_climb, ClimbSubsystem.TOP)
     ));
-
-    //TODO: Remove when automation confirmed works
-    JoystickButton moveIntake = new JoystickButton(m_controller, XboxController.Button.kB.value);
-    moveIntake.whenPressed(new InstantCommand(()-> m_intake.toggle(), m_intake));
-    JoystickButton spinIntake = new JoystickButton(m_controller, XboxController.Button.kX.value);
-    spinIntake.whenPressed(new InstantCommand(()-> m_intake.on(), m_intake));
-    spinIntake.whenReleased(new InstantCommand(()-> m_intake.off(), m_intake));
     
   }
   

@@ -9,11 +9,11 @@ import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.encoder.ODN_Encoder;
 import frc.lib.sensor.ODN_Adafruit164Sensor;
 import frc.lib.sensor.ODN_ColorSensor;
-import frc.robot.commands.IndexerCommand;
 
 public class IndexerSubsystem extends SubsystemBase {
 
@@ -25,22 +25,25 @@ public class IndexerSubsystem extends SubsystemBase {
   private static final ColorMatch m_matcher = ODN_ColorSensor.createMatcher(0.8, RED, BLUE);
 
   public static class Constants {
-    public MotorControllerSubsystem.Constants motor;
+    public MotorControllerSubsystem.Constants indexer;
+    public MotorControllerSubsystem.Constants feeder;
     public ODN_ColorSensor color;
     public ODN_Adafruit164Sensor enter_sensor;
     public DigitalInput exit_sensor;
-    private ODN_Encoder encoder;
+    public ODN_Encoder encoder;
   }
-  private MotorControllerSubsystem m_motor;
+  private MotorControllerSubsystem m_indexer;
+  private MotorControllerSubsystem m_feeder;
   private ODN_ColorSensor m_color;
-  public ODN_Adafruit164Sensor m_enter_sensor;
-  public DigitalInput m_exit_sensor;
+  private ODN_Adafruit164Sensor m_enter_sensor;
+  private DigitalInput m_exit_sensor;
   private ODN_Encoder m_encoder;
 
 
   /** Creates a new IndexerSubsystem. */
   public IndexerSubsystem(Constants constants) {
-    m_motor = new MotorControllerSubsystem(constants.motor);
+    m_indexer = new MotorControllerSubsystem(constants.indexer);
+    m_feeder = new MotorControllerSubsystem(constants.feeder);
     m_color = constants.color;
     m_enter_sensor = constants.enter_sensor;
     m_exit_sensor = constants.exit_sensor;
@@ -61,18 +64,20 @@ public class IndexerSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(m_enter_sensor.getDistanceInches() < DISTANCE_TO_ENABLE)
-    {
-      new IndexerCommand(this);
-    }
   }
 
-  public void on() {
-    m_motor.set(0.8);
+  public void onboth() {
+    m_feeder.set(0.8);
+    m_indexer.set(0.8);
+  }
+  public void onfeeder() {
+    m_feeder.set(0.8);
+    m_indexer.set(0);
   }
 
   public void off() {
-    m_motor.set(0);
+    m_feeder.set(0);
+    m_indexer.set(0);
   }
 
   public void resetEncoder() {
@@ -81,6 +86,14 @@ public class IndexerSubsystem extends SubsystemBase {
 
   public double getEncoder() {
     return m_encoder.getPosition();
+  }
+
+  public Trigger ballAtEntrance() {
+    return new Trigger(()->m_enter_sensor.getDistanceInches() < DISTANCE_TO_ENABLE);
+  }
+
+  public Trigger ballAtExit() {
+    return new Trigger(()->getExitSensor());
   }
 
   public boolean getExitSensor() {

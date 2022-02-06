@@ -13,6 +13,8 @@ public class IntakeSubsystem extends SubsystemBase {
     private MotorControllerSubsystem m_motor;
     private PneumaticSubsystem m_pneumatics;
 
+    private boolean m_running = false;
+
     public IntakeSubsystem(Constants constants) {
         this.m_motor = new MotorControllerSubsystem(constants.motor);
         this.m_pneumatics = new PneumaticSubsystem(constants.pneumatics);
@@ -30,11 +32,18 @@ public class IntakeSubsystem extends SubsystemBase {
         m_pneumatics.set(Value.kForward);
     }
 
+    public void toggleRun() {
+        if(m_running) off();
+        else on();
+    }
+
     public void on() {
+        m_running = true;
         m_motor.set(0.8);
     }
 
     public void off() {
+        m_running = false;
         m_motor.set(0);
     }
 }

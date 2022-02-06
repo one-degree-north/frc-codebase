@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.lib.motorcontroller.ODN_MotorControllerGroup;
+import frc.lib.motorcontroller.ODN_SparkMax;
 import frc.lib.motorcontroller.ODN_TalonFX;
+import frc.lib.motorcontroller.ODN_SparkMax.MotorType;
 import frc.lib.sensor.ODN_Adafruit164Sensor;
 import frc.lib.sensor.ODN_ColorSensor;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -68,8 +70,8 @@ public final class Constants {
     static {
         shooterConstants.motor = new MotorControllerSubsystem.Constants();
         shooterConstants.motor.motor = new ODN_MotorControllerGroup(
-            new ODN_TalonFX(15),
-            new ODN_TalonFX(14).setInverted(true)
+            new ODN_TalonFX(9),
+            new ODN_TalonFX(10).setInverted(true)
         );
         shooterConstants.shoot_speed = 3000;
     }
@@ -81,11 +83,14 @@ public final class Constants {
     public static IndexerSubsystem.Constants indexerConstants = new IndexerSubsystem.Constants();
     static {
         
-        indexerConstants.motor = new MotorControllerSubsystem.Constants();
-        indexerConstants.motor.motor = new ODN_TalonFX(16);
+        indexerConstants.indexer = new MotorControllerSubsystem.Constants();
+        indexerConstants.indexer.motor = new ODN_TalonFX(14);
+        indexerConstants.feeder = new MotorControllerSubsystem.Constants();
+        indexerConstants.feeder.motor = new ODN_SparkMax(15, MotorType.brushless);
         indexerConstants.color = new ODN_ColorSensor();
         indexerConstants.enter_sensor = new ODN_Adafruit164Sensor(1);
         indexerConstants.exit_sensor = new DigitalInput(2);
+        indexerConstants.encoder = indexerConstants.feeder.motor.getEncoder();
     }
 
     // -----------------------------------------------------------------------
@@ -95,11 +100,11 @@ public final class Constants {
     public static IntakeSubsystem.Constants intakeConstants = new IntakeSubsystem.Constants();
     static {
         intakeConstants.motor = new MotorControllerSubsystem.Constants();
-        intakeConstants.motor.motor = new ODN_TalonFX(17);
+        intakeConstants.motor.motor = new ODN_TalonFX(13);
 
         intakeConstants.pneumatics = new PneumaticSubsystem.Constants();
         intakeConstants.pneumatics.solenoids = new DoubleSolenoid[]{
-            new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1)
+            new DoubleSolenoid(17, PneumaticsModuleType.CTREPCM, 0, 1)
         };
     }
 
