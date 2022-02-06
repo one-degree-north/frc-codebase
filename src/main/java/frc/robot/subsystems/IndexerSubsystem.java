@@ -18,11 +18,10 @@ import frc.lib.sensor.ODN_ColorSensor;
 public class IndexerSubsystem extends SubsystemBase {
 
   private static final double DISTANCE_TO_ENABLE = 0;
+  private static final Color RED = new Color(0.575927734375, 0.3154296875, 0.10888671875);
+  private static final Color BLUE = new Color(0.153076171875, 0.386962890625, 0.460205078125);
 
-  private static final Color RED = new Color(1, 0, 0);
-  private static final Color BLUE = new Color(0, 0, 1);
-
-  private static final ColorMatch m_matcher = ODN_ColorSensor.createMatcher(0.8, RED, BLUE);
+  private static final ColorMatch m_matcher = ODN_ColorSensor.createMatcher(0.95, RED, BLUE);
 
   public static class Constants {
     public MotorControllerSubsystem.Constants indexer;
