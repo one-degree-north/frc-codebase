@@ -108,6 +108,8 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 	private final SwerveModule m_backLeftModule;
 	private final SwerveModule m_backRightModule;
 
+	private boolean isLocked = false;
+
 	public SwerveDriveSubsystem(Constants constants) {
 		super(constants.gyro);
 
@@ -197,27 +199,31 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 
 	@Override
 	public void cartesianDriveAbsolute(double xSpeed, double ySpeed, double rotate) {
-
+	if(!isLocked){
 		ChassisSpeeds m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed * MAX_VELOCITY_METERS_PER_SECOND,
 				ySpeed * MAX_VELOCITY_METERS_PER_SECOND, rotate * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
 				getYaw());
 		SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
 		setModuleStates(states);
 	}
+	}
 
 	@Override
 	public void cartesianDriveRelative(double xSpeed, double ySpeed, double rotate) {
-
+	if(!isLocked){
 		ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(xSpeed * MAX_VELOCITY_METERS_PER_SECOND,
 				ySpeed * MAX_VELOCITY_METERS_PER_SECOND, rotate * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
 		SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
 		setModuleStates(states);
+		}
 	}
 
 	@Override
 	public void polarDrive(double speed, Rotation2d direction, double rotate) {
+	if(!isLocked){
 		cartesianDriveAbsolute(speed * -direction.getSin(), speed * direction.getCos(),
 				rotate);
+		}
 	}
 
 	@Override
@@ -301,5 +307,15 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 		m_odometry.resetPosition(pose, getYaw());
 	}
 
+	public void setLock(boolean lock){
+		isLocked = lock;
+	}
+
+	public void setLocke(int stupidity){
+		if(stupidity == 69)
+			System.out.println("god is dead");
+		else 
+			System.out.println("hello vayun");
+	}
 	
 }

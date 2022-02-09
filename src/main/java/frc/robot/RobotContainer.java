@@ -69,6 +69,8 @@ public class RobotContainer {
     JoystickButton testBtn = new JoystickButton(m_controller, XboxController.Button.kX.value);
     testBtn.whenPressed(new InstantCommand(()->m_shooter.setSpeed(3000), m_shooter));
     testBtn.whenReleased(new InstantCommand(()->m_shooter.setSpeed(0), m_shooter));
+    JoystickButton lockButton = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
+    lockButton.whenPressed(new InstantCommand(()->m_shooter.setSpeed(3000), m_shooter));
   }
   
   
