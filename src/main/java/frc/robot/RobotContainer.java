@@ -66,9 +66,6 @@ public class RobotContainer {
     // button.toggleWhenPressed(new LimelightArcCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), m_controller));
     // JoystickButton button2 = new JoystickButton(m_controller, XboxController.Button.kB.value);
     // button2.whenPressed(new InstantCommand(()->m_drive.resetYaw(), m_drive));
-    JoystickButton testBtn = new JoystickButton(m_controller, XboxController.Button.kX.value);
-    testBtn.whenPressed(new InstantCommand(()->m_shooter.setSpeed(3000), m_shooter));
-    testBtn.whenReleased(new InstantCommand(()->m_shooter.setSpeed(0), m_shooter));
     JoystickButton lockButton = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
     lockButton.whenPressed(new InstantCommand(()->m_shooter.setSpeed(3000), m_shooter));
   }
@@ -105,5 +102,32 @@ public class RobotContainer {
     value = Math.copySign(value * value, value);
 
     return value;
+
+    /*
+      ББББББББББББ         OOOOOO           ЛЛЛЛЛЛЛЛЛЛЛ    ШШШ    ШШШ    ШШШ         OOOOOO         ИИИ         ИИИИИ
+      ББББББББББББ       OOOOOOOOOO         ЛЛЛЛЛЛЛЛЛЛЛ    ШШШ    ШШШ    ШШШ       OOOOOOOOOO       ИИИ        ИИИИИИ
+      БББ              OOOO      OOOO       ЛЛЛ     ЛЛЛ    ШШШ    ШШШ    ШШШ     OOOO      OOOO     ИИИ       ИИИ ИИИ
+      БББ             OOO          OOO      ЛЛЛ     ЛЛЛ    ШШШ    ШШШ    ШШШ    OOO          OOO    ИИИ      ИИИ  ИИИ
+      БББББББББ       OOO          OOO      ЛЛЛ     ЛЛЛ    ШШШ    ШШШ    ШШШ    OOO          OOO    ИИИ     ИИИ   ИИИ
+      БББББББББББ     OOO          OOO      ЛЛЛ     ЛЛЛ    ШШШ    ШШШ    ШШШ    OOO          OOO    ИИИ    ИИИ    ИИИ
+      БББ      БББ    OOO          OOO     ЛЛЛ      ЛЛЛ    ШШШ    ШШШ    ШШШ    OOO          OOO    ИИИ   ИИИ     ИИИ
+      БББ      БББ    OOO          OOO     ЛЛЛ      ЛЛЛ    ШШШ    ШШШ    ШШШ    OOO          OOO    ИИИ  ИИИ      ИИИ
+      БББ      БББ     OOOO      OOOO     ЛЛЛ       ЛЛЛ    ШШШ    ШШШ    ШШШ     OOOO      OOOO     ИИИ ИИИ       ИИИ
+      БББББББББББ        OOOOOOOOOO       ЛЛЛ       ЛЛЛ    ШШШШШШШШШШШШШШШШШ       OOOOOOOOOO       ИИИИИИ        ИИИ
+      БББББББББ            OOOOOO        ЛЛЛ        ЛЛЛ    ШШШШШШШШШШШШШШШШШ         OOOOOO         ИИИИИ         ИИИ
+      
+
+      ЧЧЧ       ЧЧЧ    УУУ         УУУ   ННН        ННН    ГГГГГГГГГГГГГГ    УУУ         УУУ       СССССССССС
+      ЧЧЧ       ЧЧЧ     УУУ       УУУ    ННН        ННН    ГГГГГГГГГГГГГГ     УУУ       УУУ      СССССССССССС
+      ЧЧЧ       ЧЧЧ      УУУ     УУУ     ННН        ННН    ГГГ                 УУУ     УУУ     СССС
+      ЧЧЧ       ЧЧЧ       УУУ   УУУ      ННН        ННН    ГГГ                  УУУ   УУУ     ССС
+      ЧЧЧЧ      ЧЧЧ        УУУ УУУ       НННННННННННННН    ГГГ                   УУУ УУУ      ССС 
+        ЧЧЧЧЧЧЧЧЧЧЧ         УУУУУ        НННННННННННННН    ГГГ                    УУУУУ       ССС
+            ЧЧЧЧЧЧЧ          УУУ         ННН        ННН    ГГГ                     УУУ        ССС
+                ЧЧЧ         УУУ          ННН        ННН    ГГГ                    УУУ         ССС
+                ЧЧЧ        УУУ           ННН        ННН    ГГГ                   УУУ           СССС
+                ЧЧЧ      УУУУ            ННН        ННН    ГГГ                 УУУУ              ССССССССССССС
+                ЧЧЧ    УУУУ              ННН        ННН    ГГГ                УУУУ                 ССССССССССС
+    */
   }
 }
