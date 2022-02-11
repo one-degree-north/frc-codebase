@@ -4,8 +4,12 @@
 
 package frc.robot;
 
-import frc.lib.motorcontroller.ODN_TalonFX;
-import frc.lib.basesubsystem.MotorControllerSubsystem;
+import frc.lib.motorcontroller.ODN_MotorControllerGroup;
+import frc.lib.motorcontroller.ODN_TalonSRX;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import frc.lib.basesubsystem.TankDriveSubsystem;
+import frc.lib.encoder.ODN_NullEncoder;
+import frc.lib.gyro.ODN_NullGyro;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -48,9 +52,20 @@ public final class Constants {
     //     swerveConstants.gyro = new ODN_AHRS();
     // }
 
-    public static MotorControllerSubsystem.Constants motorConstants = new MotorControllerSubsystem.Constants();
+    public static TankDriveSubsystem.Constants driveConstants = new TankDriveSubsystem.Constants();
     static {
-        motorConstants.motor = new ODN_TalonFX(15);
+        driveConstants.left = new ODN_MotorControllerGroup(new ODN_TalonSRX(12), new ODN_TalonSRX(8));
+        driveConstants.right = new ODN_MotorControllerGroup(new ODN_TalonSRX(14), new ODN_TalonSRX(6));
+        driveConstants.leftEncoder = new ODN_NullEncoder();
+        driveConstants.rightEncoder = new ODN_NullEncoder();
+        driveConstants.gyro = new ODN_NullGyro();
+        driveConstants.leftEncoderFactor = 0;
+        driveConstants.rightEncoderFactor = 0;
+
+        driveConstants.ksVolts = 1;
+        driveConstants.kvVoltSecondsPerMeter = 0;
+        driveConstants.kaVoltSecondsSquaredPerMeter = 0;
+        driveConstants.kDriveKinematics = new DifferentialDriveKinematics(0.55);
     }
 
     public static final class AutoConstants {

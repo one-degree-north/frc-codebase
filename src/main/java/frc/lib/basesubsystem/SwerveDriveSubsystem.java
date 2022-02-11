@@ -310,12 +310,5 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 	public void setLock(boolean lock){
 		isLocked = lock;
 	}
-
-	public void setLocke(int stupidity){
-		if(stupidity == 69)
-			System.out.println("god is dead");
-		else 
-			System.out.println("hello vayun");
-	}
 	
 }
