@@ -34,8 +34,8 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drive.setDefaultCommand(new RunCommand(() -> {
-        m_drive.arcadeDrive(modifyAxis(m_controller.getRightX()*m_controller.getRightX()*0.5), 
-          modifyAxis(m_controller.getLeftY()*0.5));
+        m_drive.arcadeDrive(modifyAxis(m_controller.getRightX()*(Math.abs(m_controller.getRightX()))*0.8), 
+          modifyAxis(m_controller.getLeftY()*0.8));
       }, m_drive
       ));
 
