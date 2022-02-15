@@ -33,23 +33,23 @@ public final class Constants {
         swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47;
         swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47;
     
-        swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 1;
+        swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 6; //
+        swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 5; //
         swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 12;
         swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.471);
     
-        swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 6;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 5;
+        swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 4; //
+        swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 3; //
         swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 11;
         swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(136.055-180);
     
-        swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4;
-        swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 3;
+        swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 8; //
+        swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 7; //
         swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 9;
         swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.542-180);
 
-        swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 7;
+        swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 2; //
+        swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 1; //
         swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 10;
         swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(-21.533);
 
@@ -61,7 +61,7 @@ public final class Constants {
     public static MotorControllerSubsystem.Constants intakeConstants = new MotorControllerSubsystem.Constants();
 
     static {
-        intakeConstants.motor = new ODN_MotorControllerGroup(new ODN_SparkMax(11, Type.brushless), new ODN_SparkMax(12, Type.brushless));
+        intakeConstants.motor = new ODN_MotorControllerGroup(new ODN_SparkMax(41, Type.brushless), new ODN_SparkMax(42, Type.brushless));
     }
 
     //shooter

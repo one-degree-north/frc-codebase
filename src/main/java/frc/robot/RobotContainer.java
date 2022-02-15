@@ -32,7 +32,7 @@ public class RobotContainer {
   public static RobotContainer container;
   // Robot subsystems here:
 
-  //Drivebase
+  //Drivebase (swerve)
   private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
   
   //Limelight
@@ -45,7 +45,7 @@ public class RobotContainer {
   private MotorControllerSubsystem m_shooterTop = new MotorControllerSubsystem(Constants.shooterTopConstants);
   private MotorControllerSubsystem m_shooterBottom = new MotorControllerSubsystem(Constants.shooterBottomConstants);
 
-  //hood 
+  //Hood 
   private HoodSubsystem m_hood = new HoodSubsystem(Constants.hoodConstants);
   
   //Climber
@@ -88,29 +88,26 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // JoystickButton button = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    // button.toggleWhenPressed(new LimelightArcCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), m_controller));
-    // JoystickButton button2 = new JoystickButton(m_controller, XboxController.Button.kB.value);
-    // button2.whenPressed(new InstantCommand(()->m_drive.resetYaw(), m_drive));
-    
-    //intake in
+
+
+    //Intake in
     JoystickButton intakeIn = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
     intakeIn.whenPressed(new IndexerCommand(m_intake, true));
-    //intake out
+    //Intake out
     Trigger intakeOut = new Trigger(()->m_controller.getLeftTriggerAxis()>0.7);
     intakeOut.whenActive(new IndexerCommand(m_intake, false));
     
     
 
-    //high shoot
+    //High shoot
     JoystickButton highShoot = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
     highShoot.whenPressed(new ShootCommand(m_drive, m_limelight, m_intake, m_shooterTop, m_shooterBottom, m_hood, m_controller));
-    //low shoot
+    //Low shoot
     Trigger lowShoot = new Trigger(()->m_controller.getRightTriggerAxis()>0.7);
     lowShoot.whenActive(new ShooterCommand(m_shooterTop, m_shooterBottom, ShootCommand.shoot(25, 107.95, 21, 30, 5), false));
     
 
-    //climber
+    //Climber
     Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
     linearUp.whenActive(new InstantCommand(()->{ 
       m_climberReach.setSpeed(5900);
@@ -130,7 +127,7 @@ public class RobotContainer {
       m_climberRotate.setSpeed(-5800);
     }));
 
-    //align
+    //Align
     JoystickButton align = new JoystickButton(m_controller, XboxController.Button.kA.value);
     align.toggleWhenPressed(new LimelightArcCommand(m_drive, m_limelight, m_hood, LimelightSubsystem.linearAttenuation(27), ShootCommand.hood(55.0, 70.0, 25.0, 107.95), m_controller));
    
@@ -144,8 +141,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // m_autoCommand = new TrajectoryCommand(m_drive, "New Path", 8, 5);
-    // return m_autoCommand;
     return null;
   }
 
@@ -162,10 +157,10 @@ public class RobotContainer {
   }
 
   private static double modifyAxis(double value) {
-    // Deadband
+    // deadband
     value = deadband(value, 0.05);
 
-    // Square the axis
+    // square the axis
     value = Math.copySign(value * value, value);
 
     return value;
