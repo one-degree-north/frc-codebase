@@ -30,12 +30,12 @@ public final class Constants {
     //drivebase
     public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
     static {
-        swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47;
-        swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47;
+        swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.68;
+        swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.68;
     
         swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 6; //
         swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 5; //
-        swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 12;
+        swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 10;
         swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.471);
     
         swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 4; //
@@ -50,7 +50,7 @@ public final class Constants {
 
         swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 2; //
         swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 1; //
-        swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 10;
+        swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 12;
         swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(-21.533);
 
         swerveConstants.gyro = new ODN_AHRS();
@@ -80,8 +80,8 @@ public final class Constants {
     public static MotorControllerSubsystem.Constants climberReachConstants = new MotorControllerSubsystem.Constants();
 
     static {
-        climberRotateConstants.motor = new ODN_TalonFX(16);
-        climberReachConstants.motor = new ODN_TalonFX(17);
+        climberRotateConstants.motor = new ODN_TalonFX(13);
+        climberReachConstants.motor = new ODN_TalonFX(14);
         
     }    
 
