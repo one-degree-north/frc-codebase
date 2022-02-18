@@ -36,7 +36,7 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 
 	public static class Constants {
 
-		public double DRIVETRAIN_TRACKWIDTH_METERS = 0.47; // FIXME Measure and set trackwidth
+		public double DRIVETRAIN_TRACKWIDTH_METERS; // FIXME Measure and set trackwidth
 		public double DRIVETRAIN_WHEELBASE_METERS; // FIXME Measure and set wheelbase
 
 		public int FRONT_LEFT_MODULE_DRIVE_MOTOR; // FIXME Set front left module drive motor ID

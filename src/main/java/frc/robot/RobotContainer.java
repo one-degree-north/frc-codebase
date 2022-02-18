@@ -18,6 +18,7 @@ import frc.robot.subsystems.HoodSubsystem;
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
+import frc.lib.encoder.ODN_CANCoder;
 
 
 /**
@@ -50,8 +51,9 @@ public class RobotContainer {
   
   //Climber
   private MotorControllerSubsystem m_climberRotate = new MotorControllerSubsystem(Constants.climberRotateConstants);
+  private ODN_CANCoder m_reachEncoder = new ODN_CANCoder(15);
   private MotorControllerSubsystem m_climberReach = new MotorControllerSubsystem(Constants.climberReachConstants);
-
+  private ODN_CANCoder m_rotateEncoder = new ODN_CANCoder(16);
 
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
@@ -67,12 +69,12 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_shooterTop.setDefaultCommand(new RunCommand(() -> {
-    //     m_drive.cartesianDriveAbsolute(modifyAxis(m_controller.getLeftY()), 
-    //       modifyAxis(m_controller.getLeftX()),
-    //       modifyAxis(m_controller.getRightX()));
+    m_drive.setDefaultCommand(new RunCommand(() -> {
+        m_drive.cartesianDriveAbsolute(modifyAxis(m_controller.getLeftY()), 
+          modifyAxis(m_controller.getLeftX()),
+          modifyAxis(m_controller.getRightX()));
       },
-      m_shooterTop));
+      m_drive));
 
 
   
@@ -110,22 +112,34 @@ public class RobotContainer {
     //Climber
     Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
     linearUp.whenActive(new InstantCommand(()->{ 
-      m_climberReach.setSpeed(5900);
+      if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMaxPosition){
+        m_climberReach.setSpeed(5900);
+      }
     }));
     Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
     linearDown.whenActive(new InstantCommand(()->{ 
-      m_climberReach.setSpeed(-5900);
+      if(m_reachEncoder.getPosition()>Constants.AutoConstants.kClimbLinearMinPosition){
+        m_climberReach.setSpeed(-5900);
+      }
     }));
+    linearUp.and(linearDown).whenInactive(new InstantCommand(()->m_climberReach.setSpeed(0)));
     
+
 
     Trigger rotateForward = new Trigger(()->m_controller.getPOV()==90);
     rotateForward.whenActive(new InstantCommand(()->{ 
-      m_climberRotate.setSpeed(5800);
+      if(m_rotateEncoder.getPosition()<Constants.AutoConstants.kClimbRotationMaxPosition){
+        m_climberRotate.setSpeed(5800);
+      }
     }));
     Trigger rotateBackward = new Trigger(()->m_controller.getPOV()==270);
     rotateBackward.whenActive(new InstantCommand(()->{ 
-      m_climberRotate.setSpeed(-5800);
+      if(m_rotateEncoder.getPosition()>Constants.AutoConstants.kClimbRotationMinPosition){
+        m_climberRotate.setSpeed(-5800);
+      }
     }));
+    rotateForward.and(rotateBackward).whenInactive(new InstantCommand(()->m_climberRotate.setSpeed(0)));
+
 
     //Align
     JoystickButton align = new JoystickButton(m_controller, XboxController.Button.kA.value);

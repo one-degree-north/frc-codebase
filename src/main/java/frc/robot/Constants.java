@@ -111,6 +111,12 @@ public final class Constants {
         
         public static final double kMaxAngularSpeedRadiansPerSecond = 40;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = 40;
+
+        public static final double kClimbLinearMaxPosition = 5900;
+        public static final double kClimbLinearMinPosition = 0;
+        public static final double kClimbRotationMaxPosition = 120;
+        public static final double kClimbRotationMinPosition = -80;
+
         
         // These numbers must be correctly calculated
         public static double kRamseteB = 1;
