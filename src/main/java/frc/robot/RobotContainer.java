@@ -43,8 +43,8 @@ public class RobotContainer {
   private MotorControllerSubsystem m_intake = new MotorControllerSubsystem(Constants.intakeConstants);
 
   //Shooter
-  private MotorControllerSubsystem m_shooterTop = new MotorControllerSubsystem(Constants.shooterTopConstants);
-  private MotorControllerSubsystem m_shooterBottom = new MotorControllerSubsystem(Constants.shooterBottomConstants);
+  // private MotorControllerSubsystem m_shooterTop = new MotorControllerSubsystem(Constants.shooterTopConstants);
+  // private MotorControllerSubsystem m_shooterBottom = new MotorControllerSubsystem(Constants.shooterBottomConstants);
 
   //Hood 
   private HoodSubsystem m_hood = new HoodSubsystem(Constants.hoodConstants);
@@ -101,12 +101,12 @@ public class RobotContainer {
     
     
 
-    //High shoot
-    JoystickButton highShoot = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
-    highShoot.whenPressed(new ShootCommand(m_drive, m_limelight, m_intake, m_shooterTop, m_shooterBottom, m_hood, m_controller));
-    //Low shoot
-    Trigger lowShoot = new Trigger(()->m_controller.getRightTriggerAxis()>0.7);
-    lowShoot.whenActive(new ShooterCommand(m_shooterTop, m_shooterBottom, ShootCommand.shoot(25, 107.95, 21, 30, 5), false));
+    // //High shoot
+    // JoystickButton highShoot = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
+    // highShoot.whenPressed(new ShootCommand(m_drive, m_limelight, m_intake, m_shooterTop, m_shooterBottom, m_hood, m_controller));
+    // //Low shoot
+    // Trigger lowShoot = new Trigger(()->m_controller.getRightTriggerAxis()>0.7);
+    // lowShoot.whenActive(new ShooterCommand(m_shooterTop, m_shooterBottom, ShootCommand.shoot(25, 107.95, 21, 30, 5), false));
     
 
     //Climber

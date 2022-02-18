@@ -36,22 +36,22 @@ public final class Constants {
         swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 6; //
         swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 5; //
         swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 10;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.471);
+        swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(179.561);
     
         swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 4; //
         swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 3; //
         swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 11;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(136.055-180);
+        swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.967);
     
         swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 8; //
         swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 7; //
         swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 9;
-        swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.542-180);
+        swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(-1.406);
 
         swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 2; //
         swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 1; //
         swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 12;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(-21.533);
+        swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(179.736);
 
         swerveConstants.gyro = new ODN_AHRS();
     }
@@ -70,8 +70,8 @@ public final class Constants {
     public static MotorControllerSubsystem.Constants shooterBottomConstants = new MotorControllerSubsystem.Constants();
 
     static {
-        shooterTopConstants.motor = new ODN_TalonFX(13);
-        shooterBottomConstants.motor = new ODN_TalonFX(14);
+        shooterTopConstants.motor = new ODN_TalonFX(17);
+        shooterBottomConstants.motor = new ODN_TalonFX(18);
     }
 
     //climber
