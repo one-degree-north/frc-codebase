@@ -14,8 +14,7 @@ import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.LimelightArcCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShooterCommand;
-import frc.robot.subsystems.HoodSubsystem;
-import frc.lib.basesubsystem.ElevatorSubsystem;
+
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
@@ -141,6 +140,7 @@ public class RobotContainer {
         // }
       }
     }));
+    
     Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
     linearDown.whenActive(new InstantCommand(()->{ 
       if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMinPosition){
