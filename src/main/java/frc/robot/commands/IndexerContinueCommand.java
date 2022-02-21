@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
 
 public class IndexerContinueCommand extends CommandBase {
-    private static final double DISTANCE_TO_TRAVEL = 0;
+    private static final double DISTANCE_TO_TRAVEL = 50;
   
     private IndexerSubsystem m_indexer;
   

@@ -48,10 +48,10 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 	public static class Helper {
 		//TODO: ASK MING FOR NUMBERS
 		public static final ModuleConfiguration ours = new ModuleConfiguration(0.1016,
-		1/6.55,
+		6.55,
 		true,
 		(15.0 / 32.0) * (10.0 / 60.0),
-		true);
+		false);
 
 		private static DriveControllerFactory<?, Integer> getFalcon500DriveFactory(Mk3ModuleConfiguration configuration) {
 			return new Falcon500DriveControllerFactoryBuilder()
@@ -173,9 +173,9 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 
 		ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
-		MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND
-				/ Math.hypot(constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, constants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
-				/ 5;
+		MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = 1;//MAX_VELOCITY_METERS_PER_SECOND
+				// / Math.hypot(constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, constants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
+				// / 5;
 
 		m_kinematics = new SwerveDriveKinematics(
 				// Front left

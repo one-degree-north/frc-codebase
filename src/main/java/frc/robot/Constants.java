@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.lib.motorcontroller.ODN_SparkMax;
@@ -38,28 +39,28 @@ public final class Constants {
 
     public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
     static {
-        swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47;
-        swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47;
+        swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 20.25*2.54/100;
+        swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 25.25*2.534/100;
     
         swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
         swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 1;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 12;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.471);
+        swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 18;
+        swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(280);
     
         swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 6;
         swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 5;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 11;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(136.055-180);
+        swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 20;
+        swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(293);
     
         swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4;
         swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 3;
-        swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 9;
-        swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.542-180);
+        swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 19;
+        swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(145);
 
         swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
         swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 7;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 10;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(-21.533);
+        swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 21;
+        swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(293);
 
         swerveConstants.gyro = new ODN_AHRS();
     }
@@ -72,8 +73,8 @@ public final class Constants {
     static {
         shooterConstants.motor = new MotorControllerSubsystem.Constants();
         shooterConstants.motor.motor = new ODN_MotorControllerGroup(
-            new ODN_TalonFX(9),
-            new ODN_TalonFX(10).setInverted(true)
+            new ODN_TalonFX(9).setInverted(true),
+            new ODN_TalonFX(10)
         );
         shooterConstants.shoot_speed = 3000;
     }
@@ -89,7 +90,7 @@ public final class Constants {
         indexerConstants.indexer.motor = new ODN_TalonFX(14);
         indexerConstants.feeder = new MotorControllerSubsystem.Constants();
         indexerConstants.feeder.motor = new ODN_SparkMax(15, MotorType.brushless);
-        indexerConstants.color = new ODN_ColorSensor();
+        indexerConstants.color = new ODN_ColorSensor(I2C.Port.kMXP);
         indexerConstants.enter_sensor = new ODN_Adafruit164Sensor(1);
         indexerConstants.exit_sensor = new DigitalInput(2);
         indexerConstants.encoder = indexerConstants.feeder.motor.getEncoder();
@@ -106,14 +107,14 @@ public final class Constants {
 
         intakeConstants.pneumatics = new PneumaticSubsystem.Constants();
         intakeConstants.pneumatics.solenoids = new DoubleSolenoid[]{
-            new DoubleSolenoid(17, PneumaticsModuleType.CTREPCM, 0, 1)
+            new DoubleSolenoid(17, PneumaticsModuleType.CTREPCM, 6, 7)
         };
     }
 
     // -----------------------------------------------------------------------
     // --------- CLIMBER -----------------------------------------------------
     // -----------------------------------------------------------------------
-
+/*
     public static ClimbSubsystem.Constants climbConstants = new ClimbSubsystem.Constants();
     static {
         climbConstants.enable_climber = new PneumaticSubsystem.Constants();
@@ -127,7 +128,7 @@ public final class Constants {
         climbConstants.motor = new MotorControllerSubsystem.Constants();
         climbConstants.motor.motor = new ODN_TalonFX(18);
     }
-
+*/
     // -----------------------------------------------------------------------
     // --------- AUTO CONSTANTS ----------------------------------------------
     // -----------------------------------------------------------------------

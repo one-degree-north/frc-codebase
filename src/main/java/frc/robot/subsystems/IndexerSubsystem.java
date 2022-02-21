@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.util.Color;
@@ -54,10 +55,11 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   public BallColor getColor() {
-    Color match_res = m_matcher.matchColor(m_color.getColor()).color;
+    ColorMatchResult match_res = m_matcher.matchColor(m_color.getColor());
     if(match_res == null) return BallColor.NONE;
-    if(match_res.equals(RED)) return BallColor.RED;
-    if(match_res.equals(BLUE)) return BallColor.BLUE;
+    Color match_res_c = match_res.color;
+    if(match_res_c.equals(RED)) return BallColor.RED;
+    if(match_res_c.equals(BLUE)) return BallColor.BLUE;
     return null;
   }
 
@@ -67,7 +69,7 @@ public class IndexerSubsystem extends SubsystemBase {
 
   public void onboth() {
     m_feeder.set(0.8);
-    m_indexer.set(0.8);
+    m_indexer.set(0.4);
   }
   public void onfeeder() {
     m_feeder.set(0.8);
@@ -96,6 +98,6 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   public boolean getExitSensor() {
-    return m_exit_sensor.get();
+    return !m_exit_sensor.get();
   }
 }
