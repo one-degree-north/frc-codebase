@@ -39,7 +39,7 @@ public class RobotContainer {
   private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
 
   //oak subsystem
-  private OakSubsystem m_oak = new OakSubsystem("rasberrypy.local", 12801);
+  //private OakSubsystem m_oak = new OakSubsystem("rasberrypy.local", 12801);
   
   //Limelight
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
@@ -107,12 +107,16 @@ public class RobotContainer {
     },
     m_climberReach));
 
-    m_intake.setDefaultCommand(new InstantCommand(()->{
+    m_intake.setDefaultCommand(new RunCommand(()->{
       intakeStatus = 0;
-    }));
-
+    }, m_intake));
+/*
+    try {
     m_oak.writeData(String.format("%d %f %d %d %f %f %d", 1, m_shooterTop.getSpeed()*(Math.PI/180), topBall, bottomBall, -(m_rotateEncoder.getAbsolutePosition()-Constants.AutoConstants.kClimbRotationMinPosition), -m_reachEncoder.getPosition()/Constants.AutoConstants.kClimbLinearMaxPosition,intakeStatus));
-  
+    } catch(Exception e) {
+
+    }
+  */
   }
 
   public double getAngle(){

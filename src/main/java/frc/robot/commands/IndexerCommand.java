@@ -23,10 +23,10 @@ public class IndexerCommand extends CommandBase {
   @Override
   public void initialize() {
     if(isIntaking){
-      m_intake.setSpeed(4000);
+      m_intake.set(0.5);
     }
     else{
-      m_intake.setSpeed(-4000);
+      m_intake.set(-0.5);
 
     }
     t_s = System.currentTimeMillis()/1000.0;
@@ -37,10 +37,10 @@ public class IndexerCommand extends CommandBase {
   @Override
   public void execute() {
     if(isIntaking){
-      m_intake.setSpeed(4000);
+      m_intake.set(0.5);
     }
     else{
-      m_intake.setSpeed(-4000);
+      m_intake.set(-0.5);
 
     }
   }
@@ -48,13 +48,13 @@ public class IndexerCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intake.setSpeed(0);
+    m_intake.set(0);
 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (System.currentTimeMillis()/1000.0-t_s == 1);
+    return (System.currentTimeMillis()/1000.0-t_s > 1);
   }
 }

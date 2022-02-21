@@ -50,9 +50,9 @@ public class ShooterCommand extends CommandBase {
       m_bottom.setSpeed(0.75*m_shooter.apply(RobotContainer.container.getAngle()));
     }
     else{
-      m_top.setSpeed(1500);
-      m_bottom.setSpeed(1500);
-
+      m_top.setSpeed(6200);
+      m_bottom.setSpeed(6200);
+      System.out.println("on");
     }
 
 
@@ -69,6 +69,6 @@ public class ShooterCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return System.currentTimeMillis()/1000.0-t_s>0.6;
+    return System.currentTimeMillis()/1000.0-t_s>3;
   }
 }
