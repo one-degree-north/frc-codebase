@@ -9,9 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.lib.basesubsystem.LimelightSubsystem;
-import frc.lib.basesubsystem.MotorControllerSubsystem;
-import frc.lib.motorcontroller.ODN_TalonFX;
+import frc.lib.basesubsystem.TankDriveSubsystem;
 
 
 /**
@@ -22,17 +20,12 @@ import frc.lib.motorcontroller.ODN_TalonFX;
  */
 public class RobotContainer {
   // Robot subsystems here:
-  // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
-  private LimelightSubsystem m_limelight = new LimelightSubsystem();
-  private MotorControllerSubsystem m_shooter = new MotorControllerSubsystem(Constants.motorConstants);
-
+  private TankDriveSubsystem m_drive = new TankDriveSubsystem(Constants.driveConstants);
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
 
   // Robot commands go here:
   // This command runs on autonomous
-  private Command m_autoCommand = null;
-  private ODN_TalonFX testFX = new ODN_TalonFX(15);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -40,18 +33,12 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // m_drive.setDefaultCommand(new RunCommand(() -> {
-    //     m_drive.cartesianDriveAbsolute(modifyAxis(m_controller.getLeftY()), 
-    //       modifyAxis(m_controller.getLeftX()),
-    //       modifyAxis(m_controller.getRightX()));
-    //     m_shooter.setSpeed(100);
-    //     System.out.println(m_shooter.getSpeed());
-    //   },
-    //   m_drive));
+    m_drive.setDefaultCommand(new RunCommand(() -> {
+        m_drive.arcadeDrive(modifyAxis(m_controller.getRightX()*(Math.abs(m_controller.getRightX()))*0.8), 
+          modifyAxis(m_controller.getLeftY()*0.8));
+      }, m_drive
+      ));
 
-    m_shooter.setDefaultCommand(new RunCommand(() -> {
-      System.out.println(m_shooter.getSpeed());
-    }, m_shooter));
     
   }
 
@@ -66,9 +53,17 @@ public class RobotContainer {
     // button.toggleWhenPressed(new LimelightArcCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), m_controller));
     // JoystickButton button2 = new JoystickButton(m_controller, XboxController.Button.kB.value);
     // button2.whenPressed(new InstantCommand(()->m_drive.resetYaw(), m_drive));
+<<<<<<< HEAD
     JoystickButton lockButton = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
     lockButton.whenPressed(new InstantCommand(()->m_shooter.setSpeed(3000), m_shooter));
     
+=======
+    // JoystickButton lockButton = new JoystickButton(m_controller, XboxController.Button.kX.value);
+    // lockButton.whenPressed(new InstantCommand(()->m_drive.setLock(true)));
+
+    // JoystickButton unlockButton = new JoystickButton(m_controller, XboxController.Button.kY.value);
+    // lockButton.whenPressed(new InstantCommand(()->m_drive.setLock(false)));
+>>>>>>> e6c59508d758eb4bb85acf880bded1a20a1df67c
   }
   
   

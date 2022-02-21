@@ -72,6 +72,8 @@ public class TankDriveSubsystem extends ODN_Drivebase {
 
   private DifferentialDriveOdometry m_odometry;
 
+  // private boolean isLocked = false;
+
   /**
    * Constructor for the TankDrive subsystem.
    * 
@@ -113,7 +115,9 @@ public class TankDriveSubsystem extends ODN_Drivebase {
    *                 is positive.
    */
   public void arcadeDrive(double forward, double rotation) {
+    // if (!isLocked) {
     drive.arcadeDrive(forward, rotation);
+    // }
   }
 
   /**
@@ -255,4 +259,9 @@ public class TankDriveSubsystem extends ODN_Drivebase {
   public void driveForward(double forward, double rotate) {
     arcadeDrive(forward, rotate);
   }
+
+  // public void setLock(boolean lock){
+	// 	isLocked = lock;
+	// }
+
 }
