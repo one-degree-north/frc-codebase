@@ -120,6 +120,8 @@ public class RobotContainer {
     //High shoot
     JoystickButton highShoot = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
     highShoot.whenPressed(new ShootCommand(m_drive, m_limelight, m_intake, m_shooterTop, m_shooterBottom, m_controller));
+
+    
     //Low shoot
     Trigger lowShoot = new Trigger(()->m_controller.getRightTriggerAxis()>0.7);
     lowShoot.whenActive(new ShooterCommand(m_shooterTop, m_shooterBottom, ShootCommand.shoot(25, 107.95, 21, 30, 5), false));
@@ -140,7 +142,7 @@ public class RobotContainer {
         // }
       }
     }));
-    
+
     Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
     linearDown.whenActive(new InstantCommand(()->{ 
       if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMinPosition){
