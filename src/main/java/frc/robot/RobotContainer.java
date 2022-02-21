@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -17,6 +18,7 @@ import frc.robot.commands.ShooterCommand;
 
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
+import frc.lib.basesubsystem.OakSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
 import frc.lib.encoder.ODN_CANCoder;
 
@@ -35,6 +37,9 @@ public class RobotContainer {
 
   //Drivebase (swerve)
   private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
+
+  //oak subsystem
+  private OakSubsystem m_oak = new OakSubsystem("rasberrypy.local", 12801);
   
   //Limelight
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
@@ -68,6 +73,14 @@ public class RobotContainer {
   
   private int maintain = -5;
 
+  private int topBall = 0;
+  
+  private int bottomBall = 0;
+
+  private int intakeStatus = 0;
+
+  
+
   // private int goal = 0;
 
 
@@ -93,6 +106,12 @@ public class RobotContainer {
       m_climberReach.setSpeed(maintain);
     },
     m_climberReach));
+
+    m_intake.setDefaultCommand(new InstantCommand(()->{
+      intakeStatus = 0;
+    }));
+
+    m_oak.writeData(String.format("%d %f %d %d %f %f %d", 1, m_shooterTop.getSpeed()*(Math.PI/180), topBall, bottomBall, -(m_rotateEncoder.getAbsolutePosition()-Constants.AutoConstants.kClimbRotationMinPosition), -m_reachEncoder.getPosition()/Constants.AutoConstants.kClimbLinearMaxPosition,intakeStatus));
   
   }
 
@@ -110,21 +129,68 @@ public class RobotContainer {
 
     //Intake in
     JoystickButton intakeIn = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
-    intakeIn.whenPressed(new IndexerCommand(m_intake, true));
+    intakeIn.whenPressed(
+      new ParallelCommandGroup(
+        new IndexerCommand(m_intake, true), 
+        new InstantCommand(()->{
+          if(bottomBall == 1){
+            topBall = 1;
+          }
+          else{
+            bottomBall = 1;
+          }
+          intakeStatus = 1;
+        }))
+      );
     //Intake out
     Trigger intakeOut = new Trigger(()->m_controller.getLeftTriggerAxis()>0.7);
-    intakeOut.whenActive(new IndexerCommand(m_intake, false));
+    intakeOut.whenActive(new ParallelCommandGroup(
+      new IndexerCommand(m_intake, false), 
+      new InstantCommand(()-> {
+        if(topBall == 1){
+          topBall = 0;
+        }
+        else{
+          bottomBall = 0;
+        }
+        intakeStatus = 1;
+
+      }
+    )));
+    
     
     
 
     //High shoot
     JoystickButton highShoot = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
-    highShoot.whenPressed(new ShootCommand(m_drive, m_limelight, m_intake, m_shooterTop, m_shooterBottom, m_controller));
+    highShoot.whenPressed(new ParallelCommandGroup(
+      new ShootCommand(m_drive, m_limelight, m_intake, m_shooterTop, m_shooterBottom, m_controller),
+      new InstantCommand(()-> {
+        if(topBall == 1){
+          bottomBall = 0;
+        }
+        else{
+          bottomBall = 0;
+          topBall = 0;
+        }
+      }
+    )));
 
-    
+
     //Low shoot
     Trigger lowShoot = new Trigger(()->m_controller.getRightTriggerAxis()>0.7);
-    lowShoot.whenActive(new ShooterCommand(m_shooterTop, m_shooterBottom, ShootCommand.shoot(25, 107.95, 21, 30, 5), false));
+    lowShoot.whenActive(new ParallelCommandGroup(
+      new ShooterCommand(m_shooterTop, m_shooterBottom, ShootCommand.shoot(25, 107.95, 21, 30, 5), false),
+      new InstantCommand(()-> {
+        if(topBall == 1){
+          bottomBall = 0;
+        }
+        else{
+          bottomBall = 0;
+          topBall = 0;
+        }
+      }
+    )));
     
 
     //Climber
