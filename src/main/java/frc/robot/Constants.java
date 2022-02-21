@@ -12,6 +12,7 @@ import frc.lib.motorcontroller.ODN_SparkMax;
 import frc.lib.motorcontroller.ODN_TalonFX;
 import frc.lib.motorcontroller.ODN_SparkMax.Type;
 import frc.robot.subsystems.HoodSubsystem;
+import frc.lib.basesubsystem.ElevatorSubsystem;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
 
@@ -78,32 +79,37 @@ public final class Constants {
 
     public static MotorControllerSubsystem.Constants climberRotateConstants = new MotorControllerSubsystem.Constants();
     public static MotorControllerSubsystem.Constants climberReachConstants = new MotorControllerSubsystem.Constants();
-
+    
+    // public static ElevatorSubsystem.Constants climberReachConstants = new ElevatorSubsystem.Constants();
     static {
         climberRotateConstants.motor = new ODN_TalonFX(13);
         climberReachConstants.motor = new ODN_TalonFX(14);
+
+
+
+
+        // //By setting position
+        // climberReachConstants.encoder = new ODN_CANCoder(16);
+        // climberReachConstants.encoderFactor = 1;
+
+        // //pid
+        // climberReachConstants.kp = 1;
+        // climberReachConstants.ki = 1;
+        // climberReachConstants.kd = 0;
+
+        // //
+        // climberReachConstants.ks = 0;
+        // climberReachConstants.kg = 0;
+        // climberReachConstants.kv = 0;
+
+        // climberReachConstants.motor = new ODN_TalonFX(14);
+        // climberReachConstants.maxVelocity = 11;
+        // climberReachConstants.maxAcceleration = 5;
+
         
     }    
 
-    //hood
-
-    public static HoodSubsystem.Constants hoodConstants = new HoodSubsystem.Constants();
-    static {
-        hoodConstants.minValue = 55;
-        hoodConstants.maxValue = 70;
-        hoodConstants.motor = new ODN_TalonFX(18);
-        hoodConstants.encoder = new ODN_CANCoder(19);
-        hoodConstants.conversion = 1/100;
-        hoodConstants.kp=1;
-        hoodConstants.ki=0;
-        hoodConstants.kd=0;
-        hoodConstants.maxVelocity=2;
-        hoodConstants.maxVelocity=5;
-
-
-
-        
-    }
+   
 
     public static final class AutoConstants {
         public static double kMaxSpeedMetersPerSecond = 1;
@@ -114,8 +120,8 @@ public final class Constants {
 
         public static final double kClimbLinearMaxPosition = 5900;
         public static final double kClimbLinearMinPosition = 0;
-        public static final double kClimbRotationMaxPosition = 120;
-        public static final double kClimbRotationMinPosition = -80;
+        public static final double kClimbRotationMaxPosition = 315.403;
+        public static final double kClimbRotationMinPosition = 357.25;
 
         
         // These numbers must be correctly calculated

@@ -52,12 +52,12 @@ public class ShootCommand extends SequentialCommandGroup {
     };
   }
 ;
-  public ShootCommand(ODN_HolonomicDrivebase drive, LimelightSubsystem m_limelight, MotorControllerSubsystem m_intake, MotorControllerSubsystem m_shooterTop, MotorControllerSubsystem m_shooterBottom, HoodSubsystem m_hood, XboxController stick){
+  public ShootCommand(ODN_HolonomicDrivebase drive, LimelightSubsystem m_limelight, MotorControllerSubsystem m_intake, MotorControllerSubsystem m_shooterTop, MotorControllerSubsystem m_shooterBottom,  XboxController stick){
     double conversion = 60/(1/3 *2 *Math.PI * 6380);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AlignCommand(drive, m_limelight, m_hood, LimelightSubsystem.linearAttenuation(27), hood(55.0, 70.0, 25.0, 107.95), stick),
+      new AlignCommand(drive, m_limelight, LimelightSubsystem.linearAttenuation(27), hood(55.0, 70.0, 25.0, 107.95), stick),
       new IndexerCommand(m_intake, true),
       new ShooterCommand(m_shooterTop, m_shooterBottom, shoot(25, 107.95, 21, 30, conversion), true)
 

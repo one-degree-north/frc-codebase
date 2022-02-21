@@ -15,19 +15,17 @@ import frc.lib.basesubsystem.LimelightSubsystem;
 public class LimelightArcCommand extends CommandBase {
   private ODN_HolonomicDrivebase m_drive;
   private LimelightSubsystem m_limelight;
-  private HoodSubsystem m_hood;
   private Function<Double, Double> m_attenuationFunction;
   private Function<Double, Double> m_hoodFunction; //max angle is 16 degrees. Need to recalculate the angles of the limelight
   private XboxController m_joystick;
   private double distance; 
 
-  public LimelightArcCommand(ODN_HolonomicDrivebase drive, LimelightSubsystem limelight, HoodSubsystem hood, Function<Double, Double> attenuationFunction, Function<Double, Double> hoodFunction, XboxController joystick) {
+  public LimelightArcCommand(ODN_HolonomicDrivebase drive, LimelightSubsystem limelight,  Function<Double, Double> attenuationFunction, Function<Double, Double> hoodFunction, XboxController joystick) {
     this.m_drive = drive;
     this.m_limelight = limelight;
     this.m_attenuationFunction = attenuationFunction;
-    this.m_hood = hood;
     this.m_hoodFunction = hoodFunction;
-    addRequirements(drive, limelight, hood);
+    addRequirements(drive, limelight);
     this.m_joystick = joystick;
   }
 
@@ -36,7 +34,6 @@ public class LimelightArcCommand extends CommandBase {
   public void initialize() {
     
     distance = m_limelight.getOffsetVertical()/27;
-    m_hood.set(55+15*m_hoodFunction.apply(m_limelight.getOffsetVertical()));
   }
 
   // Called every time the scheduler runs while the command is scheduled.

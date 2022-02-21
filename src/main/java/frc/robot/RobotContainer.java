@@ -15,6 +15,7 @@ import frc.robot.commands.LimelightArcCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.HoodSubsystem;
+import frc.lib.basesubsystem.ElevatorSubsystem;
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
@@ -43,17 +44,21 @@ public class RobotContainer {
   private MotorControllerSubsystem m_intake = new MotorControllerSubsystem(Constants.intakeConstants);
 
   //Shooter
-  // private MotorControllerSubsystem m_shooterTop = new MotorControllerSubsystem(Constants.shooterTopConstants);
-  // private MotorControllerSubsystem m_shooterBottom = new MotorControllerSubsystem(Constants.shooterBottomConstants);
+  private MotorControllerSubsystem m_shooterTop = new MotorControllerSubsystem(Constants.shooterTopConstants);
+  private MotorControllerSubsystem m_shooterBottom = new MotorControllerSubsystem(Constants.shooterBottomConstants);
 
   //Hood 
-  private HoodSubsystem m_hood = new HoodSubsystem(Constants.hoodConstants);
   
   //Climber
   private MotorControllerSubsystem m_climberRotate = new MotorControllerSubsystem(Constants.climberRotateConstants);
   private ODN_CANCoder m_reachEncoder = new ODN_CANCoder(15);
+
+  
   private MotorControllerSubsystem m_climberReach = new MotorControllerSubsystem(Constants.climberReachConstants);
   private ODN_CANCoder m_rotateEncoder = new ODN_CANCoder(16);
+
+  //with set position
+  // private ElevatorSubsystem m_climberReach = new MotorControllerSubsystem(Constants.climberReachConstants);
 
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
@@ -61,6 +66,10 @@ public class RobotContainer {
   // Robot commands go here:
   // This command runs on autonomous
   private Command m_autoCommand = null;
+  
+  private int maintain = -10;
+
+  // private int goal = 0;
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -76,7 +85,15 @@ public class RobotContainer {
       },
       m_drive));
 
+    m_climberRotate.setDefaultCommand(new RunCommand(() -> {
+      m_climberRotate.setSpeed(0);
+    },
+    m_climberRotate));
 
+    m_climberReach.setDefaultCommand(new RunCommand(() -> {
+      m_climberReach.setSpeed(maintain);
+    },
+    m_climberReach));
   
   }
 
@@ -101,49 +118,62 @@ public class RobotContainer {
     
     
 
-    // //High shoot
-    // JoystickButton highShoot = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
-    // highShoot.whenPressed(new ShootCommand(m_drive, m_limelight, m_intake, m_shooterTop, m_shooterBottom, m_hood, m_controller));
-    // //Low shoot
-    // Trigger lowShoot = new Trigger(()->m_controller.getRightTriggerAxis()>0.7);
-    // lowShoot.whenActive(new ShooterCommand(m_shooterTop, m_shooterBottom, ShootCommand.shoot(25, 107.95, 21, 30, 5), false));
+    //High shoot
+    JoystickButton highShoot = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
+    highShoot.whenPressed(new ShootCommand(m_drive, m_limelight, m_intake, m_shooterTop, m_shooterBottom, m_controller));
+    //Low shoot
+    Trigger lowShoot = new Trigger(()->m_controller.getRightTriggerAxis()>0.7);
+    lowShoot.whenActive(new ShooterCommand(m_shooterTop, m_shooterBottom, ShootCommand.shoot(25, 107.95, 21, 30, 5), false));
     
 
     //Climber
     Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
     linearUp.whenActive(new InstantCommand(()->{ 
       if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMaxPosition){
-        m_climberReach.setSpeed(5900);
+        m_climberReach.setSpeed(-5900/2);
+        maintain = -10;
+
+        
+        //if using reach
+        // if(goal<5900){
+        //   goal+=5;
+        //   m_climberReach.setGoalLocation(goal);
+        // }
       }
     }));
     Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
     linearDown.whenActive(new InstantCommand(()->{ 
       if(m_reachEncoder.getPosition()>Constants.AutoConstants.kClimbLinearMinPosition){
-        m_climberReach.setSpeed(-5900);
+        m_climberReach.setSpeed(5900/2);
+        maintain = 1000;
+
+        //if using reach
+        // if(goal>=0){
+        //   goal-=5;
+        //   m_climberReach.setGoalLocation(goal);
+        // }
       }
     }));
-    linearUp.and(linearDown).whenInactive(new InstantCommand(()->m_climberReach.setSpeed(0)));
     
 
 
     Trigger rotateForward = new Trigger(()->m_controller.getPOV()==90);
     rotateForward.whenActive(new InstantCommand(()->{ 
-      if(m_rotateEncoder.getPosition()<Constants.AutoConstants.kClimbRotationMaxPosition){
-        m_climberRotate.setSpeed(5800);
+      if(m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
+        m_climberRotate.setSpeed(5800/2);
       }
     }));
     Trigger rotateBackward = new Trigger(()->m_controller.getPOV()==270);
     rotateBackward.whenActive(new InstantCommand(()->{ 
-      if(m_rotateEncoder.getPosition()>Constants.AutoConstants.kClimbRotationMinPosition){
-        m_climberRotate.setSpeed(-5800);
+      if(m_rotateEncoder.getAbsolutePosition()<Constants.AutoConstants.kClimbRotationMinPosition){
+        m_climberRotate.setSpeed(-5800/2);
       }
     }));
-    rotateForward.and(rotateBackward).whenInactive(new InstantCommand(()->m_climberRotate.setSpeed(0)));
 
 
     //Align
     JoystickButton align = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    align.toggleWhenPressed(new LimelightArcCommand(m_drive, m_limelight, m_hood, LimelightSubsystem.linearAttenuation(27), ShootCommand.hood(55.0, 70.0, 25.0, 107.95), m_controller));
+    align.toggleWhenPressed(new LimelightArcCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), ShootCommand.hood(55.0, 70.0, 25.0, 107.95), m_controller));
    
   }
   
