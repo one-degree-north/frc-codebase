@@ -72,14 +72,15 @@ public final class Constants {
 
     static {
         shooterTopConstants.motor = new ODN_TalonFX(17);
-        shooterBottomConstants.motor = new ODN_TalonFX(18);
+        shooterTopConstants.motor.setInverted(true);
+        shooterBottomConstants.motor = new ODN_TalonFX(18); 
     }
 
     //climber
 
     public static MotorControllerSubsystem.Constants climberRotateConstants = new MotorControllerSubsystem.Constants();
     public static MotorControllerSubsystem.Constants climberReachConstants = new MotorControllerSubsystem.Constants();
-    
+
     // public static ElevatorSubsystem.Constants climberReachConstants = new ElevatorSubsystem.Constants();
     static {
         climberRotateConstants.motor = new ODN_TalonFX(13);
@@ -118,8 +119,8 @@ public final class Constants {
         public static final double kMaxAngularSpeedRadiansPerSecond = 40;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = 40;
 
-        public static final double kClimbLinearMaxPosition = 5900;
-        public static final double kClimbLinearMinPosition = 0;
+        public static final double kClimbLinearMaxPosition = -1899;
+        public static final double kClimbLinearMinPosition = 2;
         public static final double kClimbRotationMaxPosition = 315.403;
         public static final double kClimbRotationMinPosition = 357.25;
 

@@ -53,7 +53,7 @@ public class ShootCommand extends SequentialCommandGroup {
   }
 ;
   public ShootCommand(ODN_HolonomicDrivebase drive, LimelightSubsystem m_limelight, MotorControllerSubsystem m_intake, MotorControllerSubsystem m_shooterTop, MotorControllerSubsystem m_shooterBottom,  XboxController stick){
-    double conversion = 60/(1/3 *2 *Math.PI * 6380);
+    double conversion = 2*60/(1/3 *2 *Math.PI);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

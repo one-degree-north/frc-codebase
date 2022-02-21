@@ -67,7 +67,7 @@ public class RobotContainer {
   // This command runs on autonomous
   private Command m_autoCommand = null;
   
-  private int maintain = -10;
+  private int maintain = -5;
 
   // private int goal = 0;
 
@@ -129,11 +129,11 @@ public class RobotContainer {
     //Climber
     Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
     linearUp.whenActive(new InstantCommand(()->{ 
-      if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMaxPosition){
+      if(m_reachEncoder.getPosition()>Constants.AutoConstants.kClimbLinearMaxPosition){
         m_climberReach.setSpeed(-5900/2);
-        maintain = -10;
+        maintain = -5;
 
-        
+
         //if using reach
         // if(goal<5900){
         //   goal+=5;
@@ -143,7 +143,7 @@ public class RobotContainer {
     }));
     Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
     linearDown.whenActive(new InstantCommand(()->{ 
-      if(m_reachEncoder.getPosition()>Constants.AutoConstants.kClimbLinearMinPosition){
+      if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMinPosition){
         m_climberReach.setSpeed(5900/2);
         maintain = 1000;
 
@@ -152,6 +152,9 @@ public class RobotContainer {
         //   goal-=5;
         //   m_climberReach.setGoalLocation(goal);
         // }
+      }
+      else{
+        maintain = -5;
       }
     }));
     
