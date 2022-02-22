@@ -43,13 +43,14 @@ public class ShooterCommand extends CommandBase {
   @Override
   public void execute() {
     if(shootHigh){
-      
-      m_top.setSpeed(m_shooter.apply(RobotContainer.container.getAngle()));
-      m_bottom.setSpeed(m_shooter.apply(RobotContainer.container.getAngle()));
+      m_top.setSpeed(2500);
+      m_bottom.setSpeed(2500);
+      // m_top.setSpeed(m_shooter.apply(RobotContainer.container.getAngle()));
+      // m_bottom.setSpeed(m_shooter.apply(RobotContainer.container.getAngle()));
     }
     else{
-      m_top.setSpeed(3500);
-      m_bottom.setSpeed(3500);
+      m_top.setSpeed(1500);
+      m_bottom.setSpeed(1500);
       System.out.println("on");
     }
 

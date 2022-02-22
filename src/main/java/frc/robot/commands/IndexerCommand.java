@@ -40,7 +40,7 @@ public class IndexerCommand extends CommandBase {
       m_intake.set(0.5);
     }
     else{
-      m_intake.set(-0.5);
+      m_intake.set(-0.4);
 
     }
   }
@@ -55,6 +55,6 @@ public class IndexerCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (System.currentTimeMillis()/1000.0-t_s > 1.5);
+    return (System.currentTimeMillis()/1000.0-t_s > 1.3);
   }
 }
