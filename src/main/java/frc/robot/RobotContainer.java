@@ -91,9 +91,9 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drive.setDefaultCommand(new RunCommand(() -> {
-        m_drive.cartesianDriveAbsolute(modifyAxis(m_controller.getLeftY()), 
-          modifyAxis(m_controller.getLeftX()),
-          modifyAxis(m_controller.getRightX()));
+        m_drive.cartesianDriveAbsolute(modifyAxis(-m_controller.getLeftY()), 
+          modifyAxis(-m_controller.getLeftX()),
+          modifyAxis(-m_controller.getRightX()));
       },
       m_drive));
 
