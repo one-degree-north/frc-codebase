@@ -69,11 +69,9 @@ public class RobotContainer {
       m_drive));
 
     m_indexer.setDefaultCommand(new RunCommand(()->{
-      System.out.println(m_indexer.getColor());
-      System.out.println(m_indexer.getExitSensor());
     }, m_indexer));
 
-    compressor.enableDigital();
+    // compressor.enableDigital();
     
     //m_climb.disable();
   }
@@ -85,6 +83,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    /*
     Trigger manualShooterRev = new JoystickButton(m_controller, XboxController.Button.kA.value);
     Trigger shootBall = new Trigger(()->m_controller.getRightTriggerAxis()>0.5);
     Trigger intakeToggle3 = new Trigger(()->m_controller.getLeftTriggerAxis()>0.5);
@@ -95,8 +94,8 @@ public class RobotContainer {
     Trigger intakeToggle2 = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
     intakeToggle2.whenActive(() -> m_indexer.off(), m_intake);
     intakeToggle3.whenActive(() -> m_intake.toggleRun(), m_intake);
-
-    /*
+`   */
+    
     Trigger intakeToggle = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
     Trigger intakeRun = new Trigger(()->m_controller.getLeftTriggerAxis()>0.5);
     Trigger manualShooterRev = new JoystickButton(m_controller, XboxController.Button.kA.value);
@@ -117,11 +116,11 @@ public class RobotContainer {
     shootBall.whenActive(new IndexerContinueCommand(m_indexer));
 
     //if manual shooter rev button is pressed, toggle whether the shooter is revving or off
-    manualShooterRev.whenPressed(() -> m_shooter.toggle(), m_shooter);
+    manualShooterRev.whenActive(() -> m_shooter.toggle(), m_shooter);
 
     //if ball is at entrance of indexer and no ball is at the exit, move it to the end
     ballAtEntrance.and(ballAtExit.negate()).whenActive(new IndexerRunCommand(m_indexer));
-
+/*
     //climbing stuff: figure this out later
     JoystickButton climb = new JoystickButton(m_controller, XboxController.Button.kY.value);
     climb.whenPressed(new SequentialCommandGroup(

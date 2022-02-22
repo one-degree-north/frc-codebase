@@ -18,6 +18,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem(Constants constants) {
         this.m_motor = new MotorControllerSubsystem(constants.motor);
         this.m_pneumatics = new PneumaticSubsystem(constants.pneumatics);
+        m_pneumatics.set(Value.kOff);
     }
 
     public void toggle() {

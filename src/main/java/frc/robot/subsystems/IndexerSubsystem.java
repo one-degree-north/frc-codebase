@@ -18,7 +18,7 @@ import frc.lib.sensor.ODN_ColorSensor;
 
 public class IndexerSubsystem extends SubsystemBase {
 
-  private static final double DISTANCE_TO_ENABLE = 0;
+  private static final double DISTANCE_TO_ENABLE = 17;
   private static final Color RED = new Color(0.575927734375, 0.3154296875, 0.10888671875);
   private static final Color BLUE = new Color(0.153076171875, 0.386962890625, 0.460205078125);
 
@@ -63,13 +63,20 @@ public class IndexerSubsystem extends SubsystemBase {
     return null;
   }
 
+  int t = 0;
+
   @Override
   public void periodic() {
+    if(m_enter_sensor.getDistanceInches() < DISTANCE_TO_ENABLE) {
+      t++;
+    } else {
+      t = 0;
+    }
   }
 
   public void onboth() {
-    m_feeder.set(0.8);
-    m_indexer.set(0.4);
+    m_feeder.set(0.2);
+    m_indexer.set(0.2);
   }
   public void onfeeder() {
     m_feeder.set(0.8);
@@ -90,7 +97,7 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   public Trigger ballAtEntrance() {
-    return new Trigger(()->m_enter_sensor.getDistanceInches() < DISTANCE_TO_ENABLE);
+    return new Trigger(()->t > 3);
   }
 
   public Trigger ballAtExit() {

@@ -13,12 +13,18 @@ public class ODN_Adafruit164Sensor implements ODN_DistanceSensor {
 
     @Override
     public double getDistanceInches() {
-        double voltage_scale_factor = 5/RobotController.getVoltage5V();
+        double avg = 0;
+        for(int i=0;i<5;i++) {
+            double voltage_scale_factor = 5/RobotController.getVoltage5V();
 
-        double value = m_input.getValue() * voltage_scale_factor;
+            double value = m_input.getVoltage() * voltage_scale_factor;
+            //System.out.println(value);
+            double currentDistanceInches = (168 * (1/value) - 4) / 13;
+
+            avg += currentDistanceInches;
+        }
         
-        double currentDistanceInches = (168 * (1/value) - 4) / 13;
 
-        return currentDistanceInches;
+        return avg/5;
     }
 }

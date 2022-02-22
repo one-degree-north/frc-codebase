@@ -50,7 +50,7 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 		public static final ModuleConfiguration ours = new ModuleConfiguration(0.1016,
 		6.55,
 		true,
-		(15.0 / 32.0) * (10.0 / 60.0),
+		(14.0 / 72.0) * (12.0 / 24.0),
 		false);
 
 		private static DriveControllerFactory<?, Integer> getFalcon500DriveFactory(Mk3ModuleConfiguration configuration) {
@@ -147,8 +147,8 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 	 * line.
 	 */
 	public static final double MAX_VELOCITY_METERS_PER_SECOND = 5880.0 / 60.0
-			/ SdsModuleConfigurations.MK3_STANDARD.getDriveReduction()
-			* SdsModuleConfigurations.MK3_STANDARD.getWheelDiameter() * Math.PI;
+			/ Helper.ours.getDriveReduction()
+			* Helper.ours.getWheelDiameter() * Math.PI;
 	/**
 	 * The maximum angular velocity of the robot in radians per second.
 	 * <p>
