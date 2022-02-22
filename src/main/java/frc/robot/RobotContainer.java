@@ -53,13 +53,13 @@ public class RobotContainer {
 
   //Hood 
   
-  //Climber
-  private MotorControllerSubsystem m_climberRotate = new MotorControllerSubsystem(Constants.climberRotateConstants);
-  private ODN_CANCoder m_reachEncoder = new ODN_CANCoder(15);
+  // //Climber
+  // private MotorControllerSubsystem m_climberRotate = new MotorControllerSubsystem(Constants.climberRotateConstants);
+  // private ODN_CANCoder m_reachEncoder = new ODN_CANCoder(15);
 
   
-  private MotorControllerSubsystem m_climberReach = new MotorControllerSubsystem(Constants.climberReachConstants);
-  private ODN_CANCoder m_rotateEncoder = new ODN_CANCoder(16);
+  // private MotorControllerSubsystem m_climberReach = new MotorControllerSubsystem(Constants.climberReachConstants);
+  // private ODN_CANCoder m_rotateEncoder = new ODN_CANCoder(16);
 
   //with set position
   // private ElevatorSubsystem m_climberReach = new MotorControllerSubsystem(Constants.climberReachConstants);
@@ -97,15 +97,15 @@ public class RobotContainer {
       },
       m_drive));
 
-    m_climberRotate.setDefaultCommand(new RunCommand(() -> {
-      m_climberRotate.setSpeed(0);
-    },
-    m_climberRotate));
+    // m_climberRotate.setDefaultCommand(new RunCommand(() -> {
+    //   m_climberRotate.setSpeed(0);
+    // },
+    // m_climberRotate));
 
-    m_climberReach.setDefaultCommand(new RunCommand(() -> {
-      m_climberReach.setSpeed(maintain);
-    },
-    m_climberReach));
+    // m_climberReach.setDefaultCommand(new RunCommand(() -> {
+    //   m_climberReach.setSpeed(maintain);
+    // },
+    // m_climberReach));
 
     m_intake.setDefaultCommand(new RunCommand(()->{
       intakeStatus = 0;
@@ -197,53 +197,53 @@ public class RobotContainer {
     )));
     
 
-    //Climber
-    Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
-    linearUp.whenActive(new InstantCommand(()->{ 
-      if(m_reachEncoder.getPosition()>Constants.AutoConstants.kClimbLinearMaxPosition){
-        m_climberReach.setSpeed(-5900/2);
-        maintain = -5;
+    // //Climber
+    // Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
+    // linearUp.whenActive(new InstantCommand(()->{ 
+    //   if(m_reachEncoder.getPosition()>Constants.AutoConstants.kClimbLinearMaxPosition){
+    //     m_climberReach.setSpeed(-5900/2);
+    //     maintain = -5;
 
 
-        //if using reach
-        // if(goal<5900){
-        //   goal+=5;
-        //   m_climberReach.setGoalLocation(goal);
-        // }
-      }
-    }));
+    //     //if using reach
+    //     // if(goal<5900){
+    //     //   goal+=5;
+    //     //   m_climberReach.setGoalLocation(goal);
+    //     // }
+    //   }
+    // }));
 
-    Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
-    linearDown.whenActive(new InstantCommand(()->{ 
-      if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMinPosition){
-        m_climberReach.setSpeed(5900/2);
-        maintain = 1000;
+    // Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
+    // linearDown.whenActive(new InstantCommand(()->{ 
+    //   if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMinPosition){
+    //     m_climberReach.setSpeed(5900/2);
+    //     maintain = 1000;
 
-        //if using reach
-        // if(goal>=0){
-        //   goal-=5;
-        //   m_climberReach.setGoalLocation(goal);
-        // }
-      }
-      else{
-        maintain = -5;
-      }
-    }));
+    //     //if using reach
+    //     // if(goal>=0){
+    //     //   goal-=5;
+    //     //   m_climberReach.setGoalLocation(goal);
+    //     // }
+    //   }
+    //   else{
+    //     maintain = -5;
+    //   }
+    // }));
     
 
 
-    Trigger rotateForward = new Trigger(()->m_controller.getPOV()==90);
-    rotateForward.whenActive(new InstantCommand(()->{ 
-      if(m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
-        m_climberRotate.setSpeed(5800/2);
-      }
-    }));
-    Trigger rotateBackward = new Trigger(()->m_controller.getPOV()==270);
-    rotateBackward.whenActive(new InstantCommand(()->{ 
-      if(m_rotateEncoder.getAbsolutePosition()<Constants.AutoConstants.kClimbRotationMinPosition){
-        m_climberRotate.setSpeed(-5800/2);
-      }
-    }));
+    // Trigger rotateForward = new Trigger(()->m_controller.getPOV()==90);
+    // rotateForward.whenActive(new InstantCommand(()->{ 
+    //   if(m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
+    //     m_climberRotate.setSpeed(5800/2);
+    //   }
+    // }));
+    // Trigger rotateBackward = new Trigger(()->m_controller.getPOV()==270);
+    // rotateBackward.whenActive(new InstantCommand(()->{ 
+    //   if(m_rotateEncoder.getAbsolutePosition()<Constants.AutoConstants.kClimbRotationMinPosition){
+    //     m_climberRotate.setSpeed(-5800/2);
+    //   }
+    // }));
 
 
     //Align
