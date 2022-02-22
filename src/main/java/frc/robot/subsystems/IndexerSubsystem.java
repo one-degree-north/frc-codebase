@@ -78,9 +78,9 @@ public class IndexerSubsystem extends SubsystemBase {
     m_feeder.set(0.2);
     m_indexer.set(0.2);
   }
-  public void onfeeder() {
+  public void onshoot() {
     m_feeder.set(0.8);
-    m_indexer.set(0);
+    m_indexer.set(0.3);
   }
 
   public void off() {

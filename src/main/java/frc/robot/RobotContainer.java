@@ -71,7 +71,7 @@ public class RobotContainer {
     m_indexer.setDefaultCommand(new RunCommand(()->{
     }, m_indexer));
 
-    // compressor.enableDigital();
+    compressor.disable();
     
     //m_climb.disable();
   }

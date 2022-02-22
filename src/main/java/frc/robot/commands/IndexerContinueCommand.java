@@ -16,7 +16,7 @@ public class IndexerContinueCommand extends CommandBase {
     @Override
     public void initialize() {
       m_indexer.resetEncoder();
-      m_indexer.onfeeder();
+      m_indexer.onshoot();
     }
   
     @Override

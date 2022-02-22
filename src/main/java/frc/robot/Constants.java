@@ -45,22 +45,22 @@ public final class Constants {
         swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
         swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 1;
         swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 18;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(279.9);
+        swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(285.5);
     
         swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 6;
         swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 5;
         swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 20;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(294.6);
+        swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(293.2);
     
         swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4;
         swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 3;
         swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 19;
-        swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(144.4);
+        swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(152.4);
 
         swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
         swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 7;
         swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 21;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(291.1);
+        swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(293.38);
 
         swerveConstants.gyro = new ODN_AHRS();
     }
