@@ -122,6 +122,8 @@ public class RobotContainer {
   public double getAngle(){
     return m_limelight.getOffsetVertical();
   }
+
+  boolean shooterOn = false;
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -129,10 +131,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
+  
 
     //Intake in
     JoystickButton intakeIn = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
+    intakeIn.whenPressed(new InstantCommand(()->m_intake.set(0.5), m_intake));
+    intakeIn.whenReleased(new InstantCommand(()->m_intake.set(0), m_intake));
+    /*
     intakeIn.whenPressed(
       new ParallelCommandGroup(
         new IndexerCommand(m_intake, true), 
@@ -146,8 +151,13 @@ public class RobotContainer {
           intakeStatus = 1;
         }))
       );
+      */
     //Intake out
     Trigger intakeOut = new Trigger(()->m_controller.getLeftTriggerAxis()>0.7);
+    
+    intakeOut.whenPressed(new InstantCommand(()->m_intake.set(-0.5), m_intake));
+    intakeOut.whenReleased(new InstantCommand(()->m_intake.set(0), m_intake));
+    /*
     intakeOut.whenActive(new ParallelCommandGroup(
       new IndexerCommand(m_intake, false), 
       new InstantCommand(()-> {
@@ -161,12 +171,13 @@ public class RobotContainer {
 
       }
     )));
-    
+    */
     
     
 
     //High shoot
     JoystickButton highShoot = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
+    /*
     highShoot.whenPressed(new ParallelCommandGroup(
       new ShootCommand(m_drive, m_limelight, m_intake, m_shooterTop, m_shooterBottom, m_controller),
       new InstantCommand(()-> {
@@ -179,8 +190,19 @@ public class RobotContainer {
         }
       }
     )));
+*/
+    
+    highShoot.whenPressed(new InstantCommand(()->{
+      if(shooterOn) {
+        m_shooterTop.setSpeed(3000);
+        m_shooterBottom.setSpeed(3000);
+      } else {
+        m_shooterTop.setSpeed(0);
+        m_shooterBottom.setSpeed(0);
+      }
+    }, m_shooter))
 
-
+    /*
     //Low shoot
     Trigger lowShoot = new Trigger(()->m_controller.getRightTriggerAxis()>0.7);
     lowShoot.whenActive(new ParallelCommandGroup(
@@ -195,7 +217,7 @@ public class RobotContainer {
         }
       }
     )));
-    
+    */
 
     //Climber
     Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
