@@ -48,8 +48,8 @@ public class ShooterCommand extends CommandBase {
       m_bottom.setSpeed(m_shooter.apply(RobotContainer.container.getAngle()));
     }
     else{
-      m_top.setSpeed(6200);
-      m_bottom.setSpeed(6200);
+      m_top.setSpeed(3500);
+      m_bottom.setSpeed(3500);
       System.out.println("on");
     }
 
