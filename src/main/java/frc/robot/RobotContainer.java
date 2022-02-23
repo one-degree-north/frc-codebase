@@ -242,12 +242,14 @@ public class RobotContainer {
         //   goal-=5;
         //   m_climberReach.setGoalLocation(goal);
         // }
-      }
+        }
       else{
         m_climberReach.set(0.05);
         
       }
       maintain = 0.05;
+       
+  
     }, m_climberReach));
 
     linearDown.whenInactive(new InstantCommand(()->m_climberReach.set(maintain), m_climberReach));
@@ -268,7 +270,7 @@ public class RobotContainer {
         m_climberRotate.set(0.5);
       }
       else{
-        m_climberRotate.set(0);
+        m_climberRotate.set(-0.05);
       }
     }, m_climberRotate));
 
@@ -281,7 +283,7 @@ public class RobotContainer {
         m_climberRotate.set(-0.5);
       }
       else{
-        m_climberRotate.set(0);
+        m_climberRotate.set(0.05);
       }
     }, m_climberRotate));
 
