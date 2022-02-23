@@ -30,7 +30,7 @@ public class AlignCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+
     distance = m_limelight.getOffsetVertical()/27;
   }
 

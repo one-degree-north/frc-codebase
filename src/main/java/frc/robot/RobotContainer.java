@@ -9,13 +9,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.LimelightArcCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShooterCommand;
-
+import frc.robot.commands.Wait;
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.OakSubsystem;
@@ -43,6 +44,7 @@ public class RobotContainer {
   
   //Limelight
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
+
 
   //Intake and Indexer
   private MotorControllerSubsystem m_intake = new MotorControllerSubsystem(Constants.intakeConstants);
@@ -86,7 +88,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_limelight.setLED(false);
     container = this;
+    
     // Configure the button bindings
     configureButtonBindings();
 
@@ -97,19 +101,7 @@ public class RobotContainer {
       },
       m_drive));
 
-    m_climberRotate.setDefaultCommand(new RunCommand(() -> {
-      m_climberRotate.setSpeed(0);
-    },
-    m_climberRotate));
-
-    m_climberReach.setDefaultCommand(new RunCommand(() -> {
-      m_climberReach.setSpeed(maintain);
-    },
-    m_climberReach));
-
-    m_intake.setDefaultCommand(new RunCommand(()->{
-      intakeStatus = 0;
-    }, m_intake));
+  
 /*
     try {
     m_oak.writeData(String.format("%d %f %d %d %f %f %d", 1, m_shooterTop.getSpeed()*(Math.PI/180), topBall, bottomBall, -(m_rotateEncoder.getAbsolutePosition()-Constants.AutoConstants.kClimbRotationMinPosition), -m_reachEncoder.getPosition()/Constants.AutoConstants.kClimbLinearMaxPosition,intakeStatus));
@@ -218,6 +210,7 @@ public class RobotContainer {
 
 
 
+
     //Climber
     Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
     linearUp.whileActiveOnce(new InstantCommand(()->{ 
@@ -237,13 +230,13 @@ public class RobotContainer {
       }
       maintain = 0.05;
     }, m_climberReach));
-
+    
     linearUp.whenInactive(new InstantCommand(()->m_climberReach.set(maintain), m_climberReach));
 
     Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
     linearDown.whileActiveOnce(new InstantCommand(()->{ 
       if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMinPosition){
-        m_climberReach.set(-0.3);
+        m_climberReach.set(-0.5);
         //if using reach
         // if(goal>=0){
         //   goal-=5;
@@ -251,14 +244,18 @@ public class RobotContainer {
         // }
       }
       else{
-        m_climberReach.set(-0.2);
+        m_climberReach.set(0.05);
         
       }
-      maintain = -0.2;
+      maintain = 0.05;
     }, m_climberReach));
 
     linearDown.whenInactive(new InstantCommand(()->m_climberReach.set(maintain), m_climberReach));
 
+
+    JoystickButton lockReach = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    lockReach.whenPressed(new InstantCommand(()->m_climberReach.set(-0.1),m_climberReach));
+    
 
 
     
@@ -267,8 +264,8 @@ public class RobotContainer {
 
     Trigger rotateForward = new Trigger(()->m_controller.getPOV()==90);
     rotateForward.whenActive(new InstantCommand(()->{ 
-      if(m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
-        m_climberRotate.set(-0.5);
+      if(m_rotateEncoder.getAbsolutePosition()<Constants.AutoConstants.kClimbRotationMinPosition){
+        m_climberRotate.set(0.5);
       }
       else{
         m_climberRotate.set(0);
@@ -280,8 +277,8 @@ public class RobotContainer {
 
     Trigger rotateBackward = new Trigger(()->m_controller.getPOV()==270);
     rotateBackward.whenActive(new InstantCommand(()->{ 
-      if(m_rotateEncoder.getAbsolutePosition()<Constants.AutoConstants.kClimbRotationMinPosition){
-        m_climberRotate.set(0.5);
+      if(m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
+        m_climberRotate.set(-0.5);
       }
       else{
         m_climberRotate.set(0);
@@ -290,12 +287,19 @@ public class RobotContainer {
 
     rotateBackward.whenInactive(new InstantCommand(()->m_climberRotate.set(0), m_climberRotate));
 
+    
+    JoystickButton lockRotate = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    lockRotate.whenPressed(new InstantCommand(()->m_climberRotate.set(-0.15),m_climberReach));
+    
 
 
 
     //Align
     JoystickButton align = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    align.toggleWhenPressed(new LimelightArcCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), ShootCommand.hood(55.0, 70.0, 25.0, 107.95), m_controller));
+    align.toggleWhenPressed(new SequentialCommandGroup(
+      new InstantCommand(()->m_limelight.setLED(true),m_limelight),
+      new Wait(),
+      new LimelightArcCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), ShootCommand.hood(55.0, 70.0, 25.0, 107.95), m_controller)));
    
   }
   

@@ -8,6 +8,7 @@ import java.util.function.Function;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib.ODN_HolonomicDrivebase;
 import frc.lib.basesubsystem.LimelightSubsystem;
@@ -57,6 +58,8 @@ public class ShootCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new InstantCommand(()->m_limelight.setLED(true),m_limelight),
+      new Wait(),
       new AlignCommand(drive, m_limelight, LimelightSubsystem.linearAttenuation(27), hood(55.0, 70.0, 25.0, 107.95), stick),
       new IndexerCommand(m_intake, true),
       new ShooterCommand(m_shooterTop, m_shooterBottom, shoot(25, 107.95, 21, 30, conversion), high)

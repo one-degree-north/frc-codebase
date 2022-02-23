@@ -65,6 +65,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public void setLED(boolean on) {
     m_table.getEntry("ledMode").setDouble(on?3:1);
+     
   }
 
   public void setPipeline(int pipeNum) {
