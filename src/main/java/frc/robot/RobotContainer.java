@@ -222,7 +222,7 @@ public class RobotContainer {
     Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
     linearUp.whenActive(new InstantCommand(()->{ 
       if(m_reachEncoder.getPosition()>Constants.AutoConstants.kClimbLinearMaxPosition){
-        m_climberReach.set(-0.5);
+        m_climberReach.set(0.75);
 
 
         //if using reach
@@ -232,7 +232,7 @@ public class RobotContainer {
         // }
       }
       else{
-        m_climberReach.set(0.05);
+        m_climberReach.set(0.1);
       
       }
       maintain = 0.05;
@@ -243,7 +243,7 @@ public class RobotContainer {
     Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
     linearDown.whenActive(new InstantCommand(()->{ 
       if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMinPosition){
-        m_climberReach.set(0.5);
+        m_climberReach.set(-0.3);
         //if using reach
         // if(goal>=0){
         //   goal-=5;
@@ -268,7 +268,7 @@ public class RobotContainer {
     Trigger rotateForward = new Trigger(()->m_controller.getPOV()==90);
     rotateForward.whenActive(new InstantCommand(()->{ 
       if(m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
-        m_climberRotate.set(0.5);
+        m_climberRotate.set(-0.5);
       }
       else{
         m_climberRotate.set(0);
@@ -281,7 +281,7 @@ public class RobotContainer {
     Trigger rotateBackward = new Trigger(()->m_controller.getPOV()==270);
     rotateBackward.whenActive(new InstantCommand(()->{ 
       if(m_rotateEncoder.getAbsolutePosition()<Constants.AutoConstants.kClimbRotationMinPosition){
-        m_climberRotate.set(-0.5);
+        m_climberRotate.set(0.5);
       }
       else{
         m_climberRotate.set(0);
