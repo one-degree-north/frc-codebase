@@ -71,7 +71,7 @@ public class RobotContainer {
     m_indexer.setDefaultCommand(new RunCommand(()->{
     }, m_indexer));
 
-    compressor.disable();
+    //compressor.disable();
     
     //m_climb.disable();
   }
@@ -102,6 +102,15 @@ public class RobotContainer {
     Trigger shootBall = new Trigger(()->m_controller.getRightTriggerAxis()>0.5);
     Trigger ballAtEntrance = m_indexer.ballAtEntrance();
     Trigger ballAtExit = m_indexer.ballAtExit();
+
+    Trigger t = new JoystickButton(m_controller, XboxController.Button.kB.value);
+    t.whenActive(()->{
+      if(compressor.enabled()) {
+        compressor.disable();
+      } else {
+        compressor.enableDigital();
+      }
+    });
 
     //drop or raise intake
     intakeToggle.whenActive(() -> m_intake.toggle(), m_intake);
