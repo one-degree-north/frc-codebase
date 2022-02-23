@@ -53,13 +53,13 @@ public class RobotContainer {
 
   //Hood 
   
-  // //Climber
-  // private MotorControllerSubsystem m_climberRotate = new MotorControllerSubsystem(Constants.climberRotateConstants);
-  // private ODN_CANCoder m_reachEncoder = new ODN_CANCoder(15);
+  //Climber
+  private MotorControllerSubsystem m_climberRotate = new MotorControllerSubsystem(Constants.climberRotateConstants);
+  private ODN_CANCoder m_reachEncoder = new ODN_CANCoder(15);
 
   
-  // private MotorControllerSubsystem m_climberReach = new MotorControllerSubsystem(Constants.climberReachConstants);
-  // private ODN_CANCoder m_rotateEncoder = new ODN_CANCoder(16);
+  private MotorControllerSubsystem m_climberReach = new MotorControllerSubsystem(Constants.climberReachConstants);
+  private ODN_CANCoder m_rotateEncoder = new ODN_CANCoder(16);
 
   //with set position
   // private ElevatorSubsystem m_climberReach = new MotorControllerSubsystem(Constants.climberReachConstants);
@@ -71,7 +71,7 @@ public class RobotContainer {
   // This command runs on autonomous
   private Command m_autoCommand = null;
   
-  private int maintain = -5;
+  private double maintain = 0;
 
   private int topBall = 0;
   
@@ -91,21 +91,21 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drive.setDefaultCommand(new RunCommand(() -> {
-        m_drive.cartesianDriveAbsolute(modifyAxis(-m_controller.getLeftY()), 
-          modifyAxis(-m_controller.getLeftX()),
+        m_drive.cartesianDriveAbsolute(modifyAxis(-m_controller.getLeftY()*m_controller.getLeftY()*m_controller.getLeftY()), 
+          modifyAxis(-m_controller.getLeftX()*m_controller.getLeftX()*m_controller.getLeftX()),
           modifyAxis(-m_controller.getRightX()));
       },
       m_drive));
 
-    // m_climberRotate.setDefaultCommand(new RunCommand(() -> {
-    //   m_climberRotate.setSpeed(0);
-    // },
-    // m_climberRotate));
+    m_climberRotate.setDefaultCommand(new RunCommand(() -> {
+      m_climberRotate.setSpeed(0);
+    },
+    m_climberRotate));
 
-    // m_climberReach.setDefaultCommand(new RunCommand(() -> {
-    //   m_climberReach.setSpeed(maintain);
-    // },
-    // m_climberReach));
+    m_climberReach.setDefaultCommand(new RunCommand(() -> {
+      m_climberReach.setSpeed(maintain);
+    },
+    m_climberReach));
 
     m_intake.setDefaultCommand(new RunCommand(()->{
       intakeStatus = 0;
@@ -135,12 +135,12 @@ public class RobotContainer {
 
     //Intake in
     JoystickButton intakeIn = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
-    intakeIn.whenPressed(new InstantCommand(()->m_intake.set(0.5), m_intake));
-    intakeIn.whenReleased(new InstantCommand(()->m_intake.set(0), m_intake));
-    /*
+    // intakeIn.whenPressed(new InstantCommand(()->m_intake.set(0.5), m_intake));
+    // intakeIn.whenReleased(new InstantCommand(()->m_intake.set(0), m_intake));
+    
     intakeIn.whenPressed(
       new ParallelCommandGroup(
-        new IndexerCommand(m_intake, true), 
+        new InstantCommand(()->m_intake.set(0.5), m_intake), 
         new InstantCommand(()->{
           if(bottomBall == 1){
             topBall = 1;
@@ -149,17 +149,20 @@ public class RobotContainer {
             bottomBall = 1;
           }
           intakeStatus = 1;
-        }))
-      );
-      */
+        }
+    )));
+
+    intakeIn.whenInactive(new InstantCommand(()->m_intake.set(0), m_intake));
+    
     //Intake out
     Trigger intakeOut = new Trigger(()->m_controller.getLeftTriggerAxis()>0.7);
     
-    intakeOut.whenPressed(new InstantCommand(()->m_intake.set(-0.5), m_intake));
-    intakeOut.whenReleased(new InstantCommand(()->m_intake.set(0), m_intake));
-    /*
-    intakeOut.whenActive(new ParallelCommandGroup(
-      new IndexerCommand(m_intake, false), 
+    //intakeOut.whenPressed(new InstantCommand(()->m_intake.set(-0.5), m_intake));
+    // intakeOut.whenReleased(new InstantCommand(()->m_intake.set(0), m_intake));
+    
+    intakeOut.whenActive(
+      new ParallelCommandGroup(
+      new InstantCommand(()->m_intake.set(-0.5), m_intake), 
       new InstantCommand(()-> {
         if(topBall == 1){
           topBall = 0;
@@ -171,15 +174,17 @@ public class RobotContainer {
 
       }
     )));
-    */
+
+    intakeOut.whenInactive(new InstantCommand(()->m_intake.set(0), m_intake));
+    
     
     
 
     //High shoot
     JoystickButton highShoot = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
-    /*
+    
     highShoot.whenPressed(new ParallelCommandGroup(
-      new ShootCommand(m_drive, m_limelight, m_intake, m_shooterTop, m_shooterBottom, m_controller),
+      new ShootCommand(m_drive, m_limelight, m_intake, m_shooterTop, m_shooterBottom, m_controller, true),
       new InstantCommand(()-> {
         if(topBall == 1){
           bottomBall = 0;
@@ -190,23 +195,15 @@ public class RobotContainer {
         }
       }
     )));
-*/
-    
-    highShoot.whenPressed(new InstantCommand(()->{
-      if(shooterOn) {
-        m_shooterTop.setSpeed(3000);
-        m_shooterBottom.setSpeed(3000);
-      } else {
-        m_shooterTop.setSpeed(0);
-        m_shooterBottom.setSpeed(0);
-      }
-    }, m_shooter))
 
-    /*
+    
+    
+
+    
     //Low shoot
     Trigger lowShoot = new Trigger(()->m_controller.getRightTriggerAxis()>0.7);
     lowShoot.whenActive(new ParallelCommandGroup(
-      new ShooterCommand(m_shooterTop, m_shooterBottom, ShootCommand.shoot(25, 107.95, 21, 30, 5), false),
+      new ShootCommand(m_drive, m_limelight, m_intake, m_shooterTop, m_shooterBottom, m_controller, false),
       new InstantCommand(()-> {
         if(topBall == 1){
           bottomBall = 0;
@@ -217,55 +214,83 @@ public class RobotContainer {
         }
       }
     )));
-    */
-
-    // //Climber
-    // Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
-    // linearUp.whenActive(new InstantCommand(()->{ 
-    //   if(m_reachEncoder.getPosition()>Constants.AutoConstants.kClimbLinearMaxPosition){
-    //     m_climberReach.setSpeed(-5900/2);
-    //     maintain = -5;
-
-
-    //     //if using reach
-    //     // if(goal<5900){
-    //     //   goal+=5;
-    //     //   m_climberReach.setGoalLocation(goal);
-    //     // }
-    //   }
-    // }));
-
-    // Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
-    // linearDown.whenActive(new InstantCommand(()->{ 
-    //   if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMinPosition){
-    //     m_climberReach.setSpeed(5900/2);
-    //     maintain = 1000;
-
-    //     //if using reach
-    //     // if(goal>=0){
-    //     //   goal-=5;
-    //     //   m_climberReach.setGoalLocation(goal);
-    //     // }
-    //   }
-    //   else{
-    //     maintain = -5;
-    //   }
-    // }));
     
 
 
-    // Trigger rotateForward = new Trigger(()->m_controller.getPOV()==90);
-    // rotateForward.whenActive(new InstantCommand(()->{ 
-    //   if(m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
-    //     m_climberRotate.setSpeed(5800/2);
-    //   }
-    // }));
-    // Trigger rotateBackward = new Trigger(()->m_controller.getPOV()==270);
-    // rotateBackward.whenActive(new InstantCommand(()->{ 
-    //   if(m_rotateEncoder.getAbsolutePosition()<Constants.AutoConstants.kClimbRotationMinPosition){
-    //     m_climberRotate.setSpeed(-5800/2);
-    //   }
-    // }));
+
+    //Climber
+    Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
+    linearUp.whenActive(new InstantCommand(()->{ 
+      if(m_reachEncoder.getPosition()>Constants.AutoConstants.kClimbLinearMaxPosition){
+        m_climberReach.set(-0.5);
+
+
+        //if using reach
+        // if(goal<5900){
+        //   goal+=5;
+        //   m_climberReach.setGoalLocation(goal);
+        // }
+      }
+      else{
+        m_climberReach.set(0.05);
+      
+      }
+      maintain = 0.05;
+    }, m_climberReach));
+
+    linearUp.whenInactive(new InstantCommand(()->m_climberReach.set(maintain), m_climberReach));
+
+    Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
+    linearDown.whenActive(new InstantCommand(()->{ 
+      if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMinPosition){
+        m_climberReach.set(0.5);
+        //if using reach
+        // if(goal>=0){
+        //   goal-=5;
+        //   m_climberReach.setGoalLocation(goal);
+        // }
+      }
+      else{
+        m_climberReach.set(0.2);
+        
+      }
+      maintain = 0.2;
+    }, m_climberReach));
+
+    linearDown.whenInactive(new InstantCommand(()->m_climberReach.set(maintain), m_climberReach));
+
+
+
+    
+    
+
+
+    Trigger rotateForward = new Trigger(()->m_controller.getPOV()==90);
+    rotateForward.whenActive(new InstantCommand(()->{ 
+      if(m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
+        m_climberRotate.set(0.5);
+      }
+      else{
+        m_climberRotate.set(0);
+      }
+    }, m_climberRotate));
+
+    rotateForward.whenInactive(new InstantCommand(()->m_climberRotate.set(0), m_climberRotate));
+
+
+    Trigger rotateBackward = new Trigger(()->m_controller.getPOV()==270);
+    rotateBackward.whenActive(new InstantCommand(()->{ 
+      if(m_rotateEncoder.getAbsolutePosition()<Constants.AutoConstants.kClimbRotationMinPosition){
+        m_climberRotate.set(-0.5);
+      }
+      else{
+        m_climberRotate.set(0);
+      }
+    }, m_climberRotate));
+
+    rotateBackward.whenInactive(new InstantCommand(()->m_climberRotate.set(0), m_climberRotate));
+
+
 
 
     //Align

@@ -36,13 +36,15 @@ public class IndexerCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(isIntaking){
-      m_intake.set(0.5);
-    }
-    else{
-      m_intake.set(-0.4);
+    if(System.currentTimeMillis()/1000.0-t_s > 0.1){
+      if(isIntaking){
+        m_intake.set(0.5);
+      }
+      else{
+        m_intake.set(-0.4);
 
-    }
+      }
+   }
   }
 
   // Called once the command ends or is interrupted.
@@ -55,6 +57,6 @@ public class IndexerCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (System.currentTimeMillis()/1000.0-t_s > 1.3);
+    return (System.currentTimeMillis()/1000.0-t_s > 1);
   }
 }
