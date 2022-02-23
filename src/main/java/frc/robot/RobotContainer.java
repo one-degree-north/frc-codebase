@@ -152,7 +152,7 @@ public class RobotContainer {
         }
     )));
 
-    intakeIn.whenInactive(new InstantCommand(()->m_intake.set(0), m_intake));
+    intakeIn.whenReleased(new InstantCommand(()->m_intake.set(0), m_intake));
     
     //Intake out
     Trigger intakeOut = new Trigger(()->m_controller.getLeftTriggerAxis()>0.7);
@@ -160,7 +160,7 @@ public class RobotContainer {
     //intakeOut.whenPressed(new InstantCommand(()->m_intake.set(-0.5), m_intake));
     // intakeOut.whenReleased(new InstantCommand(()->m_intake.set(0), m_intake));
     
-    intakeOut.whenActive(
+    intakeOut.whileActiveOnce(
       new ParallelCommandGroup(
       new InstantCommand(()->m_intake.set(-0.5), m_intake), 
       new InstantCommand(()-> {
@@ -219,10 +219,15 @@ public class RobotContainer {
 
 
     //Climber
+<<<<<<< HEAD
     Trigger linearUp = new Trigger(()->m_controller.getPOV()==180);
     linearUp.whenActive(new InstantCommand(()->{ 
+=======
+    Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
+    linearUp.whileActiveOnce(new InstantCommand(()->{ 
+>>>>>>> 08b3c8161083876095fcec4905ba6a57feaeca5f
       if(m_reachEncoder.getPosition()>Constants.AutoConstants.kClimbLinearMaxPosition){
-        m_climberReach.set(-0.5);
+        m_climberReach.set(0.75);
 
 
         //if using reach
@@ -232,7 +237,7 @@ public class RobotContainer {
         // }
       }
       else{
-        m_climberReach.set(0.05);
+        m_climberReach.set(0.1);
       
       }
       maintain = 0.05;
@@ -240,10 +245,15 @@ public class RobotContainer {
 
     linearUp.whenInactive(new InstantCommand(()->m_climberReach.set(maintain), m_climberReach));
 
+<<<<<<< HEAD
     Trigger linearDown = new Trigger(()->m_controller.getPOV()==0);
     linearDown.whenActive(new InstantCommand(()->{ 
+=======
+    Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
+    linearDown.whileActiveOnce(new InstantCommand(()->{ 
+>>>>>>> 08b3c8161083876095fcec4905ba6a57feaeca5f
       if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMinPosition){
-        m_climberReach.set(0.5);
+        m_climberReach.set(-0.3);
         //if using reach
         // if(goal>=0){
         //   goal-=5;
@@ -251,10 +261,17 @@ public class RobotContainer {
         // }
         }
       else{
+<<<<<<< HEAD
         m_climberReach.set(1);
         
       }
       maintain = 0.5;
+=======
+        m_climberReach.set(-0.2);
+        
+      }
+      maintain = -0.2;
+>>>>>>> 08b3c8161083876095fcec4905ba6a57feaeca5f
     }, m_climberReach));
 
     linearDown.whenInactive(new InstantCommand(()->m_climberReach.set(maintain), m_climberReach));
