@@ -219,7 +219,7 @@ public class RobotContainer {
 
 
     //Climber
-    Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
+    Trigger linearUp = new Trigger(()->m_controller.getPOV()==180);
     linearUp.whenActive(new InstantCommand(()->{ 
       if(m_reachEncoder.getPosition()>Constants.AutoConstants.kClimbLinearMaxPosition){
         m_climberReach.set(-0.5);
@@ -240,7 +240,7 @@ public class RobotContainer {
 
     linearUp.whenInactive(new InstantCommand(()->m_climberReach.set(maintain), m_climberReach));
 
-    Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
+    Trigger linearDown = new Trigger(()->m_controller.getPOV()==0);
     linearDown.whenActive(new InstantCommand(()->{ 
       if(m_reachEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMinPosition){
         m_climberReach.set(0.5);
@@ -249,12 +249,12 @@ public class RobotContainer {
         //   goal-=5;
         //   m_climberReach.setGoalLocation(goal);
         // }
-      }
+        }
       else{
-        m_climberReach.set(0.2);
+        m_climberReach.set(1);
         
       }
-      maintain = 0.2;
+      maintain = 0.5;
     }, m_climberReach));
 
     linearDown.whenInactive(new InstantCommand(()->m_climberReach.set(maintain), m_climberReach));
@@ -268,10 +268,10 @@ public class RobotContainer {
     Trigger rotateForward = new Trigger(()->m_controller.getPOV()==90);
     rotateForward.whenActive(new InstantCommand(()->{ 
       if(m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
-        m_climberRotate.set(0.5);
+        m_climberRotate.set(-0.5);
       }
       else{
-        m_climberRotate.set(0);
+        m_climberRotate.set(-0.05);
       }
     }, m_climberRotate));
 
@@ -281,10 +281,10 @@ public class RobotContainer {
     Trigger rotateBackward = new Trigger(()->m_controller.getPOV()==270);
     rotateBackward.whenActive(new InstantCommand(()->{ 
       if(m_rotateEncoder.getAbsolutePosition()<Constants.AutoConstants.kClimbRotationMinPosition){
-        m_climberRotate.set(-0.5);
+        m_climberRotate.set(0.5);
       }
       else{
-        m_climberRotate.set(0);
+        m_climberRotate.set(0.05);
       }
     }, m_climberRotate));
 
