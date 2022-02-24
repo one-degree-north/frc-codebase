@@ -302,11 +302,11 @@ public class RobotContainer {
 
 
     //Align
-    JoystickButton align = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    align.toggleWhenPressed(new SequentialCommandGroup(
-      new InstantCommand(()->m_limelight.setLED(true),m_limelight),
-      new Wait(),
-      new LimelightArcCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), ShootCommand.hood(55.0, 70.0, 25.0, 107.95), m_controller)));
+    // JoystickButton align = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    // align.toggleWhenPressed(new SequentialCommandGroup(
+    //   new InstantCommand(()->m_limelight.setLED(true),m_limelight),
+    //   new Wait(),
+    //   new LimelightArcCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), ShootCommand.hood(55.0, 70.0, 25.0, 107.95), m_controller)));
    
   }
   
