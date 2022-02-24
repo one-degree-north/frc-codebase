@@ -269,9 +269,9 @@ public class RobotContainer {
     
 
 
-    Trigger rotateForward = new Trigger(()->m_controller.getPOV()==90);
+    Trigger rotateForward = new Trigger(()->m_controller.getPOV()==270);
     rotateForward.whileActiveContinuous(new InstantCommand(()->{ 
-      if(m_rotateEncoder.getAbsolutePosition()<Constants.AutoConstants.kClimbRotationMinPosition && m_rotateEncoder.getAbsolutePosition()>300){
+      if(m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
         m_climberRotate.set(0.5);
       }
       else{
@@ -282,9 +282,9 @@ public class RobotContainer {
     rotateForward.whenInactive(new InstantCommand(()->m_climberRotate.set(0), m_climberRotate));
 
 
-    Trigger rotateBackward = new Trigger(()->m_controller.getPOV()==270);
+    Trigger rotateBackward = new Trigger(()->m_controller.getPOV()==90);
     rotateBackward.whileActiveContinuous(new InstantCommand(()->{ 
-      if( m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
+      if(m_rotateEncoder.getAbsolutePosition()<Constants.AutoConstants.kClimbRotationMinPosition && m_rotateEncoder.getAbsolutePosition()>180 ){
         m_climberRotate.set(-0.5);
       }
       else{
