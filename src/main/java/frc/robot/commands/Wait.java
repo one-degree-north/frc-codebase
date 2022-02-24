@@ -29,6 +29,6 @@ public class Wait extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (System.currentTimeMillis()/1000.0-t_s > 2);
+    return (System.currentTimeMillis()/1000.0-t_s > 0.5);
   }
 }

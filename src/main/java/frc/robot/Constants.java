@@ -122,8 +122,8 @@ public final class Constants {
 
         public static final double kClimbLinearMaxPosition = -1899;
         public static final double kClimbLinearMinPosition = 2;
-        public static final double kClimbRotationMaxPosition = 190;
-        public static final double kClimbRotationMinPosition = 275.537;
+        public static final double kClimbRotationMaxPosition = 330;
+        public static final double kClimbRotationMinPosition = 360;
 
         
         // These numbers must be correctly calculated
