@@ -40,7 +40,7 @@ public class RobotContainer {
   private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
 
   //oak subsystem
-  // private OakSubsystem m_oak = new OakSubsystem("10.48.17.62", 12801);
+  private OakSubsystem m_oak = new OakSubsystem("10.48.17.62", 5805);
   
   //Limelight
   private LimelightSubsystem m_limelight = new LimelightSubsystem();
@@ -103,11 +103,11 @@ public class RobotContainer {
       m_drive));
 
 
-    // robot enabled (0/1), speed (number gets rounded to one decimal place), first button status (0/1), second button status (0/1), climb angle (0-30), extention length (0-1), intake status (0/1) 
-    // m_oak.setDefaultCommand(new RunCommand(() -> {
-    //   m_oak.writeData(String.format("%d %f %d %d %f %f %d", 1, m_shooterTop.getSpeed()/( 2*60/(1/3 *2 *Math.PI)), topBall, bottomBall, -m_rotateEncoder.getAbsolutePosition()+Constants.AutoConstants.kClimbRotationMinPosition, m_reachEncoder.getPosition()/Constants.AutoConstants.kClimbRotationMaxPosition, intakeStatus));
-    // },
-    // m_oak));
+    //robot enabled (0/1), speed (number gets rounded to one decimal place), first button status (0/1), second button status (0/1), climb angle (0-30), extention length (0-1), intake status (0/1) 
+    m_oak.setDefaultCommand(new RunCommand(() -> {
+      m_oak.writeData(String.format("%d %f %d %d %f %f %d", 1, m_shooterTop.getSpeed()/( 2*60/(1/3 *2 *Math.PI)), topBall, bottomBall, -m_rotateEncoder.getAbsolutePosition()+Constants.AutoConstants.kClimbRotationMinPosition, m_reachEncoder.getPosition()/Constants.AutoConstants.kClimbRotationMaxPosition, intakeStatus));
+    },
+    m_oak));
 
   }
 
@@ -271,7 +271,7 @@ public class RobotContainer {
 
     Trigger rotateForward = new Trigger(()->m_controller.getPOV()==90);
     rotateForward.whileActiveContinuous(new InstantCommand(()->{ 
-      if(m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
+      if(m_rotateEncoder.getAbsolutePosition()<Constants.AutoConstants.kClimbRotationMinPosition && m_rotateEncoder.getAbsolutePosition()>300){
         m_climberRotate.set(0.5);
       }
       else{
@@ -284,7 +284,7 @@ public class RobotContainer {
 
     Trigger rotateBackward = new Trigger(()->m_controller.getPOV()==270);
     rotateBackward.whileActiveContinuous(new InstantCommand(()->{ 
-      if(m_rotateEncoder.getAbsolutePosition()<Constants.AutoConstants.kClimbRotationMinPosition){
+      if( m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
         m_climberRotate.set(-0.5);
       }
       else{
