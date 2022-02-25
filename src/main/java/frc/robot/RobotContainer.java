@@ -9,6 +9,7 @@ import javax.print.attribute.standard.Compression;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -41,6 +42,7 @@ public class RobotContainer {
   private ShooterSubsystem m_shooter = new ShooterSubsystem(Constants.shooterConstants);
   private IndexerSubsystem m_indexer = new IndexerSubsystem(Constants.indexerConstants);
   private IntakeSubsystem m_intake = new IntakeSubsystem(Constants.intakeConstants);
+
   //private ClimbSubsystem m_climb = new ClimbSubsystem(Constants.climbConstants);
 
   // Controllers here:
