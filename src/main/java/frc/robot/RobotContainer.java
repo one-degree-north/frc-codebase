@@ -271,7 +271,7 @@ public class RobotContainer {
 
     Trigger rotateForward = new Trigger(()->m_controller.getPOV()==270);
     rotateForward.whileActiveContinuous(new InstantCommand(()->{ 
-      if(m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition){
+      if(m_rotateEncoder.getAbsolutePosition()>Constants.AutoConstants.kClimbRotationMaxPosition || m_rotateEncoder.getAbsolutePosition()<180){
         m_climberRotate.set(0.5);
       }
       else{
