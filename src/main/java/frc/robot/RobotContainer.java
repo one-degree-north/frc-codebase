@@ -180,22 +180,22 @@ public class RobotContainer {
   }
 
   public IndexerSubsystem getIndexer() {
-    return null;//m_indexer;
+    return m_indexer;
   }
 
   public IntakeSubsystem getIntake() {
-    return null;//m_intake;
+    return m_intake;
   }
 
   public ShooterSubsystem getShooter() {
-    return null;//m_shooter;
+    return m_shooter;
   }
 
   public SwerveDriveSubsystem getDrivebase() {
-    return null;//m_swerve;
+    return m_drive;
   }
 
   public XboxController getJoystick() {
-    return null;//m_controller;
+    return m_controller;
   }
 }
