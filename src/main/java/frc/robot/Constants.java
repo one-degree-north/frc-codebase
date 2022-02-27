@@ -139,7 +139,7 @@ public final class Constants {
         
         public static final double kMaxAngularSpeedRadiansPerSecond = 40;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = 40;
-        
+
         // These numbers must be correctly calculated
         public static double kRamseteB = 1;
         public static double kRamseteZeta = 1;
