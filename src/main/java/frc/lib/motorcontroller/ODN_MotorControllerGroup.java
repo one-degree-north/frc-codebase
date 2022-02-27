@@ -8,6 +8,7 @@ public class ODN_MotorControllerGroup implements ODN_MotorController {
 
     private MotorControllerGroup m_backend;
     private ODN_Encoder m_encoder;
+    private ODN_MotorController[] m_controllers;
 
     public ODN_MotorControllerGroup(ODN_MotorController... controllers) {
         this(controllers[0].getEncoder(), controllers);
@@ -20,6 +21,7 @@ public class ODN_MotorControllerGroup implements ODN_MotorController {
         }
         m_backend = new MotorControllerGroup(s);
         m_encoder = encoder;
+        m_controllers = controllers;
     }
 
     @Override
@@ -50,8 +52,9 @@ public class ODN_MotorControllerGroup implements ODN_MotorController {
 
     @Override
     public void setRealSpeed(double speed) {
-        // TODO: Add exceptions for this case
-        // Cannot set real speed for a motor controller group
+        for(ODN_MotorController controller : m_controllers) {
+            controller.setRealSpeed(speed);
+        }
     }
     
 }

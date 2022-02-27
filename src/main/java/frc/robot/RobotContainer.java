@@ -4,9 +4,16 @@
 
 package frc.robot;
 
+import javax.print.attribute.standard.Compression;
+
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -32,15 +39,15 @@ public class RobotContainer {
   public static RobotContainer container;
   // Robot subsystems here:
   private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
-  private LimelightSubsystem m_limelight = new LimelightSubsystem();
   private ShooterSubsystem m_shooter = new ShooterSubsystem(Constants.shooterConstants);
   private IndexerSubsystem m_indexer = new IndexerSubsystem(Constants.indexerConstants);
   private IntakeSubsystem m_intake = new IntakeSubsystem(Constants.intakeConstants);
-  private ClimbSubsystem m_climb = new ClimbSubsystem(Constants.climbConstants);
-  private SwerveDriveSubsystem m_swerve = new SwerveDriveSubsystem(Constants.swerveConstants);
+
+  //private ClimbSubsystem m_climb = new ClimbSubsystem(Constants.climbConstants);
 
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
+  private Compressor compressor = new Compressor(17, PneumaticsModuleType.CTREPCM);
 
   // Robot commands go here:
 
@@ -56,14 +63,19 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // m_drive.setDefaultCommand(new RunCommand(() -> {
-    //     m_drive.cartesianDriveAbsolute(modifyAxis(m_controller.getLeftY()), 
-    //       modifyAxis(m_controller.getLeftX()),
-    //       modifyAxis(m_controller.getRightX()));
-    //   },
-    //   m_drive));
+    m_drive.setDefaultCommand(new RunCommand(() -> {
+        m_drive.cartesianDriveRelative(modifyAxis(m_controller.getLeftY()), 
+          modifyAxis(m_controller.getLeftX()),
+          modifyAxis(m_controller.getRightX()));
+      },
+      m_drive));
+
+    m_indexer.setDefaultCommand(new RunCommand(()->{
+    }, m_indexer));
+
+    //compressor.disable();
     
-    m_climb.disable();
+    //m_climb.disable();
   }
 
   /**
@@ -73,12 +85,34 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    /*
+    Trigger manualShooterRev = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    Trigger shootBall = new Trigger(()->m_controller.getRightTriggerAxis()>0.5);
+    Trigger intakeToggle3 = new Trigger(()->m_controller.getLeftTriggerAxis()>0.5);
+    manualShooterRev.whenActive(() -> m_shooter.toggle(), m_shooter);
+    shootBall.whenActive(new IndexerContinueCommand(m_indexer));
+    Trigger intakeToggle = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
+    intakeToggle.whenActive(() -> m_indexer.onboth(), m_intake);
+    Trigger intakeToggle2 = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
+    intakeToggle2.whenActive(() -> m_indexer.off(), m_intake);
+    intakeToggle3.whenActive(() -> m_intake.toggleRun(), m_intake);
+`   */
+    
     Trigger intakeToggle = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
     Trigger intakeRun = new Trigger(()->m_controller.getLeftTriggerAxis()>0.5);
-    Trigger manualShooterRev = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
+    Trigger manualShooterRev = new JoystickButton(m_controller, XboxController.Button.kA.value);
     Trigger shootBall = new Trigger(()->m_controller.getRightTriggerAxis()>0.5);
     Trigger ballAtEntrance = m_indexer.ballAtEntrance();
     Trigger ballAtExit = m_indexer.ballAtExit();
+
+    Trigger t = new JoystickButton(m_controller, XboxController.Button.kB.value);
+    t.whenActive(()->{
+      if(compressor.enabled()) {
+        compressor.disable();
+      } else {
+        compressor.enableDigital();
+      }
+    });
 
     //drop or raise intake
     intakeToggle.whenActive(() -> m_intake.toggle(), m_intake);
@@ -97,7 +131,7 @@ public class RobotContainer {
 
     //if ball is at entrance of indexer and no ball is at the exit, move it to the end
     ballAtEntrance.and(ballAtExit.negate()).whenActive(new IndexerRunCommand(m_indexer));
-
+/*
     //climbing stuff: figure this out later
     JoystickButton climb = new JoystickButton(m_controller, XboxController.Button.kY.value);
     climb.whenPressed(new SequentialCommandGroup(
@@ -110,7 +144,7 @@ public class RobotContainer {
       new InstantCommand(()->m_climb.extendRotation(), m_climb),
       new ElevatorHeightCommand(m_climb, ClimbSubsystem.TOP)
     ));
-    
+    */
   }
   
   
@@ -158,11 +192,7 @@ public class RobotContainer {
   }
 
   public SwerveDriveSubsystem getDrivebase() {
-    return m_swerve;
-  }
-
-  public LimelightSubsystem getLimelight() {
-    return m_limelight;
+    return m_drive;
   }
 
   public XboxController getJoystick() {
