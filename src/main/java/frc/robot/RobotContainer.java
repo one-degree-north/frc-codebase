@@ -4,8 +4,12 @@
 
 package frc.robot;
 
+import java.util.List;
+
 import javax.print.attribute.standard.Compression;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -20,9 +24,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
 import frc.robot.commands.DriveBackCommand;
+import frc.robot.commands.DriveTo;
 import frc.robot.commands.ElevatorHeightCommand;
 import frc.robot.commands.IndexerContinueCommand;
 import frc.robot.commands.IndexerRunCommand;
+import frc.robot.commands.TrajectoryCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -53,7 +59,7 @@ public class RobotContainer {
 
 
   // This command runs on autonomous
-  private Command m_autoCommand = null;
+  private Command m_autoCommand = new DriveTo(m_drive, new Pose2d(0.5, 0, Rotation2d.fromDegrees(0)));
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
