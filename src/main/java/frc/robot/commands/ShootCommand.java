@@ -4,46 +4,45 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.lib.basesubsystem.SwerveDriveSubsystem;
+import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class DriveBackCommand extends CommandBase {
-  private SwerveDriveSubsystem m_swerve;
-
-  /** Creates a new DriveBackCommand. */
-  public DriveBackCommand(SwerveDriveSubsystem swerve) {
+public class ShootCommand extends CommandBase {
+  private ShooterSubsystem shooter;
+  private IndexerSubsystem indexer;
+  /** Creates a new ShootCommand. */
+  public ShootCommand(ShooterSubsystem shooter, IndexerSubsystem indexer) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_swerve = swerve;
-    addRequirements(m_swerve);
+    this.shooter = shooter;
+    this.indexer = indexer;
+    addRequirements(shooter, indexer);
   }
 
-  Translation2d start;
+  double start;
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_swerve.resetYaw();
-    m_swerve.resetOdometry(new Pose2d());
-    start = m_swerve.getPose().getTranslation();
+    this.shooter.on();
+    this.indexer.onshoot();
+    start = System.currentTimeMillis();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_swerve.cartesianDriveRelative(0.3, 0, 0);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_swerve.stop();
+    this.shooter.off();
+    this.indexer.off();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_swerve.getPose().getTranslation().getDistance(start)) > 50;
+    return (System.currentTimeMillis()-start)/1000 > 1;
   }
 }

@@ -34,7 +34,7 @@ public abstract class ODN_HolonomicDrivebase extends ODN_Drivebase {
     public abstract void polarDrive(double magnitude, Rotation2d direction, double rotate);
 
     public void rotate(double speed) {
-        cartesianDriveAbsolute(0, 0, speed);
+        cartesianDriveRelative(0, 0, speed);
     }
     
     public void stop() {

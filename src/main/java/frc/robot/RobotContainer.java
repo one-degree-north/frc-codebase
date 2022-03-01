@@ -24,10 +24,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
 import frc.robot.commands.DriveBackCommand;
-import frc.robot.commands.DriveTo;
 import frc.robot.commands.ElevatorHeightCommand;
 import frc.robot.commands.IndexerContinueCommand;
 import frc.robot.commands.IndexerRunCommand;
+import frc.robot.commands.RotateCommand;
+import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TrajectoryCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -59,7 +60,7 @@ public class RobotContainer {
 
 
   // This command runs on autonomous
-  private Command m_autoCommand = new DriveTo(m_drive, new Pose2d(0.5, 0, Rotation2d.fromDegrees(0)));
+  private Command m_autoCommand = new SequentialCommandGroup(new ShootCommand(m_shooter, m_indexer), new DriveBackCommand(m_drive), new RotateCommand(m_drive));
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
