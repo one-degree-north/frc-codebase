@@ -23,6 +23,10 @@ public class ShooterSubsystem extends SubsystemBase {
     shoot_speed = constants.shoot_speed;
   }
 
+  public void periodic() {
+    on();
+  }
+
   public void on() {
     m_motors.setSpeed(shoot_speed);
     m_running = true;

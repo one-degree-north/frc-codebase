@@ -25,6 +25,10 @@ public class IntakeSubsystem extends SubsystemBase {
         m_pneumatics.toggle();
     }
 
+    public boolean isRunning() {
+        return m_running;
+    }
+
     public void raise() {
         m_pneumatics.set(Value.kReverse);
     }

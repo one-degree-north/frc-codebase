@@ -5,6 +5,7 @@
 package frc.robot;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.print.attribute.standard.Compression;
 
@@ -19,17 +20,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
 import frc.robot.commands.DriveBackCommand;
+import frc.robot.commands.DriveForwardCommand;
 import frc.robot.commands.ElevatorHeightCommand;
 import frc.robot.commands.IndexerContinueCommand;
 import frc.robot.commands.IndexerRunCommand;
 import frc.robot.commands.RotateCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TrajectoryCommand;
+import frc.robot.commands.Wait;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -60,7 +64,7 @@ public class RobotContainer {
 
 
   // This command runs on autonomous
-  private Command m_autoCommand = new SequentialCommandGroup(new ShootCommand(m_shooter, m_indexer), new DriveBackCommand(m_drive), new RotateCommand(m_drive));
+  private Command m_autoCommand = new SequentialCommandGroup(new ShootCommand(m_shooter, m_indexer), new DriveBackCommand(m_drive), new RotateCommand(m_drive), new DriveForwardCommand(m_drive));
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -78,12 +82,15 @@ public class RobotContainer {
       m_drive));
 
     m_indexer.setDefaultCommand(new RunCommand(()->{
+      m_indexer.onboth();
     }, m_indexer));
 
     //compressor.disable();
     
     //m_climb.disable();
   }
+
+  boolean r;
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -105,12 +112,8 @@ public class RobotContainer {
     intakeToggle3.whenActive(() -> m_intake.toggleRun(), m_intake);
 `   */
     
-    Trigger intakeToggle = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
     Trigger intakeRun = new Trigger(()->m_controller.getLeftTriggerAxis()>0.5);
-    Trigger manualShooterRev = new JoystickButton(m_controller, XboxController.Button.kA.value);
     Trigger shootBall = new Trigger(()->m_controller.getRightTriggerAxis()>0.5);
-    Trigger ballAtEntrance = m_indexer.ballAtEntrance();
-    Trigger ballAtExit = m_indexer.ballAtExit();
 
     Trigger t = new JoystickButton(m_controller, XboxController.Button.kB.value);
     t.whenActive(()->{
@@ -120,24 +123,32 @@ public class RobotContainer {
         compressor.enableDigital();
       }
     });
+    
+    //drop or release
+    intakeRun.whenActive(new SequentialCommandGroup(
+      new InstantCommand(()->{
+        r = m_intake.isRunning();
+        if(r) {
+          m_intake.off();
+        } else {
+          m_intake.drop();
+        }
+      }),
+      new Wait(),
+      new InstantCommand(()->{
+        if(r) {
+          m_intake.raise();
+        } else {
+          m_intake.on();
+        }
+      })
+      
+    ));
 
-    //drop or raise intake
-    intakeToggle.whenActive(() -> m_intake.toggle(), m_intake);
-
-    //turn on or off the intake
-    intakeRun.whenActive(() -> m_intake.toggleRun(), m_intake);
-
-    //if a ball enters the indexer, rev up the shooter
-    ballAtEntrance.whenActive(() -> m_shooter.on(), m_shooter);
+    m_indexer.ballAtExit().whileActiveOnce(new RunCommand(()->m_indexer.off(), m_indexer));
 
     //shoot ball
     shootBall.whenActive(new IndexerContinueCommand(m_indexer));
-
-    //if manual shooter rev button is pressed, toggle whether the shooter is revving or off
-    manualShooterRev.whenActive(() -> m_shooter.toggle(), m_shooter);
-
-    //if ball is at entrance of indexer and no ball is at the exit, move it to the end
-    ballAtEntrance.and(ballAtExit.negate()).whenActive(new IndexerRunCommand(m_indexer));
 /*
     //climbing stuff: figure this out later
     JoystickButton climb = new JoystickButton(m_controller, XboxController.Button.kY.value);

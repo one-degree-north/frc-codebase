@@ -28,14 +28,12 @@ public class IndexerSubsystem extends SubsystemBase {
     public MotorControllerSubsystem.Constants indexer;
     public MotorControllerSubsystem.Constants feeder;
     public ODN_ColorSensor color;
-    public ODN_Adafruit164Sensor enter_sensor;
     public DigitalInput exit_sensor;
     public ODN_Encoder encoder;
   }
   private MotorControllerSubsystem m_indexer;
   private MotorControllerSubsystem m_feeder;
   private ODN_ColorSensor m_color;
-  private ODN_Adafruit164Sensor m_enter_sensor;
   private DigitalInput m_exit_sensor;
   private ODN_Encoder m_encoder;
 
@@ -45,7 +43,6 @@ public class IndexerSubsystem extends SubsystemBase {
     m_indexer = new MotorControllerSubsystem(constants.indexer);
     m_feeder = new MotorControllerSubsystem(constants.feeder);
     m_color = constants.color;
-    m_enter_sensor = constants.enter_sensor;
     m_exit_sensor = constants.exit_sensor;
     m_encoder = constants.encoder;
   }
@@ -63,15 +60,9 @@ public class IndexerSubsystem extends SubsystemBase {
     return null;
   }
 
-  int t = 0;
-
   @Override
   public void periodic() {
-    if(m_enter_sensor.getDistanceInches() < DISTANCE_TO_ENABLE) {
-      t++;
-    } else {
-      t = 0;
-    }
+    
   }
 
   public void onboth() {
@@ -96,15 +87,11 @@ public class IndexerSubsystem extends SubsystemBase {
     return m_encoder.getPosition();
   }
 
-  public Trigger ballAtEntrance() {
-    return new Trigger(()->t > 3);
+  public boolean getExitSensor() {
+    return !m_exit_sensor.get();
   }
 
   public Trigger ballAtExit() {
     return new Trigger(()->getExitSensor());
-  }
-
-  public boolean getExitSensor() {
-    return !m_exit_sensor.get();
   }
 }

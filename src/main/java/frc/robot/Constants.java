@@ -91,7 +91,6 @@ public final class Constants {
         indexerConstants.feeder = new MotorControllerSubsystem.Constants();
         indexerConstants.feeder.motor = new ODN_SparkMax(15, MotorType.brushless);
         indexerConstants.color = new ODN_ColorSensor(I2C.Port.kMXP);
-        indexerConstants.enter_sensor = new ODN_Adafruit164Sensor(1);
         indexerConstants.exit_sensor = new DigitalInput(2);
         indexerConstants.encoder = indexerConstants.feeder.motor.getEncoder();
     }
