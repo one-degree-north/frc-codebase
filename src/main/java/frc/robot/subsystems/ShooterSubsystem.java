@@ -24,7 +24,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void periodic() {
-    on();
+    //on();
   }
 
   public void on() {

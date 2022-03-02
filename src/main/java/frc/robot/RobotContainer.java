@@ -25,8 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.basesubsystem.LimelightSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
-import frc.robot.commands.DriveBackCommand;
-import frc.robot.commands.DriveForwardCommand;
+import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ElevatorHeightCommand;
 import frc.robot.commands.IndexerContinueCommand;
 import frc.robot.commands.IndexerRunCommand;
@@ -47,6 +46,7 @@ import frc.robot.subsystems.ShooterSubsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  boolean r;
   public static RobotContainer container;
   // Robot subsystems here:
   private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
@@ -61,10 +61,38 @@ public class RobotContainer {
   private Compressor compressor = new Compressor(17, PneumaticsModuleType.CTREPCM);
 
   // Robot commands go here:
-
+  Command toggleIntakeCommand = new SequentialCommandGroup(
+    new InstantCommand(()->{
+      r = m_intake.isRunning();
+      if(r) {
+        m_intake.off();
+      } else {
+        m_intake.drop();
+      }
+    }),
+    new Wait(),
+    new InstantCommand(()->{
+      if(r) {
+        m_intake.raise();
+      } else {
+        m_intake.on();
+      }
+    })
+    
+  );
 
   // This command runs on autonomous
-  private Command m_autoCommand = new SequentialCommandGroup(new ShootCommand(m_shooter, m_indexer), new DriveBackCommand(m_drive), new RotateCommand(m_drive), new DriveForwardCommand(m_drive));
+  private Command m_autoCommand = new SequentialCommandGroup(
+    //new ShootCommand(m_shooter, m_indexer), 
+    new DriveCommand(m_drive, 90+25, 120),
+    new RotateCommand(m_drive, 157.5)
+    //toggleIntakeCommand,
+    //new DriveCommand(m_drive, 0, 20),
+    //toggleIntakeCommand,
+    //new RotateCommand(m_drive, 360-157.5),
+    //new DriveCommand(m_drive, 14.4, 120)
+
+    );
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -82,15 +110,13 @@ public class RobotContainer {
       m_drive));
 
     m_indexer.setDefaultCommand(new RunCommand(()->{
-      m_indexer.onboth();
+      //m_indexer.onboth();
     }, m_indexer));
 
     //compressor.disable();
     
     //m_climb.disable();
   }
-
-  boolean r;
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -125,25 +151,8 @@ public class RobotContainer {
     });
     
     //drop or release
-    intakeRun.whenActive(new SequentialCommandGroup(
-      new InstantCommand(()->{
-        r = m_intake.isRunning();
-        if(r) {
-          m_intake.off();
-        } else {
-          m_intake.drop();
-        }
-      }),
-      new Wait(),
-      new InstantCommand(()->{
-        if(r) {
-          m_intake.raise();
-        } else {
-          m_intake.on();
-        }
-      })
-      
-    ));
+    intakeRun.whenActive(toggleIntakeCommand);
+    intakeRun.whenInactive(toggleIntakeCommand);
 
     m_indexer.ballAtExit().whileActiveOnce(new RunCommand(()->m_indexer.off(), m_indexer));
 
