@@ -113,7 +113,7 @@ public final class Constants {
     // -----------------------------------------------------------------------
     // --------- CLIMBER -----------------------------------------------------
     // -----------------------------------------------------------------------
-/*
+
     public static ClimbSubsystem.Constants climbConstants = new ClimbSubsystem.Constants();
     static {
         climbConstants.enable_climber = new PneumaticSubsystem.Constants();
@@ -127,7 +127,7 @@ public final class Constants {
         climbConstants.motor = new MotorControllerSubsystem.Constants();
         climbConstants.motor.motor = new ODN_TalonFX(18);
     }
-*/
+
     // -----------------------------------------------------------------------
     // --------- AUTO CONSTANTS ----------------------------------------------
     // -----------------------------------------------------------------------

@@ -54,7 +54,7 @@ public class RobotContainer {
   private IndexerSubsystem m_indexer = new IndexerSubsystem(Constants.indexerConstants);
   private IntakeSubsystem m_intake = new IntakeSubsystem(Constants.intakeConstants);
 
-  //private ClimbSubsystem m_climb = new ClimbSubsystem(Constants.climbConstants);
+  private ClimbSubsystem m_climb = new ClimbSubsystem(Constants.climbConstants);
 
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
@@ -143,6 +143,7 @@ public class RobotContainer {
     
     Trigger intakeRun = new Trigger(()->m_controller.getLeftTriggerAxis()>0.5);
     Trigger shootBall = new Trigger(()->m_controller.getRightTriggerAxis()>0.5);
+    
 
     Trigger t = new JoystickButton(m_controller, XboxController.Button.kB.value);
     t.whenActive(()->{
@@ -161,20 +162,31 @@ public class RobotContainer {
 
     //shoot ball
     shootBall.whenActive(new IndexerContinueCommand(m_indexer));
-/*
+
+    //manual climber
+    Trigger climberUp = new  Trigger(()->m_controller.getPOV()==0);
+    Trigger climberDown = new  Trigger(()->m_controller.getPOV()==180);
+    Trigger climberRight = new  Trigger(()->m_controller.getPOV()==90);
+    Trigger climberLeft = new  Trigger(()->m_controller.getPOV()==270);
+    double climbSpeed = 0.1;
+    climberUp.whileActiveContinuous(new InstantCommand(()-> m_climb.setMotor(climbSpeed), m_climb));
+    climberDown.whileActiveContinuous(new InstantCommand(()-> m_climb.setMotor(-climbSpeed), m_climb));
+    climberRight.whileActiveContinuous(new InstantCommand(()-> m_climb.extendRotation(), m_climb));
+    climberLeft.whileActiveContinuous(new InstantCommand(()-> m_climb.contractRotation(), m_climb));
+
     //climbing stuff: figure this out later
-    JoystickButton climb = new JoystickButton(m_controller, XboxController.Button.kY.value);
-    climb.whenPressed(new SequentialCommandGroup(
-      new InstantCommand(()->m_climb.enable(), m_climb),
-      new ElevatorHeightCommand(m_climb, ClimbSubsystem.TOP),
-      new DriveBackCommand(m_swerve),
-      new ElevatorHeightCommand(m_climb, ClimbSubsystem.BOTTOM),
-      new InstantCommand(()->m_climb.contractRotation(), m_climb),
-      new ElevatorHeightCommand(m_climb, ClimbSubsystem.TRANSFER),
-      new InstantCommand(()->m_climb.extendRotation(), m_climb),
-      new ElevatorHeightCommand(m_climb, ClimbSubsystem.TOP)
-    ));
-    */
+    // JoystickButton climb = new JoystickButton(m_controller, XboxController.Button.kY.value);
+    // climb.whenPressed(new SequentialCommandGroup(
+    //   new InstantCommand(()->m_climb.enable(), m_climb),
+    //   new ElevatorHeightCommand(m_climb, ClimbSubsystem.TOP),
+    //   new DriveBackCommand(m_drive),
+    //   new ElevatorHeightCommand(m_climb, ClimbSubsystem.BOTTOM),
+    //   new InstantCommand(()->m_climb.contractRotation(), m_climb),
+    //   new ElevatorHeightCommand(m_climb, ClimbSubsystem.TRANSFER),
+    //   new InstantCommand(()->m_climb.extendRotation(), m_climb),
+    //   new ElevatorHeightCommand(m_climb, ClimbSubsystem.TOP)
+    // ));
+    
   }
   
   
