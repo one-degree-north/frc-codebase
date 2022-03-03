@@ -61,7 +61,8 @@ public class RobotContainer {
   private Compressor compressor = new Compressor(17, PneumaticsModuleType.CTREPCM);
 
   // Robot commands go here:
-  Command toggleIntakeCommand = new SequentialCommandGroup(
+  public Command getIntakeToggleCommand() {
+    return new SequentialCommandGroup(
     new InstantCommand(()->{
       r = m_intake.isRunning();
       if(r) {
@@ -80,17 +81,19 @@ public class RobotContainer {
     })
     
   );
+  }
 
   // This command runs on autonomous
   private Command m_autoCommand = new SequentialCommandGroup(
     //new ShootCommand(m_shooter, m_indexer), 
-    new DriveCommand(m_drive, 90+25, 120),
-    new RotateCommand(m_drive, 157.5)
-    //toggleIntakeCommand,
-    //new DriveCommand(m_drive, 0, 20),
-    //toggleIntakeCommand,
-    //new RotateCommand(m_drive, 360-157.5),
-    //new DriveCommand(m_drive, 14.4, 120)
+    new DriveCommand(m_drive, 90+25, 86),
+    new RotateCommand(m_drive, 157.5),
+    getIntakeToggleCommand(),
+    new DriveCommand(m_drive, 270+11, 50),
+    getIntakeToggleCommand(),
+    new RotateCommand(m_drive, -157.5),
+    new DriveCommand(m_drive, -90+25, 138),
+    new DriveCommand(m_drive, 90+25, 138)
 
     );
 
@@ -151,8 +154,8 @@ public class RobotContainer {
     });
     
     //drop or release
-    intakeRun.whenActive(toggleIntakeCommand);
-    intakeRun.whenInactive(toggleIntakeCommand);
+    intakeRun.whenActive(getIntakeToggleCommand());
+    intakeRun.whenInactive(getIntakeToggleCommand());
 
     m_indexer.ballAtExit().whileActiveOnce(new RunCommand(()->m_indexer.off(), m_indexer));
 

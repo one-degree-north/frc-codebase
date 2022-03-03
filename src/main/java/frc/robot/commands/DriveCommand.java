@@ -39,7 +39,7 @@ public class DriveCommand extends CommandBase {
     Rotation2d direction = Rotation2d.fromDegrees(m_direction);
     double d = m_swerve.getYaw().getRadians();
     if(d > Math.PI) d -= 2 * Math.PI;
-    m_swerve.cartesianDriveRelative(0.15*direction.getSin(), -0.15*direction.getCos(), -d*2);
+    m_swerve.cartesianDriveRelative(0.1*direction.getSin(), -0.1*direction.getCos(), -d*2);
     System.out.println((m_swerve.getPose().getTranslation().getDistance(start)));
   }
 

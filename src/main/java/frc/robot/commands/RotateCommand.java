@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
@@ -27,6 +28,7 @@ public class RotateCommand extends CommandBase {
   @Override
   public void initialize() {
     m_swerve.resetYaw();
+    m_swerve.resetOdometry(new Pose2d());
     start = m_swerve.getPose().getRotation();
   }
 
