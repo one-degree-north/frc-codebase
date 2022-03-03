@@ -24,6 +24,7 @@ public class ClimbSubsystem extends SubsystemBase {
   private PneumaticSubsystem m_enable_climber;
   private PneumaticSubsystem m_rotation;
   private MotorControllerSubsystem m_motor;
+  private boolean enabled = false;
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem(Constants constants) {
@@ -35,10 +36,20 @@ public class ClimbSubsystem extends SubsystemBase {
   public void disable() {
     m_enable_climber.set(Value.kForward);
     m_rotation.set(Value.kForward);
+    enabled = false;
   }
 
   public void enable() {
     m_enable_climber.set(Value.kReverse);
+    enabled = true;
+  }
+
+  public void toggle() {
+    enabled = !enabled;
+    if(enabled)
+      enable();
+    else
+      disable();
   }
 
   public void contractRotation() {

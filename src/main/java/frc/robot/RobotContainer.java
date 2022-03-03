@@ -168,11 +168,14 @@ public class RobotContainer {
     Trigger climberDown = new  Trigger(()->m_controller.getPOV()==180);
     Trigger climberRight = new  Trigger(()->m_controller.getPOV()==90);
     Trigger climberLeft = new  Trigger(()->m_controller.getPOV()==270);
+    Trigger climberToggle = new JoystickButton(m_controller, XboxController.Button.kY.value);
     double climbSpeed = 0.1;
+    
+    climberToggle.whenActive(new InstantCommand(()-> m_climb.toggle()));
     climberUp.whileActiveContinuous(new InstantCommand(()-> m_climb.setMotor(climbSpeed), m_climb));
     climberDown.whileActiveContinuous(new InstantCommand(()-> m_climb.setMotor(-climbSpeed), m_climb));
-    climberRight.whileActiveContinuous(new InstantCommand(()-> m_climb.extendRotation(), m_climb));
-    climberLeft.whileActiveContinuous(new InstantCommand(()-> m_climb.contractRotation(), m_climb));
+    climberRight.whenActive(new InstantCommand(()-> m_climb.extendRotation(), m_climb));
+    climberLeft.whenActive(new InstantCommand(()-> m_climb.contractRotation(), m_climb));
 
     //climbing stuff: figure this out later
     // JoystickButton climb = new JoystickButton(m_controller, XboxController.Button.kY.value);
