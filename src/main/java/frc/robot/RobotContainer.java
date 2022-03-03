@@ -12,8 +12,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.LimelightArcCommand;
+import frc.robot.commands.RotateCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.Wait;
@@ -71,7 +73,30 @@ public class RobotContainer {
 
   // Robot commands go here:
   // This command runs on autonomous
-  private Command m_autoCommand = null;
+  private Command m_autoCommand = new SequentialCommandGroup(
+    //new ShootCommand(m_shooter, m_indexer), 
+    new DriveCommand(m_drive, -65, 86),
+    new RotateCommand(m_drive, -22.5),
+    new InstantCommand(()->m_intake.set(0.5), m_intake), 
+    new DriveCommand(m_drive, 101, 50),
+    new InstantCommand(()->m_intake.set(-0.1), m_intake), 
+    new Wait(0.1),
+    new InstantCommand(()->m_intake.set(0), m_intake), 
+    new RotateCommand(m_drive, -157.5),
+    new DriveCommand(m_drive, 105, 20),
+    new ShooterCommand(m_shooterTop, m_shooterBottom, ShootCommand.shoot(25, 107.95, 21, 30, 2*60/(1/3 *2 *Math.PI)), true),
+    new Wait(0.5),
+    new InstantCommand(()->m_intake.set(0.5), m_intake),
+    new Wait(4),
+    new InstantCommand(()->{
+      m_intake.set(0);
+      m_shooterBottom.set(0);
+      m_shooterTop.set(0);
+    }, m_intake),
+    new DriveCommand(m_drive, -65, -25)
+
+
+  );
   
   private double maintain = 0;
 
