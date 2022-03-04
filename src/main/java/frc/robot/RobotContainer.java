@@ -98,6 +98,10 @@ public class RobotContainer {
     );
 
 
+  private double lastRightXInput;
+  private double lastLeftXInput;
+  private double lastLeftYInput;
+  private double lastInputTime;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     container = this;
@@ -106,9 +110,36 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drive.setDefaultCommand(new RunCommand(() -> {
-        m_drive.cartesianDriveRelative(modifyAxis(m_controller.getLeftY()), 
-          modifyAxis(m_controller.getLeftX()),
-          modifyAxis(m_controller.getRightX()));
+      double diffRightX = (m_controller.getRightX() - lastRightXInput)/(System.currentTimeMillis()-lastInputTime);
+      double diffLeftX = (m_controller.getLeftX()- lastLeftXInput)/(System.currentTimeMillis()-lastInputTime);
+      double diffLeftY = (m_controller.getLeftX()- lastLeftYInput)/(System.currentTimeMillis()-lastInputTime);
+
+      if(diffRightX > 0.5)
+        diffRightX = 0.5;
+      else if(diffRightX < -0.5)
+        diffRightX = -0.5;
+
+      if(diffLeftX > 0.5)
+        diffLeftX = 0.5;
+      else if(diffLeftX < -0.5)
+        diffLeftX = -0.5;
+
+      if(diffLeftY > 0.5)
+        diffLeftY = 0.5;
+      else if(diffLeftY < -0.5)
+        diffLeftY = -0.5;
+      
+      double newRightX = lastRightXInput + diffRightX;
+      double newLeftX = lastLeftXInput + diffLeftX;
+      double newLeftY = lastLeftYInput + diffLeftY;
+      
+        m_drive.cartesianDriveRelative(modifyAxis(newLeftY), 
+          modifyAxis(newLeftX),
+          modifyAxis(newRightX));
+        lastRightXInput = newRightX;
+        lastLeftXInput = newLeftX;
+        lastLeftYInput = newLeftY;
+        lastInputTime = System.currentTimeMillis();
       },
       m_drive));
 
