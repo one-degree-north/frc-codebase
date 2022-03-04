@@ -110,9 +110,11 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drive.setDefaultCommand(new RunCommand(() -> {
-      double diffRightX = (m_controller.getRightX() - lastRightXInput)/(System.currentTimeMillis()-lastInputTime);
-      double diffLeftX = (m_controller.getLeftX()- lastLeftXInput)/(System.currentTimeMillis()-lastInputTime);
-      double diffLeftY = (m_controller.getLeftX()- lastLeftYInput)/(System.currentTimeMillis()-lastInputTime);
+      double t = System.currentTimeMillis();
+      double dt = t - lastInputTime;
+      double diffRightX = (m_controller.getRightX() - lastRightXInput)/dt;
+      double diffLeftX = (m_controller.getLeftX()- lastLeftXInput)/dt;
+      double diffLeftY = (m_controller.getLeftX()- lastLeftYInput)/dt;
 
       if(diffRightX > 0.5)
         diffRightX = 0.5;
@@ -139,7 +141,7 @@ public class RobotContainer {
         lastRightXInput = newRightX;
         lastLeftXInput = newLeftX;
         lastLeftYInput = newLeftY;
-        lastInputTime = System.currentTimeMillis();
+        lastInputTime = t;
       },
       m_drive));
 

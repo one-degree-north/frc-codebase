@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.lib.motorcontroller.ODN_SparkMax;
 import frc.lib.motorcontroller.ODN_TalonFX;
@@ -125,7 +126,7 @@ public final class Constants {
             new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5)
         };
         climbConstants.motor = new MotorControllerSubsystem.Constants();
-        climbConstants.motor.motor = new ODN_TalonFX(18);
+        climbConstants.motor.motor = new ODN_MotorControllerGroup(new ODN_TalonFX(22), new ODN_TalonFX(23).setInverted(true));
     }
 
     // -----------------------------------------------------------------------
