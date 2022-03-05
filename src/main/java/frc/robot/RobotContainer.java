@@ -96,12 +96,6 @@ public class RobotContainer {
     new DriveCommand(m_drive, 90+25, 138)
 
     );
-
-
-  private double lastRightXInput;
-  private double lastLeftXInput;
-  private double lastLeftYInput;
-  private double lastInputTime;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     container = this;
@@ -110,38 +104,10 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drive.setDefaultCommand(new RunCommand(() -> {
-      double t = System.currentTimeMillis();
-      double dt = t - lastInputTime;
-      double diffRightX = (m_controller.getRightX() - lastRightXInput)/dt;
-      double diffLeftX = (m_controller.getLeftX()- lastLeftXInput)/dt;
-      double diffLeftY = (m_controller.getLeftX()- lastLeftYInput)/dt;
-
-      if(diffRightX > 0.5)
-        diffRightX = 0.5;
-      else if(diffRightX < -0.5)
-        diffRightX = -0.5;
-
-      if(diffLeftX > 0.5)
-        diffLeftX = 0.5;
-      else if(diffLeftX < -0.5)
-        diffLeftX = -0.5;
-
-      if(diffLeftY > 0.5)
-        diffLeftY = 0.5;
-      else if(diffLeftY < -0.5)
-        diffLeftY = -0.5;
       
-      double newRightX = lastRightXInput + diffRightX;
-      double newLeftX = lastLeftXInput + diffLeftX;
-      double newLeftY = lastLeftYInput + diffLeftY;
-      
-        m_drive.cartesianDriveRelative(modifyAxis(newLeftY), 
-          modifyAxis(newLeftX),
-          modifyAxis(newRightX));
-        lastRightXInput = newRightX;
-        lastLeftXInput = newLeftX;
-        lastLeftYInput = newLeftY;
-        lastInputTime = t;
+        m_drive.cartesianDriveRelative(modifyAxis(m_controller.getLeftY()), 
+          modifyAxis(m_controller.getLeftX()),
+          modifyAxis(m_controller.getRightX()));
       },
       m_drive));
 
@@ -202,11 +168,13 @@ public class RobotContainer {
     Trigger climberRight = new  Trigger(()->m_controller.getPOV()==90);
     Trigger climberLeft = new  Trigger(()->m_controller.getPOV()==270);
     Trigger climberToggle = new JoystickButton(m_controller, XboxController.Button.kY.value);
-    double climbSpeed = 0.1;
+    double climbSpeed = 3000;
     
-    climberToggle.whenActive(new InstantCommand(()-> m_climb.toggle()));
+    climberToggle.whenActive(new InstantCommand(()-> m_climb.toggleRotation()));
     climberUp.whileActiveContinuous(new InstantCommand(()-> m_climb.setMotor(climbSpeed), m_climb));
     climberDown.whileActiveContinuous(new InstantCommand(()-> m_climb.setMotor(-climbSpeed), m_climb));
+    climberUp.whenInactive(new InstantCommand(()-> m_climb.setMotor(0), m_climb));
+    climberDown.whenInactive(new InstantCommand(()-> m_climb.setMotor(0), m_climb));
     climberRight.whenActive(new InstantCommand(()-> m_climb.extendRotation(), m_climb));
     climberLeft.whenActive(new InstantCommand(()-> m_climb.contractRotation(), m_climb));
 

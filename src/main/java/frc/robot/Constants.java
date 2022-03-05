@@ -126,7 +126,10 @@ public final class Constants {
             new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5)
         };
         climbConstants.motor = new MotorControllerSubsystem.Constants();
-        climbConstants.motor.motor = new ODN_MotorControllerGroup(new ODN_TalonFX(22), new ODN_TalonFX(23).setInverted(true));
+        climbConstants.motor.motor = new ODN_MotorControllerGroup(
+            new ODN_TalonFX(22),
+            new ODN_TalonFX(23).setInverted(true)
+        );
     }
 
     // -----------------------------------------------------------------------
