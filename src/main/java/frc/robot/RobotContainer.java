@@ -86,14 +86,14 @@ public class RobotContainer {
   // This command runs on autonomous
   private Command m_autoCommand = new SequentialCommandGroup(
     //new ShootCommand(m_shooter, m_indexer), 
-    new DriveCommand(m_drive, 90+25, 86),
-    new RotateCommand(m_drive, 157.5),
+    new DriveCommand(m_drive, 90+14.5, 105),
+    new RotateCommand(m_drive, 180-14.5),
     getIntakeToggleCommand(),
-    new DriveCommand(m_drive, 270+11, 50),
+    new DriveCommand(m_drive, 270, 22),
     getIntakeToggleCommand(),
-    new RotateCommand(m_drive, -157.5),
-    new DriveCommand(m_drive, -90+25, 138),
-    new DriveCommand(m_drive, 90+25, 138)
+    new RotateCommand(m_drive, -180+14.5),
+    new DriveCommand(m_drive, -90+14.5, 138),
+    new DriveCommand(m_drive, 90+14.5, 138)
 
     );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
