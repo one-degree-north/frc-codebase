@@ -26,7 +26,7 @@ public class ElevatorHeightCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.setMotor(m_goal-m_climber.getMotorLocation());
+    //m_climber.setMotor(m_goal-m_climber.getMotorLocation());
   }
 
   // Called once the command ends or is interrupted.
@@ -36,6 +36,6 @@ public class ElevatorHeightCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(m_goal-m_climber.getMotorLocation()) < EPSILON;
+    return true;//return Math.abs(m_goal-m_climber.getMotorLocation()) < EPSILON;
   }
 }

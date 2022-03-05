@@ -85,7 +85,9 @@ public class RobotContainer {
 
   // This command runs on autonomous
   private Command m_autoCommand = new SequentialCommandGroup(
-    //new ShootCommand(m_shooter, m_indexer), 
+    new InstantCommand(()->m_climb.extendRotation(), m_climb),
+    new ShootCommand(m_shooter, m_indexer), 
+    new InstantCommand(()->m_climb.contractRotation(), m_climb),
     new DriveCommand(m_drive, 90+14.5, 105),
     new RotateCommand(m_drive, 180-14.5),
     getIntakeToggleCommand(),
@@ -93,6 +95,9 @@ public class RobotContainer {
     getIntakeToggleCommand(),
     new RotateCommand(m_drive, -180+14.5),
     new DriveCommand(m_drive, -90+14.5, 138),
+    new InstantCommand(()->m_climb.extendRotation(), m_climb),
+    new ShootCommand(m_shooter, m_indexer), 
+    new InstantCommand(()->m_climb.contractRotation(), m_climb),
     new DriveCommand(m_drive, 90+14.5, 138)
 
     );
@@ -117,7 +122,8 @@ public class RobotContainer {
 
     //compressor.disable();
     
-    //m_climb.disable();
+    m_climb.disable();
+    m_climb.contractRotation();
   }
 
   /**
@@ -163,20 +169,19 @@ public class RobotContainer {
     shootBall.whenActive(new IndexerContinueCommand(m_indexer));
 
     //manual climber
-    Trigger climberUp = new  Trigger(()->m_controller.getPOV()==0);
-    Trigger climberDown = new  Trigger(()->m_controller.getPOV()==180);
-    Trigger climberRight = new  Trigger(()->m_controller.getPOV()==90);
-    Trigger climberLeft = new  Trigger(()->m_controller.getPOV()==270);
+    Trigger climberUp = new  Trigger(()->m_controller.getPOV()==180);
+    Trigger climberDown = new  Trigger(()->m_controller.getPOV()==0);
     Trigger climberToggle = new JoystickButton(m_controller, XboxController.Button.kY.value);
+    Trigger rotationToggle = new JoystickButton(m_controller, XboxController.Button.kX.value);
     double climbSpeed = 3000;
     
-    climberToggle.whenActive(new InstantCommand(()-> m_climb.toggleRotation()));
+    climberToggle.whenActive(new InstantCommand(()-> m_climb.toggle()));
+    rotationToggle.whenActive(new InstantCommand(()-> m_climb.extendRotation()));
+    rotationToggle.whenInactive(new InstantCommand(()-> m_climb.contractRotation()));
     climberUp.whileActiveContinuous(new InstantCommand(()-> m_climb.setMotor(climbSpeed), m_climb));
     climberDown.whileActiveContinuous(new InstantCommand(()-> m_climb.setMotor(-climbSpeed), m_climb));
     climberUp.whenInactive(new InstantCommand(()-> m_climb.setMotor(0), m_climb));
     climberDown.whenInactive(new InstantCommand(()-> m_climb.setMotor(0), m_climb));
-    climberRight.whenActive(new InstantCommand(()-> m_climb.extendRotation(), m_climb));
-    climberLeft.whenActive(new InstantCommand(()-> m_climb.contractRotation(), m_climb));
 
     //climbing stuff: figure this out later
     // JoystickButton climb = new JoystickButton(m_controller, XboxController.Button.kY.value);
