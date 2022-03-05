@@ -92,7 +92,7 @@ public class RobotContainer {
       m_intake.set(0);
       m_shooterBottom.set(0);
       m_shooterTop.set(0);
-    }, m_intake),
+    }, m_intake, m_shooterTop, m_shooterBottom),
     new DriveCommand(m_drive, -65, -25)
 
 
