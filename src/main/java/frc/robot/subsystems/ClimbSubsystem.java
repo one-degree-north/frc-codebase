@@ -67,15 +67,42 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public void setMotor(double speed) {
-    m_motorLeft.setSpeed(speed);
-    //m_motorRight.setSpeed(speed);
+    
+    if(speed < 0) {
+      if(getLeftMotorLocation() > -92000) {
+        m_motorLeft.set(speed);
+      } else {
+        m_motorLeft.set(0);
+      }
+      if(getRightMotorLocation() > -92000) {
+        m_motorRight.set(speed);
+      } else {
+        m_motorRight.set(0);
+      }
+    }
+    else if(speed > 0){
+      if(getLeftMotorLocation() < -3000) {
+        m_motorLeft.set(speed);
+      } else {
+        m_motorLeft.set(0);
+      }
+      if(getRightMotorLocation() < -3000) {
+        m_motorRight.set(speed);
+      } else {
+        m_motorRight.set(0);
+      }
+    } else {
+      m_motorLeft.set(0);
+      m_motorRight.set(0);
+    }
+    
   }
 
   public double getLeftMotorLocation() {
     return m_motorLeft.getPosition();
   }
   public double getRightMotorLocation() {
-    return m_motorLeft.getPosition();
+    return m_motorRight.getPosition();
   }
 
   public void toggleRotation() {
