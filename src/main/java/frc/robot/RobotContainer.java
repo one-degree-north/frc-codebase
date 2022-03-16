@@ -127,11 +127,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    /*
     Trigger manualShooterRev = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    manualShooterRev.whenActive(() -> m_shooter.toggle(), m_shooter);
+    /*
     Trigger shootBall = new Trigger(()->m_controller.getRightTriggerAxis()>0.5);
     Trigger intakeToggle3 = new Trigger(()->m_controller.getLeftTriggerAxis()>0.5);
-    manualShooterRev.whenActive(() -> m_shooter.toggle(), m_shooter);
     shootBall.whenActive(new IndexerContinueCommand(m_indexer));
     Trigger intakeToggle = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
     intakeToggle.whenActive(() -> m_indexer.onboth(), m_intake);
