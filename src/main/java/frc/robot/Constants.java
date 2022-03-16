@@ -77,7 +77,7 @@ public final class Constants {
             new ODN_TalonFX(9).setInverted(true),
             new ODN_TalonFX(10)
         );
-        shooterConstants.shoot_speed = 3000;
+        shooterConstants.shoot_speed = 5000;
     }
     
     // -----------------------------------------------------------------------
