@@ -46,22 +46,22 @@ public final class Constants {
         swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
         swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 1;
         swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 18;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(285.5);
+        swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(133+180);
     
         swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 6;
         swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 5;
         swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 20;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(293.2);
+        swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(322);
     
         swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4;
         swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 3;
         swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 19;
-        swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(152.4);
+        swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(355-180);
 
         swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
         swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 7;
         swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 21;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(293.38);
+        swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(320);
 
         swerveConstants.gyro = new ODN_AHRS();
     }
@@ -119,17 +119,16 @@ public final class Constants {
     static {
         climbConstants.enable_climber = new PneumaticSubsystem.Constants();
         climbConstants.enable_climber.solenoids = new DoubleSolenoid[] {
-            new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3)
+            new DoubleSolenoid(17, PneumaticsModuleType.CTREPCM, 1, 2)
         };
         climbConstants.rotation = new PneumaticSubsystem.Constants();
         climbConstants.rotation.solenoids = new DoubleSolenoid[] {
-            new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5)
+            new DoubleSolenoid(17, PneumaticsModuleType.CTREPCM, 0, 3)
         };
-        climbConstants.motor = new MotorControllerSubsystem.Constants();
-        climbConstants.motor.motor = new ODN_MotorControllerGroup(
-            new ODN_TalonFX(22),
-            new ODN_TalonFX(23).setInverted(true)
-        );
+        climbConstants.motorLeft = new MotorControllerSubsystem.Constants();
+        climbConstants.motorLeft.motor = new ODN_TalonFX(23).setInverted(true);
+        climbConstants.motorRight = new MotorControllerSubsystem.Constants();
+        climbConstants.motorRight.motor = new ODN_TalonFX(22);
     }
 
     // -----------------------------------------------------------------------

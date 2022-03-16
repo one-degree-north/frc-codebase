@@ -14,7 +14,8 @@ public class ClimbSubsystem extends SubsystemBase {
   public static class Constants {
     public PneumaticSubsystem.Constants enable_climber;
     public PneumaticSubsystem.Constants rotation;
-    public MotorControllerSubsystem.Constants motor;
+    public MotorControllerSubsystem.Constants motorLeft;
+    public MotorControllerSubsystem.Constants motorRight;
   }
 
   public static final double TOP = 0;
@@ -23,7 +24,8 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private PneumaticSubsystem m_enable_climber;
   private PneumaticSubsystem m_rotation;
-  private MotorControllerSubsystem m_motor;
+  private MotorControllerSubsystem m_motorLeft;
+  private MotorControllerSubsystem m_motorRight;
   private boolean enabled = false;
   private boolean extended = false;
 
@@ -31,7 +33,8 @@ public class ClimbSubsystem extends SubsystemBase {
   public ClimbSubsystem(Constants constants) {
     m_enable_climber = new PneumaticSubsystem(constants.enable_climber);
     m_rotation = new PneumaticSubsystem(constants.rotation);
-    m_motor = new MotorControllerSubsystem(constants.motor);
+    m_motorLeft = new MotorControllerSubsystem(constants.motorLeft);
+    m_motorRight = new MotorControllerSubsystem(constants.motorRight);
   }
 
   public void disable() {
@@ -64,11 +67,42 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public void setMotor(double speed) {
-    m_motor.setSpeed(speed);
+    
+    if(speed < 0) {
+      if(getLeftMotorLocation() > -92000) {
+        m_motorLeft.set(speed);
+      } else {
+        m_motorLeft.set(0);
+      }
+      if(getRightMotorLocation() > -92000) {
+        m_motorRight.set(speed);
+      } else {
+        m_motorRight.set(0);
+      }
+    }
+    else if(speed > 0){
+      if(getLeftMotorLocation() < -3000) {
+        m_motorLeft.set(speed);
+      } else {
+        m_motorLeft.set(0);
+      }
+      if(getRightMotorLocation() < -3000) {
+        m_motorRight.set(speed);
+      } else {
+        m_motorRight.set(0);
+      }
+    } else {
+      m_motorLeft.set(0);
+      m_motorRight.set(0);
+    }
+    
   }
 
-  public double getMotorLocation() {
-    return m_motor.getPosition();
+  public double getLeftMotorLocation() {
+    return m_motorLeft.getPosition();
+  }
+  public double getRightMotorLocation() {
+    return m_motorRight.getPosition();
   }
 
   public void toggleRotation() {
