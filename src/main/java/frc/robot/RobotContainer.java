@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.TankDriveSubsystem;
 
 
@@ -21,6 +22,9 @@ import frc.lib.basesubsystem.TankDriveSubsystem;
 public class RobotContainer {
   // Robot subsystems here:
   private TankDriveSubsystem m_drive = new TankDriveSubsystem(Constants.driveConstants);
+
+  private MotorControllerSubsystem m_intake = new MotorControllerSubsystem(Constants.intakeConstants);
+
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
 
@@ -53,17 +57,19 @@ public class RobotContainer {
     // button.toggleWhenPressed(new LimelightArcCommand(m_drive, m_limelight, LimelightSubsystem.linearAttenuation(27), m_controller));
     // JoystickButton button2 = new JoystickButton(m_controller, XboxController.Button.kB.value);
     // button2.whenPressed(new InstantCommand(()->m_drive.resetYaw(), m_drive));
-<<<<<<< HEAD
-    JoystickButton lockButton = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
-    lockButton.whenPressed(new InstantCommand(()->m_shooter.setSpeed(3000), m_shooter));
-    
-=======
     // JoystickButton lockButton = new JoystickButton(m_controller, XboxController.Button.kX.value);
     // lockButton.whenPressed(new InstantCommand(()->m_drive.setLock(true)));
 
     // JoystickButton unlockButton = new JoystickButton(m_controller, XboxController.Button.kY.value);
     // lockButton.whenPressed(new InstantCommand(()->m_drive.setLock(false)));
->>>>>>> e6c59508d758eb4bb85acf880bded1a20a1df67c
+
+    JoystickButton intakeIn = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
+    intakeIn.whenPressed(new InstantCommand(()->{
+      m_intake.set(0.5);
+    }, m_intake));
+    intakeIn.whenReleased(new InstantCommand(()->{
+      m_intake.set(0);
+    }, m_intake));
   }
   
   
@@ -99,31 +105,6 @@ public class RobotContainer {
 
     return value;
 
-    /*
-      ББББББББББББ         OOOOOO           ЛЛЛЛЛЛЛЛЛЛЛ    ШШШ    ШШШ    ШШШ         OOOOOO         ИИИ         ИИИИИ
-      ББББББББББББ       OOOOOOOOOO         ЛЛЛЛЛЛЛЛЛЛЛ    ШШШ    ШШШ    ШШШ       OOOOOOOOOO       ИИИ        ИИИИИИ
-      БББ              OOOO      OOOO       ЛЛЛ     ЛЛЛ    ШШШ    ШШШ    ШШШ     OOOO      OOOO     ИИИ       ИИИ ИИИ
-      БББ             OOO          OOO      ЛЛЛ     ЛЛЛ    ШШШ    ШШШ    ШШШ    OOO          OOO    ИИИ      ИИИ  ИИИ
-      БББББББББ       OOO          OOO      ЛЛЛ     ЛЛЛ    ШШШ    ШШШ    ШШШ    OOO          OOO    ИИИ     ИИИ   ИИИ
-      БББББББББББ     OOO          OOO      ЛЛЛ     ЛЛЛ    ШШШ    ШШШ    ШШШ    OOO          OOO    ИИИ    ИИИ    ИИИ
-      БББ      БББ    OOO          OOO     ЛЛЛ      ЛЛЛ    ШШШ    ШШШ    ШШШ    OOO          OOO    ИИИ   ИИИ     ИИИ
-      БББ      БББ    OOO          OOO     ЛЛЛ      ЛЛЛ    ШШШ    ШШШ    ШШШ    OOO          OOO    ИИИ  ИИИ      ИИИ
-      БББ      БББ     OOOO      OOOO     ЛЛЛ       ЛЛЛ    ШШШ    ШШШ    ШШШ     OOOO      OOOO     ИИИ ИИИ       ИИИ
-      БББББББББББ        OOOOOOOOOO       ЛЛЛ       ЛЛЛ    ШШШШШШШШШШШШШШШШШ       OOOOOOOOOO       ИИИИИИ        ИИИ
-      БББББББББ            OOOOOO        ЛЛЛ        ЛЛЛ    ШШШШШШШШШШШШШШШШШ         OOOOOO         ИИИИИ         ИИИ
-      
-
-      ЧЧЧ       ЧЧЧ    УУУ         УУУ   ННН        ННН    ГГГГГГГГГГГГГГ    УУУ         УУУ       СССССССССС
-      ЧЧЧ       ЧЧЧ     УУУ       УУУ    ННН        ННН    ГГГГГГГГГГГГГГ     УУУ       УУУ      СССССССССССС
-      ЧЧЧ       ЧЧЧ      УУУ     УУУ     ННН        ННН    ГГГ                 УУУ     УУУ     СССС
-      ЧЧЧ       ЧЧЧ       УУУ   УУУ      ННН        ННН    ГГГ                  УУУ   УУУ     ССС
-      ЧЧЧЧ      ЧЧЧ        УУУ УУУ       НННННННННННННН    ГГГ                   УУУ УУУ      ССС 
-        ЧЧЧЧЧЧЧЧЧЧЧ         УУУУУ        НННННННННННННН    ГГГ                    УУУУУ       ССС
-            ЧЧЧЧЧЧЧ          УУУ         ННН        ННН    ГГГ                     УУУ        ССС
-                ЧЧЧ         УУУ          ННН        ННН    ГГГ                    УУУ         ССС
-                ЧЧЧ        УУУ           ННН        ННН    ГГГ                   УУУ           СССС
-                ЧЧЧ      УУУУ            ННН        ННН    ГГГ                 УУУУ              ССССССССССССС
-                ЧЧЧ    УУУУ              ННН        ННН    ГГГ                УУУУ                 ССССССССССС
-    */
+   
   }
 }

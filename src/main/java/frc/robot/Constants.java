@@ -5,8 +5,16 @@
 package frc.robot;
 
 import frc.lib.motorcontroller.ODN_MotorControllerGroup;
+import frc.lib.motorcontroller.ODN_SparkMax;
+import frc.lib.motorcontroller.ODN_TalonFX;
 import frc.lib.motorcontroller.ODN_TalonSRX;
+import frc.lib.motorcontroller.ODN_SparkMax.MotorType;
+
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.TankDriveSubsystem;
 import frc.lib.encoder.ODN_NullEncoder;
 import frc.lib.gyro.ODN_NullGyro;
@@ -51,6 +59,23 @@ public final class Constants {
 
     //     swerveConstants.gyro = new ODN_AHRS();
     // }
+
+
+    // SET CAN ID SET CAN ID
+    public static MotorControllerSubsystem.Constants intakeConstants = new MotorControllerSubsystem.Constants();
+    static {
+        intakeConstants.motor = new ODN_SparkMax(41, MotorType.brushless);
+    }
+
+    public static MotorControllerSubsystem.Constants climbConstants = new MotorControllerSubsystem.Constants();
+    static {
+        climbConstants.motor = new ODN_TalonFX(1);
+    }
+
+    public static MotorControllerSubsystem.Constants shooterConstants = new MotorControllerSubsystem.Constants();
+    static {
+        shooterConstants.motor = new ODN_SparkMax(2, MotorType.brushless);
+    }
 
     public static TankDriveSubsystem.Constants driveConstants = new TankDriveSubsystem.Constants();
     static {
