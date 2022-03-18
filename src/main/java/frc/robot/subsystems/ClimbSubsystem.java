@@ -68,7 +68,14 @@ public class ClimbSubsystem extends SubsystemBase {
 
   public void setMotor(double speed) {
     
-    if(speed < 0) {
+    /*
+    -92000 is the value for the lower limit of the climber. Do not change the lower limit.
+    -3000 is for the upper limit. Try changing this around to be slightly bigger to get the
+    arms to extend higher. -2000 would probably be a good place to start and keep going up from
+    there if you need to, since ideally we don't want to overextend.
+    */
+
+    if(speed < 0) { //lower limit -- DO NOT CHANGE
       if(getLeftMotorLocation() > -92000) {
         m_motorLeft.set(speed);
       } else {
@@ -80,7 +87,7 @@ public class ClimbSubsystem extends SubsystemBase {
         m_motorRight.set(0);
       }
     }
-    else if(speed > 0){
+    else if(speed > 0){ //upper limit -- number to be changed
       if(getLeftMotorLocation() < -3000) {
         m_motorLeft.set(speed);
       } else {
