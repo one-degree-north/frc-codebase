@@ -60,7 +60,7 @@ public class ShootCommand extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand(()->m_limelight.setLED(true),m_limelight),
-      new Wait(),
+      new Wait(0.5),
       //new AlignCommand(drive, m_limelight, LimelightSubsystem.linearAttenuation(27), hood(55.0, 70.0, 25.0, 107.95), stick),
       new ParallelCommandGroup(new IndexerCommand(m_intake, true), new ShooterCommand(m_shooterTop, m_shooterBottom, shoot(25, 107.95, 21, 30, conversion), high))
 

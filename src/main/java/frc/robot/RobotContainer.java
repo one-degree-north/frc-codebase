@@ -75,25 +75,25 @@ public class RobotContainer {
   // This command runs on autonomous
   private Command m_autoCommand = new SequentialCommandGroup(
     //new ShootCommand(m_shooter, m_indexer), 
-    new DriveCommand(m_drive, -65, 86),
-    new RotateCommand(m_drive, -22.5),
-    new InstantCommand(()->m_intake.set(0.5), m_intake), 
-    new DriveCommand(m_drive, 101, 50),
-    new InstantCommand(()->m_intake.set(-0.1), m_intake), 
-    new Wait(0.1),
-    new InstantCommand(()->m_intake.set(0), m_intake), 
-    new RotateCommand(m_drive, -157.5),
-    new DriveCommand(m_drive, 105, 20),
-    new ShooterCommand(m_shooterTop, m_shooterBottom, ShootCommand.shoot(25, 107.95, 21, 30, 2*60/(1/3 *2 *Math.PI)), true),
-    new Wait(0.5),
-    new InstantCommand(()->m_intake.set(0.5), m_intake),
-    new Wait(4),
-    new InstantCommand(()->{
-      m_intake.set(0);
-      m_shooterBottom.set(0);
-      m_shooterTop.set(0);
-    }, m_intake, m_shooterTop, m_shooterBottom),
-    new DriveCommand(m_drive, -65, -25)
+    new DriveCommand(m_drive, -65, 86)
+    // new RotateCommand(m_drive, -22.5),
+    // new InstantCommand(()->m_intake.set(0.5), m_intake), 
+    // new DriveCommand(m_drive, 101, 50),
+    // new InstantCommand(()->m_intake.set(-0.1), m_intake), 
+    // new Wait(0.1),
+    // new InstantCommand(()->m_intake.set(0), m_intake), 
+    // new RotateCommand(m_drive, -157.5),
+    // new DriveCommand(m_drive, 105, 20),
+    // new ShooterCommand(m_shooterTop, m_shooterBottom, ShootCommand.shoot(25, 107.95, 21, 30, 2*60/(1/3 *2 *Math.PI)), true),
+    // new Wait(0.5),
+    // new InstantCommand(()->m_intake.set(0.5), m_intake),
+    // new Wait(4),
+    // new InstantCommand(()->{
+    //   m_intake.set(0);
+    //   m_shooterBottom.set(0);
+    //   m_shooterTop.set(0);
+    // }, m_intake, m_shooterTop, m_shooterBottom),
+    // new DriveCommand(m_drive, -65, -25)
 
 
   );
@@ -119,9 +119,9 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drive.setDefaultCommand(new RunCommand(() -> {
-        m_drive.cartesianDriveAbsolute(modifyAxis(-m_controller.getLeftY()*m_controller.getLeftY()*m_controller.getLeftY()), 
+        m_drive.cartesianDriveAbsolute(-modifyAxis(m_controller.getLeftY()*m_controller.getLeftY()*m_controller.getLeftY()), 
           modifyAxis(-m_controller.getLeftX()*m_controller.getLeftX()*m_controller.getLeftX()),
-          modifyAxis(-m_controller.getRightX()));
+          modifyAxis(m_controller.getRightX()));
           
         m_limelight.setLED(false);
       },
