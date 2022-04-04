@@ -29,7 +29,6 @@ public class RobotContainer {
   private MotorControllerSubsystem m_shooter = new MotorControllerSubsystem(Constants.shooterConstants);
 
   private MotorControllerSubsystem m_climb = new MotorControllerSubsystem(Constants.climbConstants);
-  private ODN_CANCoder m_climbEncoder = new ODN_CANCoder(10); //tentative
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
   // Robot commands go here:
@@ -49,6 +48,7 @@ public class RobotContainer {
           modifyAxis(m_controller.getLeftY()*0.8));
       }, m_drive
       ));
+    m_climb.setDefaultCommand(new InstantCommand(()-> System.out.println(m_climb.getPosition())));
 
     
   }
@@ -72,7 +72,7 @@ public class RobotContainer {
 
     JoystickButton intakeIn = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
     intakeIn.whenPressed(new InstantCommand(()->{
-      m_intake.set(0.5);
+      m_intake.set(0.25);
     }, m_intake));
     intakeIn.whenReleased(new InstantCommand(()->{
       m_intake.set(0);
@@ -80,7 +80,7 @@ public class RobotContainer {
 
     JoystickButton intakeOut = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
     intakeOut.whenPressed(new InstantCommand(()->{
-      m_intake.set(-0.5);
+      m_intake.set(-0.25);
     }, m_intake));
     intakeOut.whenReleased(new InstantCommand(()->{
       m_intake.set(0);
@@ -88,7 +88,7 @@ public class RobotContainer {
 
     JoystickButton shoot = new JoystickButton(m_controller, XboxController.Button.kX.value);
     shoot.whenPressed(new InstantCommand(()->{
-      m_shooter.set(0.5);
+      m_shooter.set(0.4);
     }, m_shooter));
     shoot.whenReleased(new InstantCommand(()->{
       m_shooter.set(0);
@@ -97,28 +97,28 @@ public class RobotContainer {
   //WHAT DOES MAINTAIN DO
     Trigger linearUp = new Trigger(()->m_controller.getPOV()==0);
     linearUp.whileActiveContinuous(new InstantCommand(()->{ 
-      if(m_climbEncoder.getPosition()>Constants.AutoConstants.kClimbLinearMaxPosition){
+      if(m_climb.getPosition()>Constants.AutoConstants.kClimbLinearMaxPosition){
         m_climb.set(0.75);
       }
       else{
-        m_climb.set(0.05);
+        m_climb.set(0);
     
       }
-      maintain = 0.05;
+      maintain = 0;
       }, m_climb));
   
     linearUp.whenInactive(new InstantCommand(()->m_climb.set(maintain), m_climb));
 
     Trigger linearDown = new Trigger(()->m_controller.getPOV()==180);
     linearDown.whileActiveContinuous(new InstantCommand(()->{ 
-      if(m_climbEncoder.getPosition()<Constants.AutoConstants.kClimbLinearMinPosition){
+      if(m_climb.getPosition()<Constants.AutoConstants.kClimbLinearMinPosition){
         m_climb.set(-0.5);
         }
       else{
-        m_climb.set(0.05);
+        m_climb.set(0);
         
       }
-      maintain = 0.05;
+      maintain = 0;
        
   
     }, m_climb));

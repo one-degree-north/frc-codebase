@@ -29,4 +29,8 @@ public class MotorControllerSubsystem extends SubsystemBase {
   public double getSpeed(){
     return m_controller.getEncoder().getVelocity();
   }
+  
+  public double getPosition() {
+    return m_controller.getEncoder().getPosition();
+  }
 }

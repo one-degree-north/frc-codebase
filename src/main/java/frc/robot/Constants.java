@@ -64,17 +64,17 @@ public final class Constants {
     // SET CAN ID SET CAN ID
     public static MotorControllerSubsystem.Constants intakeConstants = new MotorControllerSubsystem.Constants();
     static {
-        intakeConstants.motor = new ODN_SparkMax(41, MotorType.brushless);
+        intakeConstants.motor = new ODN_SparkMax(1, MotorType.brushless);
     }
 
     public static MotorControllerSubsystem.Constants climbConstants = new MotorControllerSubsystem.Constants();
     static {
-        climbConstants.motor = new ODN_TalonFX(1);
+        climbConstants.motor = new ODN_TalonFX(3);
     }
 
     public static MotorControllerSubsystem.Constants shooterConstants = new MotorControllerSubsystem.Constants();
     static {
-        shooterConstants.motor = new ODN_SparkMax(2, MotorType.brushless);
+        shooterConstants.motor = new ODN_SparkMax(22, MotorType.brushless);
     }
 
     public static TankDriveSubsystem.Constants driveConstants = new TankDriveSubsystem.Constants();
