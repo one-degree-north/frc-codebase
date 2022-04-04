@@ -121,7 +121,7 @@ public class RobotContainer {
     m_drive.setDefaultCommand(new RunCommand(() -> {
         m_drive.cartesianDriveAbsolute(-modifyAxis(m_controller.getLeftY()*m_controller.getLeftY()*m_controller.getLeftY()), 
           modifyAxis(-m_controller.getLeftX()*m_controller.getLeftX()*m_controller.getLeftX()),
-          modifyAxis(m_controller.getRightX()));
+          modifyAxis(-m_controller.getRightX()));
           
         m_limelight.setLED(false);
       },
