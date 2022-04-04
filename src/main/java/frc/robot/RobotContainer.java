@@ -119,9 +119,9 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_drive.setDefaultCommand(new RunCommand(() -> {
-        m_drive.cartesianDriveAbsolute(-modifyAxis(m_controller.getLeftY()*m_controller.getLeftY()*m_controller.getLeftY()), 
-          modifyAxis(-m_controller.getLeftX()*m_controller.getLeftX()*m_controller.getLeftX()),
-          modifyAxis(-m_controller.getRightX()));
+        m_drive.cartesianDriveAbsolute(-modifyAxis(m_controller.getLeftY()), 
+          modifyAxis(-m_controller.getLeftX()),
+          modifyAxis(m_controller.getRightX()));
           
         m_limelight.setLED(false);
       },
@@ -363,7 +363,7 @@ public class RobotContainer {
     value = deadband(value, 0.05);
 
     // square the axis
-    value = Math.copySign(value * value, value);
+    value = Math.copySign(value * value , value);
 
     return value;
   }
