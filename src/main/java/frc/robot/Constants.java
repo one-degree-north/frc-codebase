@@ -48,11 +48,6 @@ public final class Constants {
     //     swerveConstants.gyro = new ODN_AHRS();
     // }
 
-    public static MotorControllerSubsystem.Constants motorConstants = new MotorControllerSubsystem.Constants();
-    static {
-        motorConstants.motor = new ODN_TalonFX(15);
-    }
-
     public static final class AutoConstants {
         public static double kMaxSpeedMetersPerSecond = 1;
         public static double kMaxAccelerationMetersPerSecondSquared = 1;
