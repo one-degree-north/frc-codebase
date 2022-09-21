@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.LimelightArcCommand;
-import frc.robot.commands.RotateCommand;
+//import frc.robot.commands.RotateCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.Wait;
@@ -285,8 +285,6 @@ public class RobotContainer {
 
     linearDown.whenInactive(new InstantCommand(()->m_climberReach.set(maintain), m_climberReach));
 
-    JoystickButton lockReach = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    lockReach.whenPressed(new InstantCommand(()->m_climberReach.set(-0.1),m_climberReach));
     
 
 
