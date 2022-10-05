@@ -5,6 +5,11 @@
 package frc.robot;
 
 import frc.lib.motorcontroller.ODN_TalonFX;
+
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import frc.lib.basesubsystem.FalconMusicSubsystem;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
 
 /**
@@ -19,6 +24,13 @@ import frc.lib.basesubsystem.MotorControllerSubsystem;
  */
 public final class Constants {
 
+    public static FalconMusicSubsystem.Constants falconMusicConstants = new FalconMusicSubsystem.Constants();
+    static {
+        falconMusicConstants.falcons = new TalonFX[2];
+        falconMusicConstants.falcons[0] = new TalonFX(1);
+        falconMusicConstants.falcons[1] = new TalonFX(2);
+
+    }
 
     // public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
     // static {

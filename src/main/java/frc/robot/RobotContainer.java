@@ -4,8 +4,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.lib.basesubsystem.FalconMusicSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
 
 
@@ -21,6 +25,7 @@ public class RobotContainer {
 
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
+  private FalconMusicSubsystem m_orchestra = new FalconMusicSubsystem(Constants.falconMusicConstants);
 
   // Robot commands go here:
   public Command nullCommand() {
@@ -28,7 +33,7 @@ public class RobotContainer {
   }
   
   // This command runs on autonomous
-  private Command m_autoCommand = null;
+  // private Command m_autoCommand = null;
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -53,6 +58,14 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    JoystickButton loadMusic = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    loadMusic.whenPressed(new InstantCommand(()->m_orchestra.loadMusic("spider.chrp")));
+
+    JoystickButton playMusic = new JoystickButton(m_controller, XboxController.Button.kB.value);
+    playMusic.whenPressed(new InstantCommand(()->m_orchestra.play()));
+
+    JoystickButton stopMusic = new JoystickButton(m_controller, XboxController.Button.kX.value);
+    stopMusic.whenPressed(new InstantCommand(()->m_orchestra.pause()));
   }
   
   
