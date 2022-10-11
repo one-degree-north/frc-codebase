@@ -3,14 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
-import frc.lib.motorcontroller.ODN_TalonFX;
-
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
-import frc.lib.basesubsystem.FalconMusicSubsystem;
-import frc.lib.basesubsystem.MotorControllerSubsystem;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import frc.lib.basesubsystem.PneumaticSubsystem;
+import frc.lib.basesubsystem.SwerveDriveSubsystem;
+import frc.lib.gyro.ODN_AHRS;
+import frc.robot.subsystems.PistonTest;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -23,17 +21,14 @@ import frc.lib.basesubsystem.MotorControllerSubsystem;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
-    public static FalconMusicSubsystem.Constants falconMusicConstants = new FalconMusicSubsystem.Constants();
+    public static PistonTest.Constants pistonTestConstants = new PistonTest.Constants();
     static {
-        falconMusicConstants.falcons = new TalonFX[2];
-        falconMusicConstants.falcons[0] = new TalonFX(1);
-        falconMusicConstants.falcons[1] = new TalonFX(2);
-
+        pistonTestConstants.piston = new PneumaticSubsystem.Constants();
+        pistonTestConstants.piston.solenoids = new DoubleSolenoid[]{new DoubleSolenoid(10, PneumaticsModuleType.REVPH, 6, 8)};
     }
 
     // public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
-    // static {
+    // static {/
     //     swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47;
     //     swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47;
     
@@ -47,7 +42,7 @@ public final class Constants {
     //     swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 11;
     //     swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(136.055-180);
     
-    //     swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4;
+    //     swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4; 
     //     swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 3;
     //     swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 9;
     //     swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.542-180);

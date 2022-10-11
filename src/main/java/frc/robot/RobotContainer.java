@@ -4,13 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.basesubsystem.FalconMusicSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
+import frc.robot.subsystems.PistonTest;
 
 
 /**
@@ -22,10 +26,10 @@ import frc.lib.basesubsystem.SwerveDriveSubsystem;
 public class RobotContainer {
   // Robot subsystems here: 
   // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
-
+  private PistonTest m_piston = new PistonTest(Constants.pistonTestConstants);
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
-  private FalconMusicSubsystem m_orchestra = new FalconMusicSubsystem(Constants.falconMusicConstants);
+  private Compressor m_compressor = new Compressor(10, PneumaticsModuleType.REVPH);
 
   // Robot commands go here:
   public Command nullCommand() {
@@ -42,13 +46,13 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Set default commands here; template for swerve is below
-/*      m_drive.setDefaultCommand(new RunCommand(() -> {
+      // m_drive.setDefaultCommand(new RunCommand(() -> {
 
-       m_drive.cartesianDriveRelative(modifyAxis(m_controller.getLeftY()),
-       modifyAxis(m_controller.getLeftX()),
-       modifyAxis(m_controller.getRightX()));
-       },
-    /   m_drive)); */
+      //  m_drive.cartesianDriveRelative(modifyAxis(m_controller.getLeftY()),
+      //  modifyAxis(m_controller.getLeftX()),
+      //  modifyAxis(m_controller.getRightX()));
+      //  },
+      //  m_drive)); 
   }
 
   /**
@@ -58,14 +62,23 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton loadMusic = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    loadMusic.whenPressed(new InstantCommand(()->m_orchestra.loadMusic("spider.chrp")));
+    JoystickButton retract = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
+    retract.whenPressed(new InstantCommand(()->m_piston.retract(), m_piston));
 
-    JoystickButton playMusic = new JoystickButton(m_controller, XboxController.Button.kB.value);
-    playMusic.whenPressed(new InstantCommand(()->m_orchestra.play()));
+    JoystickButton extend = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
+    extend.whenPressed(new InstantCommand(()->m_piston.extend(), m_piston));
 
-    JoystickButton stopMusic = new JoystickButton(m_controller, XboxController.Button.kX.value);
-    stopMusic.whenPressed(new InstantCommand(()->m_orchestra.pause()));
+    JoystickButton off = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    off.whenPressed(new InstantCommand(()->m_piston.off(), m_piston));
+
+    JoystickButton toggleCompressor = new JoystickButton(m_controller, XboxController.Button.kB.value);
+    toggleCompressor.whenActive(() -> {
+      if (m_compressor.enabled()) {
+        m_compressor.disable();
+      } else {
+        m_compressor.enableAnalog(100, 120);
+      }
+    });
   }
   
   
