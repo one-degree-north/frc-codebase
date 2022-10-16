@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.lib.basesubsystem.PneumaticSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
 import frc.lib.gyro.ODN_AHRS;
-import frc.robot.subsystems.PistonTest;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -21,14 +20,13 @@ import frc.robot.subsystems.PistonTest;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static PistonTest.Constants pistonTestConstants = new PistonTest.Constants();
+    public static PneumaticSubsystem.Constants pneumaticConstants = new PneumaticSubsystem.Constants();
     static {
-        pistonTestConstants.piston = new PneumaticSubsystem.Constants();
-        pistonTestConstants.piston.solenoids = new DoubleSolenoid[]{new DoubleSolenoid(10, PneumaticsModuleType.REVPH, 6, 8)};
+        pneumaticConstants.solenoids = new DoubleSolenoid[]{new DoubleSolenoid(10, PneumaticsModuleType.REVPH, 6, 8)};
     }
 
     // public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
-    // static {/
+    // static {
     //     swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47;
     //     swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47;
     

@@ -4,17 +4,24 @@
 
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.basesubsystem.FalconMusicSubsystem;
+import frc.lib.basesubsystem.PneumaticSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
-import frc.robot.subsystems.PistonTest;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -25,7 +32,7 @@ import frc.robot.subsystems.PistonTest;
 public class RobotContainer {
   // Robot subsystems here: 
   // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
-  private PistonTest m_piston = new PistonTest(Constants.pistonTestConstants);
+  private PneumaticSubsystem m_piston = new PneumaticSubsystem(Constants.pneumaticConstants);
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
   private Compressor m_compressor = new Compressor(10, PneumaticsModuleType.REVPH);
@@ -45,13 +52,13 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Set default commands here; template for swerve is below
-      // m_drive.setDefaultCommand(new RunCommand(() -> {
+    //   m_drive.setDefaultCommand(new RunCommand(() -> {
 
-      //  m_drive.cartesianDriveRelative(modifyAxis(m_controller.getLeftY()),
-      //  modifyAxis(m_controller.getLeftX()),
-      //  modifyAxis(m_controller.getRightX()));
-      //  },
-      //  m_drive)); 
+    //    m_drive.cartesianDriveRelative(modifyAxis(m_controller.getLeftY()),
+    //    modifyAxis(m_controller.getLeftX()),
+    //    modifyAxis(m_controller.getRightX()));
+    //    },
+    //    m_drive)); 
   }
 
   /**
@@ -62,22 +69,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     JoystickButton retract = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
-    retract.whenPressed(new InstantCommand(()->m_piston.retract(), m_piston));
-
     JoystickButton extend = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
-    extend.whenPressed(new InstantCommand(()->m_piston.extend(), m_piston));
-
-    JoystickButton off = new JoystickButton(m_controller, XboxController.Button.kA.value);
-    off.whenPressed(new InstantCommand(()->m_piston.off(), m_piston));
-
     JoystickButton toggleCompressor = new JoystickButton(m_controller, XboxController.Button.kB.value);
-    toggleCompressor.whenActive(() -> {
-      if (m_compressor.enabled()) {
-        m_compressor.disable();
-      } else {
-        m_compressor.enableAnalog(100, 120);
-      }
-    });
+
+    retract.whenActive(new InstantCommand(()->m_piston.set(Value.kForward), m_piston));
+    extend.whenPressed(new InstantCommand(()->m_piston.set(Value.kReverse), m_piston));
+    toggleCompressor.whenPressed(new ConditionalCommand(
+      new InstantCommand(() -> m_compressor.disable()), // True Command
+      new InstantCommand(() -> m_compressor.enableAnalog(90, 120)), // False Command
+      () -> m_compressor.enabled() // Conditional (BooleanSupplier)
+      )); 
   }
   
   
