@@ -4,7 +4,6 @@
 
 package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -13,14 +12,17 @@ import frc.lib.basesubsystem.ArmSubsystem;
 import frc.lib.basesubsystem.PneumaticSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
 import frc.lib.basesubsystem.TankDriveSubsystem;
+import frc.lib.encoder.ODN_CANCoder;
 import frc.lib.encoder.ODN_NullEncoder;
+import frc.lib.encoder.ODN_PhoenixEncoder;
 import frc.lib.gyro.ODN_AHRS;
 import frc.lib.gyro.ODN_NullGyro;
 import frc.lib.motorcontroller.ODN_MotorController;
 import frc.lib.motorcontroller.ODN_MotorControllerGroup;
 import frc.lib.motorcontroller.ODN_SparkMax;
 import frc.lib.motorcontroller.ODN_TalonFX;
-import frc.robot.subsystems.TwoLinkArmSubsystem;
+import frc.lib.motorcontroller.ODN_SparkMax.MotorType;
+import frc.robot.subsystems.DoubleArmClawSubsystem;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -32,11 +34,65 @@ import frc.robot.subsystems.TwoLinkArmSubsystem;
  * It is advised to statically import this class (or one of its inner classes)
  * wherever the constants are needed, to reduce verbosity.
  */
+
+ //TODO: CHECK CONSTANTS
 public final class Constants {
+    public static DoubleArmClawSubsystem.Constants doubleArmClawConstants = new DoubleArmClawSubsystem.Constants();
+
+    static {
+        // Tune PID and FeedForward and check CANIDs
+        doubleArmClawConstants.joint1 = new ArmSubsystem.Constants();
+        doubleArmClawConstants.joint1.motor = new ODN_TalonFX(4);
+        doubleArmClawConstants.joint1.encoder = new ODN_CANCoder(5);
+        doubleArmClawConstants.joint1.encoderFactor = 1;
+
+        doubleArmClawConstants.joint1.maxVelocity = 1;
+        doubleArmClawConstants.joint1.maxAcceleration = 1;
+
+        doubleArmClawConstants.joint1.kp = 1;
+        doubleArmClawConstants.joint1.ki = 0.0001;
+        doubleArmClawConstants.joint1.kd = 10;
+
+        doubleArmClawConstants.joint1.ks = 0;
+        doubleArmClawConstants.joint1.kcos = 0;
+        doubleArmClawConstants.joint1.kv = 0;
+
+        // Tune PID and FeedForward and check CANIDs
+        doubleArmClawConstants.joint2 = new ArmSubsystem.Constants();
+        doubleArmClawConstants.joint2.motor = new ODN_TalonFX(6);
+        doubleArmClawConstants.joint2.encoder = new ODN_CANCoder(7);
+        doubleArmClawConstants.joint2.encoderFactor = 1;
+        
+        doubleArmClawConstants.joint2.maxVelocity = 1;
+        doubleArmClawConstants.joint2.maxAcceleration = 1;
+
+        doubleArmClawConstants.joint2.kp = 1;
+        doubleArmClawConstants.joint2.ki = 0.0001;
+        doubleArmClawConstants.joint2.kd = 10;
+
+        doubleArmClawConstants.joint2.ks = 0;
+        doubleArmClawConstants.joint2.kcos = 0;
+        doubleArmClawConstants.joint2.kv = 0;
+
+        doubleArmClawConstants.claw = new ODN_SparkMax(8, MotorType.brushless);
+        doubleArmClawConstants.clawEncoder = new ODN_CANCoder(9);
+        
+        doubleArmClawConstants.joint1AbsEncoderInitPos = 0;
+        doubleArmClawConstants.joint1AbsEncoderFinPos = 10;
+    
+        doubleArmClawConstants.joint2AbsEncoderInitPos = 0;
+        doubleArmClawConstants.joint2AbsEncoderFinPos = 10;
+        
+        doubleArmClawConstants.clawAbsEncoderInitPos = 0;
+        doubleArmClawConstants.clawAbsEncoderFinPos = 10;
+    }
+
     public static TankDriveSubsystem.Constants tankDriveConstants = new TankDriveSubsystem.Constants();
     static {
-        tankDriveConstants.left = new ODN_MotorControllerGroup(new ODN_SparkMax(0, frc.lib.motorcontroller.ODN_SparkMax.MotorType.brushed), new ODN_SparkMax(1, frc.lib.motorcontroller.ODN_SparkMax.MotorType.brushed));
-        tankDriveConstants.right = new ODN_MotorControllerGroup(new ODN_SparkMax(2, frc.lib.motorcontroller.ODN_SparkMax.MotorType.brushed), new ODN_SparkMax(3, frc.lib.motorcontroller.ODN_SparkMax.MotorType.brushed));
+        tankDriveConstants.left = new ODN_MotorControllerGroup(new ODN_SparkMax(0, MotorType.brushed), new ODN_SparkMax(1, MotorType.brushed));
+        tankDriveConstants.right = new ODN_MotorControllerGroup(new ODN_SparkMax(2, MotorType.brushed), new ODN_SparkMax(3, MotorType.brushed));
+        
+        // Null Gyros and Encoders
         tankDriveConstants.leftEncoder = new ODN_NullEncoder();
         tankDriveConstants.rightEncoder = new ODN_NullEncoder();
         tankDriveConstants.gyro = new ODN_NullGyro();
@@ -46,84 +102,10 @@ public final class Constants {
         tankDriveConstants.ksVolts = 1;
         tankDriveConstants.kvVoltSecondsPerMeter = 0;
         tankDriveConstants.kaVoltSecondsSquaredPerMeter = 0;
+
+        // This value was taken off the 2022 Season Cupid bot
         tankDriveConstants.kDriveKinematics = new DifferentialDriveKinematics(0.55);
-
     }
-
-    public static TwoLinkArmSubsystem.Constants twoLinkArmConstants = new TwoLinkArmSubsystem.Constants();
-    static {
-        // First arm link (closest to base)
-        twoLinkArmConstants.armlink1 = new ArmSubsystem.Constants();
-
-        twoLinkArmConstants.armlink1.motor = new ODN_TalonFX(0); // set can id
-        twoLinkArmConstants.armlink1.encoder = twoLinkArmConstants.armlink1.motor.getEncoder(); // gets built in encoder from talonfx
-        twoLinkArmConstants.armlink1.encoderFactor = 0.0; // talonfx encoder output to meters conversion
-        twoLinkArmConstants.armlink1.maxVelocity = 0.0; // max velocity
-        twoLinkArmConstants.armlink1.maxAcceleration = 0.0; // max accel
-
-        // PID constants
-        twoLinkArmConstants.armlink1.kp = 0.0;
-        twoLinkArmConstants.armlink1.ki = 0.0;
-        twoLinkArmConstants.armlink1.kd = 0.0;
-
-        // Feedforward constants
-        twoLinkArmConstants.armlink1.ks = 0.0;
-        twoLinkArmConstants.armlink1.kcos = 0.0;
-        twoLinkArmConstants.armlink1.kv = 0.0;
-
-        twoLinkArmConstants.armlink1.length = 0.0; // arm length from hinge (i think, need to crosscheck)
-
-        // Second arm link (far from base)
-
-        twoLinkArmConstants.armlink2 = new ArmSubsystem.Constants();
-
-        twoLinkArmConstants.armlink2.motor = new ODN_TalonFX(1); // set can id
-        twoLinkArmConstants.armlink2.encoder = twoLinkArmConstants.armlink2.motor.getEncoder(); // gets built in encoder from talonfx
-        twoLinkArmConstants.armlink2.encoderFactor = 0.0; // talonfx encoder output to meters conversion
-        twoLinkArmConstants.armlink2.maxVelocity = 0.0; // max velocity
-        twoLinkArmConstants.armlink2.maxAcceleration = 0.0; // max accel
-
-        // PID constants
-        twoLinkArmConstants.armlink2.kp = 0.0;
-        twoLinkArmConstants.armlink2.ki = 0.0;
-        twoLinkArmConstants.armlink2.kd = 0.0;
-
-        // Feedforward constants
-        twoLinkArmConstants.armlink2.ks = 0.0;
-        twoLinkArmConstants.armlink2.kcos = 0.0;
-        twoLinkArmConstants.armlink2.kv = 0.0;
-
-        twoLinkArmConstants.armlink2.length = 0.0; // arm length from hinge (i think, need to crosscheck)
-    }
-
-
-    // public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
-    // static {
-    //     swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47;
-    //     swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47;
-    
-    //     swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
-    //     swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 1;
-    //     swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 12;
-    //     swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.471);
-    
-    //     swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 6;
-    //     swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 5;
-    //     swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 11;
-    //     swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(136.055-180);
-    
-    //     swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4; 
-    //     swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 3;
-    //     swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 9;
-    //     swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.542-180);
-
-    //     swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
-    //     swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 7;
-    //     swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 10;
-    //     swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(-21.533);
-
-    //     swerveConstants.gyro = new ODN_AHRS();
-    // }
 
     public static final class AutoConstants {
         public static double kMaxSpeedMetersPerSecond = 1;

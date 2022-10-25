@@ -39,7 +39,7 @@ public class ODN_PhoenixEncoder implements ODN_Encoder {
 
     @Override
     public double getAbsolutePosition() {
-        // TODO: Add exceptions for this case
+        //TODO: Falcon 500 absolute position
         // Cannot get absolute position so return 0
         return 0;
     }

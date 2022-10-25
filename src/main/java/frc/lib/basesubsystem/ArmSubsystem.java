@@ -68,7 +68,7 @@ public class ArmSubsystem extends SubsystemBase implements ODN_State {
 
   @Override
   public boolean atGoalLocation() {
-    return Math.abs(m_pos-m_encoder.getPosition()) < EPSILON;
+    return Math.abs(m_pos-m_encoder.getAbsolutePosition()) < EPSILON;
   }
 
   @Override
@@ -79,9 +79,9 @@ public class ArmSubsystem extends SubsystemBase implements ODN_State {
   @Override
   public void periodic() {
     // Calculate speed with PID and motion profiling
-    double speed = m_controller.calculate(m_encoder.getPosition(), m_pos);
+    double speed = m_controller.calculate(m_encoder.getAbsolutePosition(), m_pos);
 
     // Add feedforward compensation to speed
-    m_motor.setVoltage(speed + m_feedforward.calculate(m_encoder.getPosition(), m_encoder.getVelocity()));
+    m_motor.setVoltage(speed + m_feedforward.calculate(m_encoder.getAbsolutePosition(), m_encoder.getVelocity()));
   }
 }

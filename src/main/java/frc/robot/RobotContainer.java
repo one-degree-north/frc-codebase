@@ -45,16 +45,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // Set default commands here; template for swerve is below
-      // m_drive.setDefaultCommand(new RunCommand(() -> {
-
-      //  m_drive.cartesianDriveRelative(modifyAxis(m_controller.getLeftY()),
-      //  modifyAxis(m_controller.getLeftX()),
-      //  modifyAxis(m_controller.getRightX()));
-      //  },
-      //  m_drive)); 
-
-      m_drive.setDefaultCommand(new RunCommand(() -> {
+    // TODO: Fix controls later  
+    m_drive.setDefaultCommand(new RunCommand(() -> {
         m_drive.arcadeDrive(modifyAxis(m_controller.getLeftX()), m_controller.getLeftY());
       }, m_drive));
   }
