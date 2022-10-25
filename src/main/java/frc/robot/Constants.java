@@ -3,12 +3,24 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import frc.lib.basesubsystem.ArmSubsystem;
 import frc.lib.basesubsystem.PneumaticSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
+import frc.lib.basesubsystem.TankDriveSubsystem;
+import frc.lib.encoder.ODN_NullEncoder;
 import frc.lib.gyro.ODN_AHRS;
-import frc.robot.subsystems.PistonTest;
+import frc.lib.gyro.ODN_NullGyro;
+import frc.lib.motorcontroller.ODN_MotorController;
+import frc.lib.motorcontroller.ODN_MotorControllerGroup;
+import frc.lib.motorcontroller.ODN_SparkMax;
+import frc.lib.motorcontroller.ODN_TalonFX;
+import frc.robot.subsystems.TwoLinkArmSubsystem;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -21,14 +33,72 @@ import frc.robot.subsystems.PistonTest;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static PistonTest.Constants pistonTestConstants = new PistonTest.Constants();
+    public static TankDriveSubsystem.Constants tankDriveConstants = new TankDriveSubsystem.Constants();
     static {
-        pistonTestConstants.piston = new PneumaticSubsystem.Constants();
-        pistonTestConstants.piston.solenoids = new DoubleSolenoid[]{new DoubleSolenoid(10, PneumaticsModuleType.REVPH, 6, 8)};
+        tankDriveConstants.left = new ODN_MotorControllerGroup(new ODN_SparkMax(0, frc.lib.motorcontroller.ODN_SparkMax.MotorType.brushed), new ODN_SparkMax(1, frc.lib.motorcontroller.ODN_SparkMax.MotorType.brushed));
+        tankDriveConstants.right = new ODN_MotorControllerGroup(new ODN_SparkMax(2, frc.lib.motorcontroller.ODN_SparkMax.MotorType.brushed), new ODN_SparkMax(3, frc.lib.motorcontroller.ODN_SparkMax.MotorType.brushed));
+        tankDriveConstants.leftEncoder = new ODN_NullEncoder();
+        tankDriveConstants.rightEncoder = new ODN_NullEncoder();
+        tankDriveConstants.gyro = new ODN_NullGyro();
+        tankDriveConstants.leftEncoderFactor = 0;
+        tankDriveConstants.rightEncoderFactor = 0;
+
+        tankDriveConstants.ksVolts = 1;
+        tankDriveConstants.kvVoltSecondsPerMeter = 0;
+        tankDriveConstants.kaVoltSecondsSquaredPerMeter = 0;
+        tankDriveConstants.kDriveKinematics = new DifferentialDriveKinematics(0.55);
+
     }
 
+    public static TwoLinkArmSubsystem.Constants twoLinkArmConstants = new TwoLinkArmSubsystem.Constants();
+    static {
+        // First arm link (closest to base)
+        twoLinkArmConstants.armlink1 = new ArmSubsystem.Constants();
+
+        twoLinkArmConstants.armlink1.motor = new ODN_TalonFX(0); // set can id
+        twoLinkArmConstants.armlink1.encoder = twoLinkArmConstants.armlink1.motor.getEncoder(); // gets built in encoder from talonfx
+        twoLinkArmConstants.armlink1.encoderFactor = 0.0; // talonfx encoder output to meters conversion
+        twoLinkArmConstants.armlink1.maxVelocity = 0.0; // max velocity
+        twoLinkArmConstants.armlink1.maxAcceleration = 0.0; // max accel
+
+        // PID constants
+        twoLinkArmConstants.armlink1.kp = 0.0;
+        twoLinkArmConstants.armlink1.ki = 0.0;
+        twoLinkArmConstants.armlink1.kd = 0.0;
+
+        // Feedforward constants
+        twoLinkArmConstants.armlink1.ks = 0.0;
+        twoLinkArmConstants.armlink1.kcos = 0.0;
+        twoLinkArmConstants.armlink1.kv = 0.0;
+
+        twoLinkArmConstants.armlink1.length = 0.0; // arm length from hinge (i think, need to crosscheck)
+
+        // Second arm link (far from base)
+
+        twoLinkArmConstants.armlink2 = new ArmSubsystem.Constants();
+
+        twoLinkArmConstants.armlink2.motor = new ODN_TalonFX(1); // set can id
+        twoLinkArmConstants.armlink2.encoder = twoLinkArmConstants.armlink2.motor.getEncoder(); // gets built in encoder from talonfx
+        twoLinkArmConstants.armlink2.encoderFactor = 0.0; // talonfx encoder output to meters conversion
+        twoLinkArmConstants.armlink2.maxVelocity = 0.0; // max velocity
+        twoLinkArmConstants.armlink2.maxAcceleration = 0.0; // max accel
+
+        // PID constants
+        twoLinkArmConstants.armlink2.kp = 0.0;
+        twoLinkArmConstants.armlink2.ki = 0.0;
+        twoLinkArmConstants.armlink2.kd = 0.0;
+
+        // Feedforward constants
+        twoLinkArmConstants.armlink2.ks = 0.0;
+        twoLinkArmConstants.armlink2.kcos = 0.0;
+        twoLinkArmConstants.armlink2.kv = 0.0;
+
+        twoLinkArmConstants.armlink2.length = 0.0; // arm length from hinge (i think, need to crosscheck)
+    }
+
+
     // public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
-    // static {/
+    // static {
     //     swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47;
     //     swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47;
     
