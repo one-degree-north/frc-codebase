@@ -47,7 +47,7 @@ public class RobotContainer {
 
     // TODO: Fix controls later  
     m_drive.setDefaultCommand(new RunCommand(() -> {
-        m_drive.arcadeDrive(modifyAxis(m_controller.getLeftX()), m_controller.getLeftY());
+        m_drive.arcadeDrive(modifyAxis(-m_controller.getRightX())*0.4, modifyAxis(m_controller.getLeftY())*0.4);
       }, m_drive));
   }
 

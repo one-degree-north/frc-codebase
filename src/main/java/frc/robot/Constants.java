@@ -37,60 +37,60 @@ import frc.robot.subsystems.DoubleArmClawSubsystem;
 
  //TODO: CHECK CONSTANTS
 public final class Constants {
-    public static DoubleArmClawSubsystem.Constants doubleArmClawConstants = new DoubleArmClawSubsystem.Constants();
+    // public static DoubleArmClawSubsystem.Constants doubleArmClawConstants = new DoubleArmClawSubsystem.Constants();
 
-    static {
-        // Tune PID and FeedForward and check CANIDs
-        doubleArmClawConstants.joint1 = new ArmSubsystem.Constants();
-        doubleArmClawConstants.joint1.motor = new ODN_TalonFX(4);
-        doubleArmClawConstants.joint1.encoder = new ODN_CANCoder(5);
-        doubleArmClawConstants.joint1.encoderFactor = 1;
+    // static {
+    //     // Tune PID and FeedForward and check CANIDs
+    //     doubleArmClawConstants.joint1 = new ArmSubsystem.Constants();
+    //     doubleArmClawConstants.joint1.motor = new ODN_TalonFX(4);
+    //     doubleArmClawConstants.joint1.encoder = new ODN_CANCoder(5);
+    //     doubleArmClawConstants.joint1.encoderFactor = 1;
 
-        doubleArmClawConstants.joint1.maxVelocity = 1;
-        doubleArmClawConstants.joint1.maxAcceleration = 1;
+    //     doubleArmClawConstants.joint1.maxVelocity = 1;
+    //     doubleArmClawConstants.joint1.maxAcceleration = 1;
 
-        doubleArmClawConstants.joint1.kp = 1;
-        doubleArmClawConstants.joint1.ki = 0.0001;
-        doubleArmClawConstants.joint1.kd = 10;
+    //     doubleArmClawConstants.joint1.kp = 1;
+    //     doubleArmClawConstants.joint1.ki = 0.0001;
+    //     doubleArmClawConstants.joint1.kd = 10;
 
-        doubleArmClawConstants.joint1.ks = 0;
-        doubleArmClawConstants.joint1.kcos = 0;
-        doubleArmClawConstants.joint1.kv = 0;
+    //     doubleArmClawConstants.joint1.ks = 0;
+    //     doubleArmClawConstants.joint1.kcos = 0;
+    //     doubleArmClawConstants.joint1.kv = 0;
 
-        // Tune PID and FeedForward and check CANIDs
-        doubleArmClawConstants.joint2 = new ArmSubsystem.Constants();
-        doubleArmClawConstants.joint2.motor = new ODN_TalonFX(6);
-        doubleArmClawConstants.joint2.encoder = new ODN_CANCoder(7);
-        doubleArmClawConstants.joint2.encoderFactor = 1;
+    //     // Tune PID and FeedForward and check CANIDs
+    //     doubleArmClawConstants.joint2 = new ArmSubsystem.Constants();
+    //     doubleArmClawConstants.joint2.motor = new ODN_TalonFX(6);
+    //     doubleArmClawConstants.joint2.encoder = new ODN_CANCoder(7);
+    //     doubleArmClawConstants.joint2.encoderFactor = 1;
         
-        doubleArmClawConstants.joint2.maxVelocity = 1;
-        doubleArmClawConstants.joint2.maxAcceleration = 1;
+    //     doubleArmClawConstants.joint2.maxVelocity = 1;
+    //     doubleArmClawConstants.joint2.maxAcceleration = 1;
 
-        doubleArmClawConstants.joint2.kp = 1;
-        doubleArmClawConstants.joint2.ki = 0.0001;
-        doubleArmClawConstants.joint2.kd = 10;
+    //     doubleArmClawConstants.joint2.kp = 1;
+    //     doubleArmClawConstants.joint2.ki = 0.0001;
+    //     doubleArmClawConstants.joint2.kd = 10;
 
-        doubleArmClawConstants.joint2.ks = 0;
-        doubleArmClawConstants.joint2.kcos = 0;
-        doubleArmClawConstants.joint2.kv = 0;
+    //     doubleArmClawConstants.joint2.ks = 0;
+    //     doubleArmClawConstants.joint2.kcos = 0;
+    //     doubleArmClawConstants.joint2.kv = 0;
 
-        doubleArmClawConstants.claw = new ODN_SparkMax(8, MotorType.brushless);
-        doubleArmClawConstants.clawEncoder = new ODN_CANCoder(9);
+    //     doubleArmClawConstants.claw = new ODN_SparkMax(8, MotorType.brushless);
+    //     doubleArmClawConstants.clawEncoder = new ODN_CANCoder(9);
         
-        doubleArmClawConstants.joint1AbsEncoderInitPos = 0;
-        doubleArmClawConstants.joint1AbsEncoderFinPos = 10;
+    //     doubleArmClawConstants.joint1AbsEncoderInitPos = 0;
+    //     doubleArmClawConstants.joint1AbsEncoderFinPos = 10;
     
-        doubleArmClawConstants.joint2AbsEncoderInitPos = 0;
-        doubleArmClawConstants.joint2AbsEncoderFinPos = 10;
+    //     doubleArmClawConstants.joint2AbsEncoderInitPos = 0;
+    //     doubleArmClawConstants.joint2AbsEncoderFinPos = 10;
         
-        doubleArmClawConstants.clawAbsEncoderInitPos = 0;
-        doubleArmClawConstants.clawAbsEncoderFinPos = 10;
-    }
+    //     doubleArmClawConstants.clawAbsEncoderInitPos = 0;
+    //     doubleArmClawConstants.clawAbsEncoderFinPos = 10;
+    // }
 
     public static TankDriveSubsystem.Constants tankDriveConstants = new TankDriveSubsystem.Constants();
     static {
-        tankDriveConstants.left = new ODN_MotorControllerGroup(new ODN_SparkMax(0, MotorType.brushed), new ODN_SparkMax(1, MotorType.brushed));
-        tankDriveConstants.right = new ODN_MotorControllerGroup(new ODN_SparkMax(2, MotorType.brushed), new ODN_SparkMax(3, MotorType.brushed));
+        tankDriveConstants.left = new ODN_MotorControllerGroup(new ODN_SparkMax(1, MotorType.brushed), new ODN_SparkMax(2, MotorType.brushed));
+        tankDriveConstants.right = new ODN_MotorControllerGroup(new ODN_SparkMax(3, MotorType.brushed), new ODN_SparkMax(4, MotorType.brushed));
         
         // Null Gyros and Encoders
         tankDriveConstants.leftEncoder = new ODN_NullEncoder();
