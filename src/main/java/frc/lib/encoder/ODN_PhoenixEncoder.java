@@ -39,8 +39,8 @@ public class ODN_PhoenixEncoder implements ODN_Encoder {
 
     @Override
     public double getAbsolutePosition() {
-        // TODO: Add exceptions for this case
         // Cannot get absolute position so return 0
+        System.err.println("No absolute position for TalonFX, returning value of 0");
         return 0;
     }
 
