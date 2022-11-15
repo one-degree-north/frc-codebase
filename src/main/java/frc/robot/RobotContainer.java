@@ -32,10 +32,8 @@ import frc.lib.basesubsystem.SwerveDriveSubsystem;
 public class RobotContainer {
   // Robot subsystems here: 
   // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
-  private PneumaticSubsystem m_piston = new PneumaticSubsystem(Constants.pneumaticConstants);
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
-  private Compressor m_compressor = new Compressor(10, PneumaticsModuleType.REVPH);
 
   // Robot commands go here:
   public Command nullCommand() {
@@ -68,17 +66,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton retract = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
-    JoystickButton extend = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
-    JoystickButton toggleCompressor = new JoystickButton(m_controller, XboxController.Button.kB.value);
-
-    retract.whenActive(new InstantCommand(()->m_piston.set(Value.kForward), m_piston));
-    extend.whenPressed(new InstantCommand(()->m_piston.set(Value.kReverse), m_piston));
-    toggleCompressor.whenPressed(new ConditionalCommand(
-      new InstantCommand(() -> m_compressor.disable()), // True Command
-      new InstantCommand(() -> m_compressor.enableAnalog(90, 120)), // False Command
-      () -> m_compressor.enabled() // Conditional (BooleanSupplier)
-      )); 
   }
   
   

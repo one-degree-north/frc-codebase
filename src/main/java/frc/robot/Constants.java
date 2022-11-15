@@ -20,10 +20,6 @@ import frc.lib.gyro.ODN_AHRS;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static PneumaticSubsystem.Constants pneumaticConstants = new PneumaticSubsystem.Constants();
-    static {
-        pneumaticConstants.solenoids = new DoubleSolenoid[]{new DoubleSolenoid(10, PneumaticsModuleType.REVPH, 6, 8)};
-    }
 
     // public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
     // static {
