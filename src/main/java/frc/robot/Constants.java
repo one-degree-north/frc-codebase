@@ -5,9 +5,11 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.PneumaticSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
 import frc.lib.gyro.ODN_AHRS;
+import frc.lib.motorcontroller.ODN_TalonFX;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -20,6 +22,12 @@ import frc.lib.gyro.ODN_AHRS;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static MotorControllerSubsystem.Constants indexConstants = new MotorControllerSubsystem.Constants();
+    public static MotorControllerSubsystem.Constants shootConstants = new MotorControllerSubsystem.Constants();
+    static {
+        indexConstants.motor = new ODN_TalonFX(1);
+        shootConstants.motor = new ODN_TalonFX(2);
+    }
 
     // public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
     // static {

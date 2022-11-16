@@ -17,11 +17,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.basesubsystem.FalconMusicSubsystem;
+import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.PneumaticSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
+import frc.lib.motorcontroller.ODN_TalonFX;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,6 +37,9 @@ public class RobotContainer {
   // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
+  private MotorControllerSubsystem m_shoot = new MotorControllerSubsystem(Constants.shootConstants);
+  private MotorControllerSubsystem m_index = new MotorControllerSubsystem(Constants.indexConstants);
+  
 
   // Robot commands go here:
   public Command nullCommand() {
@@ -66,6 +72,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    JoystickButton shootButton = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    shootButton.whenPressed(new SequentialCommandGroup(new InstantCommand((()->m_shoot.set(0.5)), m_shoot), new WaitCommand(1), new InstantCommand((()-> m_index.set(0.5)), m_index)));
+    shootButton.whenReleased(new ParallelCommandGroup(new InstantCommand((()->m_shoot.set(0)), m_shoot), new InstantCommand((()-> m_index.set(0)), m_index)));
+
   }
   
   
