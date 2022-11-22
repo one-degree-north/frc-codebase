@@ -3,11 +3,17 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.PneumaticSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
+import frc.lib.encoder.ODN_CANCoder;
 import frc.lib.gyro.ODN_AHRS;
+import frc.lib.motorcontroller.ODN_TalonFX;
+import frc.robot.subsystems.ClimbSubsystem;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -20,9 +26,15 @@ import frc.lib.gyro.ODN_AHRS;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static PneumaticSubsystem.Constants pneumaticConstants = new PneumaticSubsystem.Constants();
-    static {
-        pneumaticConstants.solenoids = new DoubleSolenoid[]{new DoubleSolenoid(10, PneumaticsModuleType.REVPH, 6, 8)};
+    public static ClimbSubsystem.Constants climbConstants = new ClimbSubsystem.Constants();
+
+    static{
+        climbConstants.climb = new ODN_TalonFX(15);
+        climbConstants.encoder = new ODN_CANCoder(62);
+        climbConstants.lowerLimit = 0;
+        climbConstants.upperLimit = 4096;
+
+
     }
 
     // public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();

@@ -20,8 +20,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.basesubsystem.FalconMusicSubsystem;
+import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.PneumaticSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
+import frc.lib.motorcontroller.ODN_TalonFX;
+import frc.robot.subsystems.ClimbSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -32,11 +35,10 @@ import frc.lib.basesubsystem.SwerveDriveSubsystem;
 public class RobotContainer {
   // Robot subsystems here: 
   // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
-  private PneumaticSubsystem m_piston = new PneumaticSubsystem(Constants.pneumaticConstants);
+
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
-  private Compressor m_compressor = new Compressor(10, PneumaticsModuleType.REVPH);
-
+  public ClimbSubsystem m_climb = new ClimbSubsystem(Constants.climbConstants);
   // Robot commands go here:
   public Command nullCommand() {
     return null;
@@ -68,19 +70,23 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton retract = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
-    JoystickButton extend = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
-    JoystickButton toggleCompressor = new JoystickButton(m_controller, XboxController.Button.kB.value);
-
-    retract.whenActive(new InstantCommand(()->m_piston.set(Value.kForward), m_piston));
-    extend.whenPressed(new InstantCommand(()->m_piston.set(Value.kReverse), m_piston));
-    toggleCompressor.whenPressed(new ConditionalCommand(
-      new InstantCommand(() -> m_compressor.disable()), // True Command
-      new InstantCommand(() -> m_compressor.enableAnalog(90, 120)), // False Command
-      () -> m_compressor.enabled() // Conditional (BooleanSupplier)
-      )); 
+    JoystickButton climbUp = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    JoystickButton climbDown = new JoystickButton(m_controller, XboxController.Button.kY.value);
+    climbUp.whenPressed(
+      new InstantCommand(()->m_climb.set(0.5), m_climb)
+      );
+    climbDown.whenPressed(
+      new InstantCommand(()->m_climb.set(-0.5), m_climb)
+      );
+    climbUp.whenReleased(
+      new InstantCommand(() -> m_climb.set(0), m_climb)
+    );
+    climbDown.whenReleased(
+      new InstantCommand(() -> m_climb.set(0), m_climb)
+    );
   }
   
+
   
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
