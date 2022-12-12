@@ -5,15 +5,22 @@
 package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.lib.basesubsystem.MotorControllerSubsystem;
 import frc.lib.basesubsystem.PneumaticSubsystem;
 import frc.lib.basesubsystem.SwerveDriveSubsystem;
+import frc.lib.basesubsystem.TankDriveSubsystem;
 import frc.lib.encoder.ODN_CANCoder;
+import frc.lib.encoder.ODN_NullEncoder;
 import frc.lib.gyro.ODN_AHRS;
+import frc.lib.gyro.ODN_NullGyro;
 import frc.lib.motorcontroller.ODN_MotorController;
+import frc.lib.motorcontroller.ODN_MotorControllerGroup;
+import frc.lib.motorcontroller.ODN_SparkMax;
 import frc.lib.motorcontroller.ODN_TalonFX;
+import frc.lib.motorcontroller.ODN_SparkMax.MotorType;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -28,47 +35,51 @@ import frc.robot.subsystems.ShooterSubsystem;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static ClimbSubsystem.Constants climbConstants = new ClimbSubsystem.Constants();
-    public static ShooterSubsystem.Constants shootConstants = new ShooterSubsystem.Constants();
-    static{
-        climbConstants.climb = new ODN_TalonFX(15);
-        climbConstants.encoder = new ODN_CANCoder(62);
-        climbConstants.lowerLimit = 0;
-        climbConstants.upperLimit = 4096;
-        shootConstants.shoot = new ODN_TalonFX(23);
-        shootConstants.intake = new ODN_TalonFX(29);
-        shootConstants.index = new ODN_TalonFX(3);
-    }
-
-
-
-    public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
+    public static TankDriveSubsystem.Constants tankConstants = new TankDriveSubsystem.Constants();
     static {
-        swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47;
-        swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47;
-    
-        swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 1;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 12;
-        swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.471);
-    
-        swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 6;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 5;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 11;
-        swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(136.055-180);
-    
-        swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4; 
-        swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 3;
-        swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 9;
-        swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.542-180);
+        tankConstants.left = new ODN_MotorControllerGroup(new ODN_SparkMax(0, MotorType.brushed), new ODN_SparkMax(1, MotorType.brushed));
+        tankConstants.right = new ODN_MotorControllerGroup(new ODN_SparkMax(2, MotorType.brushed), new ODN_SparkMax(3, MotorType.brushed));
+        tankConstants.leftEncoder = new ODN_NullEncoder();
+        tankConstants.rightEncoder = new ODN_NullEncoder();
+        tankConstants.gyro = new ODN_NullGyro();
+        tankConstants.leftEncoderFactor = 0;
+        tankConstants.rightEncoderFactor = 0;
 
-        swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 7;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 10;
-        swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(-21.533);
-
-        swerveConstants.gyro = new ODN_AHRS();
+        tankConstants.ksVolts = 1;
+        tankConstants.kvVoltSecondsPerMeter = 0;
+        tankConstants.kaVoltSecondsSquaredPerMeter = 0;
+        tankConstants.kDriveKinematics = new DifferentialDriveKinematics(0.55);
     }
+
+
+
+    // public static SwerveDriveSubsystem.Constants swerveConstants = new SwerveDriveSubsystem.Constants();
+    // static {
+    //     swerveConstants.DRIVETRAIN_TRACKWIDTH_METERS = 0.47;
+    //     swerveConstants.DRIVETRAIN_WHEELBASE_METERS = 0.47;
+    
+    //     swerveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
+    //     swerveConstants.FRONT_LEFT_MODULE_STEER_MOTOR = 1;
+    //     swerveConstants.FRONT_LEFT_MODULE_STEER_ENCODER = 12;
+    //     swerveConstants.FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.471);
+    
+    //     swerveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR = 6;
+    //     swerveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR = 5;
+    //     swerveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER = 11;
+    //     swerveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(136.055-180);
+    
+    //     swerveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR = 4; 
+    //     swerveConstants.BACK_LEFT_MODULE_STEER_MOTOR = 3;
+    //     swerveConstants.BACK_LEFT_MODULE_STEER_ENCODER = 9;
+    //     swerveConstants.BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.542-180);
+
+    //     swerveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
+    //     swerveConstants.BACK_RIGHT_MODULE_STEER_MOTOR = 7;
+    //     swerveConstants.BACK_RIGHT_MODULE_STEER_ENCODER = 10;
+    //     swerveConstants.BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(-21.533);
+
+    //     swerveConstants.gyro = new ODN_AHRS();
+    // }
 
     public static final class AutoConstants {
         public static double kMaxSpeedMetersPerSecond = 1;
