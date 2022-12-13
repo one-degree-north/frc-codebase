@@ -16,7 +16,7 @@ import frc.lib.basesubsystem.TankDriveSubsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final double SPEEDMULTIPLIER = 0.6;
+  private static final double SPEEDMULTIPLIER = 0.6;
   // Robot subsystems here: 
   private TankDriveSubsystem m_drive = new TankDriveSubsystem(Constants.tankConstants);
 
