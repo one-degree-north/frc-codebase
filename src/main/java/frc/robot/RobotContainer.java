@@ -16,6 +16,7 @@ import frc.lib.basesubsystem.TankDriveSubsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final double SPEEDMULTIPLIER = 0.6;
   // Robot subsystems here: 
   private TankDriveSubsystem m_drive = new TankDriveSubsystem(Constants.tankConstants);
 
@@ -38,8 +39,8 @@ public class RobotContainer {
 
     // Set default commands here; template for swerve is below
     m_drive.setDefaultCommand(new RunCommand(() -> {
-      m_drive.arcadeDrive(modifyAxis(m_controller.getRightX()*(Math.abs(m_controller.getRightX()))*0.8), 
-        modifyAxis(m_controller.getLeftY()*0.8));
+      m_drive.arcadeDrive(modifyAxis(m_controller.getRightX()*(Math.abs(m_controller.getRightX()))*SPEEDMULTIPLIER), 
+        modifyAxis(m_controller.getLeftY()*SPEEDMULTIPLIER));
     }, m_drive
     ));
   }

@@ -37,8 +37,8 @@ import frc.robot.subsystems.ShooterSubsystem;
 public final class Constants {
     public static TankDriveSubsystem.Constants tankConstants = new TankDriveSubsystem.Constants();
     static {
-        tankConstants.left = new ODN_MotorControllerGroup(new ODN_SparkMax(0, MotorType.brushed), new ODN_SparkMax(1, MotorType.brushed));
-        tankConstants.right = new ODN_MotorControllerGroup(new ODN_SparkMax(2, MotorType.brushed), new ODN_SparkMax(3, MotorType.brushed));
+        tankConstants.left = new ODN_MotorControllerGroup(new ODN_SparkMax(1, MotorType.brushed), new ODN_SparkMax(3, MotorType.brushed));
+        tankConstants.right = new ODN_MotorControllerGroup(new ODN_SparkMax(2, MotorType.brushed), new ODN_SparkMax(4, MotorType.brushed));
         tankConstants.leftEncoder = new ODN_NullEncoder();
         tankConstants.rightEncoder = new ODN_NullEncoder();
         tankConstants.gyro = new ODN_NullGyro();
