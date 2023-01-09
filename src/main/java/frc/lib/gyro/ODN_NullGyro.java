@@ -8,6 +8,14 @@ public class ODN_NullGyro implements ODN_Gyro {
     public Rotation2d getYaw() {
         return new Rotation2d();
     }
+    @Override
+    public Rotation2d getPitch() {
+        return new Rotation2d();
+    }
+    @Override
+    public Rotation2d getRoll() {
+        return new Rotation2d();
+    }
 
     @Override
     public void resetYaw() {

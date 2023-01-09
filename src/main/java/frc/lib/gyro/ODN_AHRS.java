@@ -18,6 +18,15 @@ public class ODN_AHRS implements ODN_Gyro {
         }*/
         return Rotation2d.fromDegrees(m_navx.getYaw());
     }
+    @Override
+    public Rotation2d getPitch() {
+        return Rotation2d.fromDegrees(m_navx.getPitch());
+    }
+    @Override
+    public Rotation2d getRoll() {
+        return Rotation2d.fromDegrees(m_navx.getRoll());
+    }
+
 
     @Override
     public void resetYaw() {

@@ -17,7 +17,7 @@ import frc.lib.basesubsystem.SwerveDriveSubsystem;
  */
 public class RobotContainer {
   // Robot subsystems here: 
-  // private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
+  private SwerveDriveSubsystem m_drive = new SwerveDriveSubsystem(Constants.swerveConstants);
 
   // Controllers here:
   private XboxController m_controller = new XboxController(0);
@@ -36,14 +36,14 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // // Set default commands here; template for swerve is below
-    //   m_drive.setDefaultCommand(new RunCommand(() -> {
+    // Set default commands here; template for swerve is below
+      m_drive.setDefaultCommand(new RunCommand(() -> {
 
-    //    m_drive.cartesianDriveRelative(modifyAxis(m_controller.getLeftY()),
-    //    modifyAxis(m_controller.getLeftX()),
-    //    modifyAxis(m_controller.getRightX()));
-    //    },
-    //    m_drive)); 
+       m_drive.cartesianDriveRelative(modifyAxis(m_controller.getLeftY()),
+       modifyAxis(m_controller.getLeftX()),
+       modifyAxis(m_controller.getRightX()));
+       },
+       m_drive)); 
   }
 
   /**

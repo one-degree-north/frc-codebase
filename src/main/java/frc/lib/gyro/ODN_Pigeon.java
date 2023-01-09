@@ -17,6 +17,18 @@ public class ODN_Pigeon implements ODN_Gyro {
         m_pigeon.getYawPitchRoll(d);
         return Rotation2d.fromDegrees(d[0]);
     }
+    @Override
+    public Rotation2d getPitch() {
+        double[] d = new double[3];
+        m_pigeon.getYawPitchRoll(d);
+        return Rotation2d.fromDegrees(d[1]);
+    }
+    @Override
+    public Rotation2d getRoll() {
+        double[] d = new double[3];
+        m_pigeon.getYawPitchRoll(d);
+        return Rotation2d.fromDegrees(d[2]);
+    }
 
     @Override
     public void resetYaw() {
