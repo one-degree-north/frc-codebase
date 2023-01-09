@@ -1,9 +1,9 @@
 # Team 4817 Codebase
 
 This is a repo containing the current, most up-to-date codebase for FRC Team 4817.
-This codebase is used as a foundation when programming competition robots
+This codebase is used as a foundation when programming competition robots.
 
-The only files you will ever need to edit when using the codebase is `RobotContainer.java` and `Constants.java`
+Ideally, the only files you will ever need to edit when using the codebase is `RobotContainer.java` and `Constants.java`
 
 # Dependencies
 The following libraries need to be downloaded, extracted, and installed

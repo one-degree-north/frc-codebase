@@ -38,6 +38,7 @@ public class ODN_MotorControllerGroup implements ODN_MotorController {
 
     @Override
     public ODN_Encoder getEncoder() {
+        System.err.println("No getEncoder() method for MotorControllerGroup");
         return null;
     }
 

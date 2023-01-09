@@ -5,6 +5,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 
 import frc.lib.encoder.ODN_Encoder;
+import frc.lib.encoder.ODN_NullEncoder;
 import frc.lib.encoder.ODN_CANEncoder;
 
 public class ODN_SparkMax implements ODN_MotorController {
@@ -16,12 +17,14 @@ public class ODN_SparkMax implements ODN_MotorController {
     private CANSparkMax m_backend;
     private SparkMaxPIDController m_pidController;
     private RelativeEncoder m_encoder;
+    private MotorType m_type;
 
     public ODN_SparkMax(int CAN_ID, MotorType type) {
+        m_type = type;
         m_backend = new CANSparkMax(CAN_ID,
                 type == MotorType.brushed ? com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushed
                         : com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_encoder = m_backend.getEncoder();
+        if (m_type == MotorType.brushless) m_encoder = m_backend.getEncoder();
     }
 
     @Override
@@ -41,7 +44,9 @@ public class ODN_SparkMax implements ODN_MotorController {
 
     @Override
     public ODN_Encoder getEncoder() {
-        return new ODN_CANEncoder(m_encoder);
+        if (m_type == MotorType.brushless) return new ODN_CANEncoder(m_encoder);
+        System.err.println("Cannot get encoder from brushed motor, returning null encoder");
+        return new ODN_NullEncoder();
     }
 
     @Override
