@@ -46,7 +46,6 @@ import frc.robot.Constants.AutoConstants;
 public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 
 	public static class Helper {
-		//TODO: ASK MING FOR NUMBERS
 		public static final ModuleConfiguration ours = new ModuleConfiguration(0.1016,
 		6.55,
 		true,
