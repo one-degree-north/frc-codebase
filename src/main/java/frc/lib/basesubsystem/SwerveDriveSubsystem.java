@@ -95,7 +95,7 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 
 	public static class Constants {
 
-		public double DRIVETRAIN_TRACKWIDTH_METERS = 0.47; // FIXME Measure and set trackwidth
+		public double DRIVETRAIN_TRACKWIDTH_METERS; // FIXME Measure and set trackwidth
 		public double DRIVETRAIN_WHEELBASE_METERS; // FIXME Measure and set wheelbase
 
 		public int FRONT_LEFT_MODULE_DRIVE_MOTOR; // FIXME Set front left module drive motor ID
@@ -191,6 +191,7 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 						-constants.DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
 		this.m_odometry = new SwerveDriveOdometry(m_kinematics, getYaw());
+		
 
 		// There are 4 methods you can call to create your swerve modules.
 		// The method you use depends on what motors you are using.
