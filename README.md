@@ -1,9 +1,7 @@
 # Team 4817 Codebase
 
 This is a repo containing the current, most up-to-date codebase for FRC Team 4817.
-This codebase is used as a foundation when programming competition robots.
-
-Ideally, the only files you will ever need to edit when using the codebase is `RobotContainer.java` and `Constants.java`
+This codebase is used as a barebones foundation when programming competition robots.
 
 # Dependencies
 The following libraries need to be downloaded, extracted, and installed
@@ -23,8 +21,6 @@ The following libraries are the JSON files for online installation
   - Constructor takes the CAN id of the PigeonIMU
 - If you do not have a gyro, but a subsystem requires one in the constructor, use `ODN_NullGyro`
   - Be careful that you don't do anything that would require an actual gyro in this situation
-
-Only functions you will ever need to use:
 - `Rotation2d getYaw()` gets the rotation of the robot, positive being clockwise.
 
 ## Motor Controllers
@@ -35,9 +31,8 @@ Only functions you will ever need to use:
 - `ODN_TalonSRX` implements `ODN_MotorController` for the [TalonSRX](https://www.ctr-electronics.com/talon-srx.html)
 - `ODN_VictorSPX` implements `ODN_MotorController` for the [VictorSPX](http://www.ctr-electronics.com/victor-spx.html)
 
-Constructors for all the motor controllers takes the CAN id of the motor controller
+Constructors for all the motor controllers takes the CAN ID of the motor controller
 
-Only functions you will ever need to use:
 - `void setInverted(boolean inverted)` is used to reverse the direction of the motor controller
 - `Encoder getEncoder()` is used to get the integrated encoder from the motor controller
 
@@ -50,7 +45,6 @@ Only functions you will ever need to use:
 - If you do not have an encoder, but a subsystem requires one in the constructor, use `ODN_NullEncoder`
   - Be careful that you don't do anything that would require an actual encoder in this situation
 
-Only functions you should ever need to use:
 - `void setPositionConversionFactor(double factor)` sets the factor for converting from raw encoder output to a meaurement in degrees
 -	`void setVelocityConversionFactor(double factor)` sets the factor for converting from raw encoder velocity to a meaurement in degrees (these numbers should probably both be the same, but you do have to set both)
 
