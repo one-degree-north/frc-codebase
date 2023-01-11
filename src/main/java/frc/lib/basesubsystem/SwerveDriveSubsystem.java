@@ -6,6 +6,7 @@ package frc.lib.basesubsystem;
 
 import java.util.List;
 
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.swervedrivespecialties.swervelib.DriveControllerFactory;
 import com.swervedrivespecialties.swervelib.Mk3ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
@@ -87,7 +88,7 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 					driveMotorPort,
 					new Falcon500SteerConfiguration<>(
 							steerMotorPort,
-							new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
+							new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset, SensorInitializationStrategy.BootToAbsolutePosition)
 					)
 			);
 		}
