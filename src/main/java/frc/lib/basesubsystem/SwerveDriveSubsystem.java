@@ -88,7 +88,7 @@ public class SwerveDriveSubsystem extends ODN_HolonomicDrivebase {
 					driveMotorPort,
 					new Falcon500SteerConfiguration<>(
 							steerMotorPort,
-							new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset, SensorInitializationStrategy.BootToAbsolutePosition)
+							new CanCoderAbsoluteConfiguration(steerEncoderPort, steerOffset)
 					)
 			);
 		}
