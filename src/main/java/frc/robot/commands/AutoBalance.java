@@ -12,15 +12,15 @@ import frc.lib.gyro.ODN_AHRS;
 public class AutoBalance extends CommandBase {
   ODN_AHRS m_navx;
   SwerveDriveSubsystem m_drive;
-  Rotation2d m_initpitch;
+  Rotation2d m_levelpitch;
   double m_deadband;
   double m_speed;
 
   /** Creates a new AutoBalance. */
-  public AutoBalance(ODN_AHRS navx, SwerveDriveSubsystem drive, Rotation2d initpitch, double deadband, double speed) {
+  public AutoBalance(ODN_AHRS navx, SwerveDriveSubsystem drive, Rotation2d levelpitch, double deadband, double speed) {
     m_navx = navx;
     m_drive = drive;
-    m_initpitch = initpitch;
+    m_levelpitch = levelpitch;
     m_deadband = deadband;
     m_speed = speed;
     
@@ -37,9 +37,9 @@ public class AutoBalance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_navx.getPitch().getDegrees() >= m_initpitch.getDegrees() + m_deadband)
+    if (m_navx.getPitch().getDegrees() >= m_levelpitch.getDegrees() + m_deadband)
       m_drive.cartesianDriveRelative(-m_speed, 0, 0);
-    else if (m_navx.getPitch().getDegrees() <= m_initpitch.getDegrees() - m_deadband)
+    else if (m_navx.getPitch().getDegrees() <= m_levelpitch.getDegrees() - m_deadband)
       m_drive.cartesianDriveRelative(m_speed, 0, 0);
     else
       m_drive.cartesianDriveAbsolute(0, 0, 0);
